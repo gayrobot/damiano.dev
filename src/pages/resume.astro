@@ -1,8 +1,108 @@
 ---
+import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+
+const entry = await getEntry('resume', 'resume');
+if (!entry) {
+  throw new Error('src/data/resume.yaml is missing or could not be parsed');
+}
+const { name, headline, location, summary, experience, education, certifications, skills } = entry.data;
+
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const showMonth = (m: string) => (m === 'present' ? 'Present' : fmt.format(new Date(`${m}-01T00:00:00Z`)));
+
+// Most recent first, current roles on top.
+const jobs = [...experience].sort((a, b) =>
+  (b.end === 'present' ? '9999' : b.end).localeCompare(a.end === 'present' ? '9999' : a.end) ||
+  b.start.localeCompare(a.start),
+);
+const isEmpty =
+  jobs.length === 0 && education.length === 0 && certifications.length === 0 && skills.length === 0;
 ---
 
 <Base title="Resume · damiano.dev">
-  <h1>Resume</h1>
-  <p>Coming soon.</p>
+  <h1>{name}</h1>
+  {headline && <p>{headline}</p>}
+  {location && <p>{location}</p>}
+  <p><a href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
+  {summary && <p>{summary}</p>}
+
+  {isEmpty && <p>Coming soon.</p>}
+
+  {jobs.length > 0 && (
+    <section>
+      <h2>Experience</h2>
+      {jobs.map((job) => (
+        <article>
+          <h3>{job.role}, {job.company}</h3>
+          <p>
+            {job.location && <>{job.location} · </>}
+            {showMonth(job.start)} to {showMonth(job.end)}
+          </p>
+          {job.bullets && (
+            <ul>
+              {job.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+          {job.projects && (
+            <>
+              <h4>Projects</h4>
+              {job.projects.map((p) => (
+                <>
+                  <h5>{p.url ? <a href={p.url}>{p.name}</a> : p.name}</h5>
+                  <ul>
+                    {p.bullets.map((b) => <li>{b}</li>)}
+                  </ul>
+                </>
+              ))}
+            </>
+          )}
+          {job.sections?.map((sec) => (
+            <>
+              <h4>{sec.heading}</h4>
+              <ul>
+                {sec.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            </>
+          ))}
+        </article>
+      ))}
+    </section>
+  )}
+
+  {education.length > 0 && (
+    <section>
+      <h2>Education</h2>
+      <ul>
+        {education.map((d) => (
+          <li>{d.degree}, {d.school}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {certifications.length > 0 && (
+    <section>
+      <h2>Certifications</h2>
+      <ul>
+        {certifications.map((c) => (
+          <li>{c.name}, {c.issuer}{c.year && ` (${c.year})`}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {skills.length > 0 && (
+    <section>
+      <h2>Skills</h2>
+      <dl>
+        {skills.map((s) => (
+          <>
+            <dt>{s.group}</dt>
+            <dd>{s.items.join(', ')}</dd>
+          </>
+        ))}
+      </dl>
+    </section>
+  )}
 </Base>

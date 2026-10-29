@@ -6,13 +6,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "resume:pdf": "node scripts/resume-pdf.mjs"
   },
   "dependencies": {
-    "astro": "7.4.4"
+    "astro": "7.4.4",
+    "yaml": "2.9.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@types/node": "24.19.2",
     "typescript": "6.0.3"
   }
 }

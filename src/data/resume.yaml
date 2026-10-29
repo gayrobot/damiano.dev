@@ -1,0 +1,119 @@
+# Resume data, rendered to /resume and validated by the schema in src/content.config.ts.
+# Only facts Skylar has confirmed go here. Leave a section empty rather than guessing.
+# The PDF at public/downloads/Skylar_Damiano_Resume.pdf is generated from this file:
+# run `npm run resume:pdf` after editing.
+#
+# A job uses either `bullets` (a flat list) or `sections` (headed groups), not both.
+# `projects` (name, optional url, bullets) is optional and shows after a job's bullets.
+# Dates are YYYY-MM; `end` can also be `present`.
+
+name: Skylar Damiano
+headline: "Senior Systems Administrator & IT Engineer | Identity (Okta) | Endpoint (Jamf, Intune) | Automation | SOC 2"
+location: Chicago, IL
+email: skylardamiano@gmail.com
+summary: >-
+  Chicago-based systems administrator and IT engineer with 8+ years running identity, endpoint,
+  and SaaS for high-growth, remote-first companies, most recently as Staff Systems Administrator
+  at NerdWallet. I own Okta (Certified Administrator), Google Workspace, Entra ID, and Microsoft
+  365; manage Mac and Windows fleets with Jamf Pro (200 & 300 certified), Intune, and Kandji; and
+  automate onboarding, offboarding, and SaaS lifecycle with Okta Workflows, the Workday API, Bash,
+  and PowerShell. I own SOC 2 evidence as a control owner, have led identity integration across
+  five acquisitions, and use Claude Code daily to automate operations under change control.
+
+experience:
+  - role: "Career Sabbatical: Independent Technical Upskilling"
+    company: Self-directed
+    location: Chicago, IL
+    start: 2025-01
+    end: present
+    bullets:
+      - "Ran a 50+ client Ubiquiti UniFi network (UDM Pro, 8 access points, switching) as an AI-assisted operations lab: Claude Code ran a read-only audit, then applied approved changes that put all APs on non-overlapping 2.4 GHz channels at lower power"
+      - "Replaced the ISP gateway with an XGS-PON SFP+ ONT, removing double NAT; set up dual-WAN failover, IPv6 prefix delegation, and firewall and VPN configuration; fixed a DHCP issue that was handing out retired DNS servers"
+      - "Set up MCP servers for Home Assistant, Synology NAS, UniFi, and HomeKit, moving credentials from plaintext JSON into the macOS Keychain; ran Home Assistant in Docker"
+      - "Wrote reusable Claude skills (a Python audio sample-pack builder and a playlist automation tool) and CLAUDE.md guardrails; ran agents under change control with backups, dry runs, and change logs"
+    projects:
+      - name: netstack
+        url: https://github.com/gayrobot/netstack
+        bullets:
+          - "Built a public, reusable framework for running a home network with an AI agent under governance: read-only by default, writes only through separate connections where every call is approved, and every change logged in git with diff, rollback, and verification"
+          - "Risky changes are gated on a fresh, hash-verified, off-box gateway backup; the NAS pulls the gateway backup nightly, encrypts it to an offline key, and stores it under immutable snapshots"
+          - "Git hooks and a CI job block commits that leak real hostnames or inventory; every MCP server is vetted and pinned before use"
+      - name: damiano.dev
+        url: https://github.com/gayrobot/damiano.dev
+        bullets:
+          - "Building a personal site where an AI agent proposes every change as a pull request and I review and merge; the real project is the harness of checks, permissions, and policies that lets an agent change the site safely"
+          - "Astro static site with a schema-validated resume, so bad data fails the build; branch protection on main; CI and deployment to Cloudflare Workers through GitHub Actions in progress"
+
+  - role: Staff Systems Administrator
+    company: NerdWallet
+    location: San Francisco, CA
+    start: 2020-05
+    end: 2025-01
+    sections:
+      - heading: "Automation, Integration & Identity"
+        bullets:
+          - "Automated account activation and deactivation with Okta Workflows and the Workday API, with Workday as the source of truth for Okta; replaced a manual IT task that took about 2 hours a week with a background process, so onboarding and offboarding run automatically"
+          - "Led the migration of onboarding and offboarding automations from BetterCloud to Okta Workflows with little oversight: mapped what each platform did, cut what was redundant, moved the rest, and saved thousands of dollars in tool spend"
+          - "Owned monitoring and alerting for production Okta Workflows automations: failures routed by severity to Slack notifications or to tickets, so issues were triaged and resolved without manual checking"
+          - "Used ChatGPT to parse data into Okta Workflows and to review Dropbox security logs without a SIEM; wrote Bash and PowerShell automation for provisioning and compliance"
+          - "Owned Okta and Google Workspace identity: SSO (SAML/OIDC), SCIM provisioning, group and role models, MFA, conditional access, and privileged access management; administered 1Password and email authentication (SPF, DKIM, DMARC); rolled out phishing-resistant MFA (FIDO2/WebAuthn) and device trust"
+          - "Owned identity and access evidence for SOC 2 as a control owner: access reviews, entitlement cleanup, and audit-ready reporting; built Jira Service Management workflows that held up in quarterly SOC 2 audits"
+          - "Enabled and configured Slack AI and Zoom AI and administered ChatGPT; led identity, endpoint, and security integration across five mergers and acquisitions"
+      - heading: "Endpoint Management & End-User Support"
+        bullets:
+          - "Ran the Mac and Windows fleet with Jamf Pro, Kandji, and Intune: zero-touch provisioning (Apple Business Manager and Windows Autopilot), configuration profiles, patching, OS upgrades, and security baselines, with FileVault (macOS) and BitLocker (Windows) disk encryption enforced at fleet scale; kept Jamf scripts and configuration under version control in GitHub; completed a full Kandji-to-Jamf Pro migration"
+          - "Introduced Torii (SaaS management, now part of SailPoint) to NerdWallet to discover and govern SaaS applications"
+          - "Supported a fully remote workforce through Jira Service Management; documented runbooks so other teams could operate what was built; built out office IT and network infrastructure for NerdWallet offices"
+
+  - role: IT Specialist
+    company: ActiveCampaign
+    location: Chicago, IL
+    start: 2018-06
+    end: 2020-04
+    bullets:
+      - "Implemented Okta and Google Workspace identity for a 560+ person company, owning SSO, MFA, provisioning, and SOC 2 control evidence as the primary IT owner"
+      - "Built production Zapier automation that onboarded devices from the company CRM; featured in a Zapier customer article"
+      - "Managed IT asset inventory and hardware lifecycle for the office and remote staff; administered Proofpoint email security"
+      - "Supported office network equipment, including Cisco Meraki, and shared-space technology for a growing Chicago office; managed Chrome Enterprise and Jamf Pro"
+      - "Managed endpoint security and compliance with Jamf and scripting automation; implemented AWS infrastructure using Terraform to support internal tooling"
+
+  - role: Senior Help Desk Technician
+    company: InnerWorkings
+    location: Chicago, IL
+    start: 2016-04
+    end: 2018-05
+    bullets:
+      - "Escalation point for identity, endpoint, and access issues; supported access reviews and mentored junior technicians"
+      - "Tracked hardware asset inventory and device assignments across the organization; supported Proofpoint email security administration"
+
+  - role: Help Desk Consultant
+    company: University of Wisconsin–Milwaukee
+    location: Milwaukee, WI
+    start: 2014-05
+    end: 2015-05
+    bullets:
+      - "Supported enterprise IT systems; authored documentation and delivered technical training"
+
+education:
+  - degree: Bachelor of Science, Information Science & Technology
+    school: University of Wisconsin–Milwaukee
+
+certifications:
+  - name: Okta Certified Administrator
+    issuer: Okta
+  - name: Jamf 200
+    issuer: Jamf
+  - name: Jamf 300
+    issuer: Jamf
+
+skills:
+  - group: "Automation & IaC"
+    items: [Okta Workflows, Workday API, REST APIs and webhooks, Bash/zsh, PowerShell, Python (developing), Terraform (AWS), Zapier, Git/GitHub, Docker (Home Assistant)]
+  - group: "Identity & SaaS"
+    items: ["Okta (Certified Administrator; SSO, SCIM, Workflows)", Entra ID/AD, Microsoft 365, Google Workspace, "Atlassian (Jira, Confluence, JSM)", Slack, Zoom, SAML, OIDC, FIDO2/WebAuthn, conditional access, privileged access management, 1Password, SPF/DKIM/DMARC, license and vendor management]
+  - group: "AI & Agents"
+    items: [Claude Code, MCP servers, Claude skills, CLAUDE.md guardrails, agent change control, Slack AI, Zoom AI, ChatGPT, Gemini]
+  - group: "Endpoint & Network"
+    items: [Jamf Pro (200 & 300), Kandji, Intune, Windows Autopilot, macOS zero-touch (ABM), FileVault and BitLocker, policy enforcement and scripted remediation, Cisco Meraki, Ubiquiti UniFi, DNS, VPN and firewall (home stack), dual-WAN]
+  - group: "Security & Compliance"
+    items: [Zero Trust, Proofpoint, Gmail routing rules, SPF/DKIM/DMARC, privileged access, disk encryption (FileVault/BitLocker), SOC 2 control ownership, access reviews, audit evidence, certificate renewals, Jira Service Management, vendor and MSP management, runbooks and documentation]
