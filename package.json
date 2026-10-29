@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lint:content": "node scripts/lint-content.mjs",
     "resume:pdf": "node scripts/resume-pdf.mjs",
     "deploy": "wrangler deploy"
   },

@@ -1,0 +1,37 @@
+# Phrases that don't sound like Skylar. Skylar's voice is casual and plain.
+# Case-insensitive, matched on word boundaries. Add a phrase when one slips
+# through; remove it if it turns out to be a false alarm.
+phrases:
+  - leverage
+  - leveraging
+  - synergy
+  - synergies
+  - circle back
+  - touch base
+  - deep dive
+  - game-changer
+  - game changing
+  - best-in-class
+  - cutting-edge
+  - state-of-the-art
+  - world-class
+  - robust
+  - seamless
+  - seamlessly
+  - holistic
+  - paradigm
+  - move the needle
+  - low-hanging fruit
+  - thought leader
+  - value-add
+  - empower
+  - empowering
+  - utilize
+  - utilizing
+  - passionate about
+  - results-driven
+  - dynamic environment
+  - ecosystem
+  - unlock the power
+  - take it to the next level
+  - in today's fast-paced world
