@@ -1,0 +1,22 @@
+# Resume data, rendered to /resume and validated by the schema in src/content.config.ts.
+# Only facts Skylar has confirmed go here. Leave a section empty rather than guessing.
+#
+# experience:
+#   - role: Job title
+#     company: Company name
+#     start: 2022-01        # YYYY-MM
+#     end: present          # YYYY-MM or present
+#     bullets:
+#       - One thing you did, in plain words.
+# certifications:
+#   - name: Cert name
+#     issuer: Who issued it
+#     year: 2023            # optional
+# skills:
+#   - group: Identity
+#     items: [Okta, Entra ID]
+
+name: Skylar Damiano
+experience: []
+certifications: []
+skills: []
