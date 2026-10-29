@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lighthouse": "lhci autorun",
     "resume:pdf": "node scripts/resume-pdf.mjs",
     "deploy": "wrangler deploy"
   },
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@lhci/cli": "0.15.1",
     "@types/node": "24.19.2",
     "typescript": "6.0.3",
     "wrangler": "4.155.0"
