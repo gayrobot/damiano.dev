@@ -1,6 +1,6 @@
 # Resume data, rendered to /resume and validated by the schema in src/content.config.ts.
 # Only facts Skylar has confirmed go here. Leave a section empty rather than guessing.
-# Source: public/downloads/Skylar_Damiano_Resume.pdf. Keep the two in sync.
+# Source: public/downloads/Skylar_Damiano_Resume.pdf (the only published copy). Keep the two in sync.
 #
 # A job uses either `bullets` (a flat list) or `sections` (headed groups), not both.
 # Dates are YYYY-MM; `end` can also be `present`.
