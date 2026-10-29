@@ -6,15 +6,27 @@ import { parse } from 'yaml';
 // Months as "YYYY-MM" so they sort as strings.
 const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2024-03');
 
+const bullets = z.array(z.string().min(1)).min(1);
+
+// A job has either a flat list of bullets or headed groups of them, not both.
 const job = z
   .object({
     role: z.string().min(1),
     company: z.string().min(1),
+    location: z.string().min(1).optional(),
     start: month,
     end: z.union([month, z.literal('present')]),
-    bullets: z.array(z.string().min(1)).min(1),
+    bullets: bullets.optional(),
+    sections: z
+      .array(z.object({ heading: z.string().min(1), bullets }).strict())
+      .min(1)
+      .optional(),
   })
   .strict()
+  .refine((j) => (j.bullets === undefined) !== (j.sections === undefined), {
+    message: 'use either bullets or sections',
+    path: ['bullets'],
+  })
   .refine((j) => j.end === 'present' || j.end >= j.start, {
     message: 'end is before start',
     path: ['end'],
@@ -25,6 +37,13 @@ const cert = z
     name: z.string().min(1),
     issuer: z.string().min(1),
     year: z.number().int().min(1990).max(2100).optional(),
+  })
+  .strict();
+
+const degree = z
+  .object({
+    degree: z.string().min(1),
+    school: z.string().min(1),
   })
   .strict();
 
@@ -54,7 +73,10 @@ const resume = defineCollection({
     .object({
       name: z.string().min(1),
       headline: z.string().min(1).optional(),
+      location: z.string().min(1).optional(),
+      summary: z.string().min(1).optional(),
       experience: z.array(job),
+      education: z.array(degree),
       certifications: z.array(cert),
       skills: z.array(skillGroup),
     })
