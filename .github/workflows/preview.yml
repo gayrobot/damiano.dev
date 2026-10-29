@@ -6,6 +6,17 @@ name: Preview
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - astro.config.mjs
+      - tsconfig.json
+      - package.json
+      - package-lock.json
+      - wrangler.jsonc
+      - .nvmrc
+      - scripts/preview-comment.mjs
+      - .github/workflows/preview.yml
 
 permissions:
   contents: read
