@@ -1,13 +1,16 @@
 # Resume data, rendered to /resume and validated by the schema in src/content.config.ts.
 # Only facts Skylar has confirmed go here. Leave a section empty rather than guessing.
-# Source: public/downloads/Skylar_Damiano_Resume.pdf (the only published copy). Keep the two in sync.
+# The PDF at public/downloads/Skylar_Damiano_Resume.pdf is generated from this file:
+# run `npm run resume:pdf` after editing.
 #
 # A job uses either `bullets` (a flat list) or `sections` (headed groups), not both.
+# `projects` (name, optional url, bullets) is optional and shows after a job's bullets.
 # Dates are YYYY-MM; `end` can also be `present`.
 
 name: Skylar Damiano
 headline: "Senior Systems Administrator & IT Engineer | Identity (Okta) | Endpoint (Jamf, Intune) | Automation | SOC 2"
 location: Chicago, IL
+email: skylardamiano@gmail.com
 summary: >-
   Chicago-based systems administrator and IT engineer with 8+ years running identity, endpoint,
   and SaaS for high-growth, remote-first companies, most recently as Staff Systems Administrator
@@ -28,6 +31,18 @@ experience:
       - "Replaced the ISP gateway with an XGS-PON SFP+ ONT, removing double NAT; set up dual-WAN failover, IPv6 prefix delegation, and firewall and VPN configuration; fixed a DHCP issue that was handing out retired DNS servers"
       - "Set up MCP servers for Home Assistant, Synology NAS, UniFi, and HomeKit, moving credentials from plaintext JSON into the macOS Keychain; ran Home Assistant in Docker"
       - "Wrote reusable Claude skills (a Python audio sample-pack builder and a playlist automation tool) and CLAUDE.md guardrails; ran agents under change control with backups, dry runs, and change logs"
+    projects:
+      - name: netstack
+        url: https://github.com/gayrobot/netstack
+        bullets:
+          - "Built a public, reusable framework for running a home network with an AI agent under governance: read-only by default, writes only through separate connections where every call is approved, and every change logged in git with diff, rollback, and verification"
+          - "Risky changes are gated on a fresh, hash-verified, off-box gateway backup; the NAS pulls the gateway backup nightly, encrypts it to an offline key, and stores it under immutable snapshots"
+          - "Git hooks and a CI job block commits that leak real hostnames or inventory; every MCP server is vetted and pinned before use"
+      - name: damiano.dev
+        url: https://github.com/gayrobot/damiano.dev
+        bullets:
+          - "Building a personal site where an AI agent proposes every change as a pull request and I review and merge; the real project is the harness of checks, permissions, and policies that lets an agent change the site safely"
+          - "Astro static site with a schema-validated resume, so bad data fails the build; branch protection on main; CI and deployment to Cloudflare Workers through GitHub Actions in progress"
 
   - role: Staff Systems Administrator
     company: NerdWallet

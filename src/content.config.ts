@@ -8,6 +8,14 @@ const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 202
 
 const bullets = z.array(z.string().min(1)).min(1);
 
+const project = z
+  .object({
+    name: z.string().min(1),
+    url: z.url().optional(),
+    bullets,
+  })
+  .strict();
+
 // A job has either a flat list of bullets or headed groups of them, not both.
 const job = z
   .object({
@@ -21,6 +29,7 @@ const job = z
       .array(z.object({ heading: z.string().min(1), bullets }).strict())
       .min(1)
       .optional(),
+    projects: z.array(project).min(1).optional(),
   })
   .strict()
   .refine((j) => (j.bullets === undefined) !== (j.sections === undefined), {
@@ -74,6 +83,8 @@ const resume = defineCollection({
       name: z.string().min(1),
       headline: z.string().min(1).optional(),
       location: z.string().min(1).optional(),
+      // Shown in the PDF only, not on the web page.
+      email: z.email().optional(),
       summary: z.string().min(1).optional(),
       experience: z.array(job),
       education: z.array(degree),

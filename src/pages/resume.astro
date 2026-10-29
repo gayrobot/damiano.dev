@@ -44,6 +44,19 @@ const isEmpty =
               {job.bullets.map((b) => <li>{b}</li>)}
             </ul>
           )}
+          {job.projects && (
+            <>
+              <h4>Projects</h4>
+              {job.projects.map((p) => (
+                <>
+                  <h5>{p.url ? <a href={p.url}>{p.name}</a> : p.name}</h5>
+                  <ul>
+                    {p.bullets.map((b) => <li>{b}</li>)}
+                  </ul>
+                </>
+              ))}
+            </>
+          )}
           {job.sections?.map((sec) => (
             <>
               <h4>{sec.heading}</h4>
