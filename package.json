@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "resume:pdf": "node scripts/resume-pdf.mjs"
+    "resume:pdf": "node scripts/resume-pdf.mjs",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "astro": "7.4.4",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@types/node": "24.19.2",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "wrangler": "4.155.0"
   }
 }
