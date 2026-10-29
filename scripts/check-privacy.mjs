@@ -9,6 +9,7 @@ import { contentLines, escapeRegExp } from './lib/content-files.mjs';
 
 const config = parse(readFileSync('harness/privacy.yml', 'utf-8'));
 const allowedEmails = new Set(config.allowed_emails.map((e) => e.toLowerCase()));
+const allowedUrls = config.allowed_urls ?? [];
 const patterns = Object.entries(config.patterns).map(([name, src]) => ({ name, re: new RegExp(src, 'g') }));
 
 const LOCAL = 'harness/privacy-denylist.local.txt';
@@ -21,7 +22,8 @@ if (terms.length === 0) {
 }
 
 const hits = [];
-for (const { file, line, text } of contentLines()) {
+for (const { file, line, text: raw } of contentLines()) {
+  const text = allowedUrls.reduce((t, u) => t.replaceAll(u, ''), raw);
   for (const { name, re } of patterns) {
     for (const m of text.matchAll(re)) {
       if (name === 'email' && allowedEmails.has(m[0].toLowerCase())) continue;

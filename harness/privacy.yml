@@ -11,3 +11,9 @@ patterns:
 # Emails that are meant to be public. Everything else is flagged.
 allowed_emails:
   - skylardamiano@gmail.com
+
+# Public URLs that are meant to be on the site. Removed from each line before
+# the denylist and patterns run, so a denylist term that also appears in these
+# (e.g. the GitHub username) doesn't block them.
+allowed_urls:
+  - https://github.com/gayrobot/
