@@ -7,7 +7,7 @@
 # `projects` (name, optional url, bullets) is optional and shows after a job's bullets.
 # Dates are YYYY-MM; `end` can also be `present`.
 
-name: Skylar Damiano
+name: 42
 headline: "Senior Systems Administrator & IT Engineer | Identity (Okta) | Endpoint (Jamf, Intune) | Automation | SOC 2"
 location: Chicago, IL
 email: skylardamiano@gmail.com
