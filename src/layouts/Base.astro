@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Skylar Damiano: applied AI, IT and identity work, and notes on working with AI.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      nav a + a {
+        margin-left: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/resume">Resume</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
