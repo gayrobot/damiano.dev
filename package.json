@@ -10,6 +10,9 @@
     "lighthouse": "lhci autorun",
     "check:links": "node scripts/check-links.mjs",
     "lint:content": "node scripts/lint-content.mjs",
+    "check:sections": "node scripts/check-sections.mjs",
+    "new:section": "node scripts/new-section.mjs",
+    "test": "node --test tests/*.test.mjs",
     "check:privacy": "node scripts/check-privacy.mjs",
     "resume:pdf": "node scripts/resume-pdf.mjs",
     "deploy": "wrangler deploy"
