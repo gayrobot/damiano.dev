@@ -8,6 +8,7 @@
     "directory": "./dist"
   },
   // The custom domain (damiano.dev) is attached in Milestone 0 step 8, after DNS moves to Cloudflare.
+  // preview_urls serves per-PR aliases (pr-N-...) uploaded by .github/workflows/preview.yml.
   "workers_dev": true,
-  "preview_urls": false
+  "preview_urls": true
 }
