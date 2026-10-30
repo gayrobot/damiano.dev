@@ -10,5 +10,6 @@ Built with [Astro](https://astro.build) as a static site. See [`docs/handoff.md`
 npm install
 npm run dev      # local dev server
 npm run check    # type check
+npm test         # section checks (see docs/adding-a-section.md)
 npm run build    # static output in dist/
 ```
