@@ -21,10 +21,17 @@ jobs:
     env:
       FILE: ${{ inputs.file }}
       PUBLIC_REPO: gayrobot/damiano.dev
-      # Fine-grained PAT for the public repo only: contents + pull requests write.
-      # A PAT (not GITHUB_TOKEN) so the PR it opens triggers the public repo's checks.
-      GH_TOKEN: ${{ secrets.PROMOTE_TOKEN }}
     steps:
+      # Short-lived token from the agent GitHub App, scoped to the public repo
+      # only. An app token (not GITHUB_TOKEN) so the PR it opens triggers the
+      # public repo's checks.
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: gayrobot
+          repositories: damiano.dev
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -40,6 +47,8 @@ jobs:
             grep -qE '^approved: true$' "$FILE" || { echo "::error::Set 'approved: true' in the front matter first (only Skylar does this)"; exit 1; }
           fi
       - name: Open a PR in the public repo
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
         run: |
           set -euo pipefail
           slug=$(basename "$FILE" .md)

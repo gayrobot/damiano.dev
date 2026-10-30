@@ -21,13 +21,9 @@ The promote PR is an ordinary PR, so the required checks (`build`, `privacy-gate
 ## One-time setup (after the drafts repo exists)
 
 1. **Copy the template** (can be done by Claude, or:) copy the contents of `harness/drafts-repo/` into the drafts repo and push to its `main`.
-2. **Create a token** (GitHub → Settings → Developer settings → Fine-grained tokens → Generate new token):
-   - Resource owner: `gayrobot`. Repository access: *Only select repositories* → `damiano.dev`.
-   - Permissions: *Contents: Read and write*, *Pull requests: Read and write*. Nothing else.
-   - Expiration: 90 days (put a reminder in the calendar).
-3. **Store it** in the drafts repo: Settings → Environments → New environment `promote` → Add environment secret `PROMOTE_TOKEN` → paste the token.
+2. **Add the App's credentials** to the drafts repo (the App from `docs/open-decisions.md`, already installed on `damiano.dev`): Settings → Environments → New environment `promote`. Then *Add environment variable* `APP_ID` = `5545163`, and *Add environment secret* `APP_PRIVATE_KEY` = the full contents of the `.pem` file (open it in a text editor, copy everything including the BEGIN and END lines).
 
-The token is the one thing that crosses repos, so it is scoped to the public repo alone and can't push to `main` (branch protection blocks that). If the agent identity becomes a GitHub App (see `docs/open-decisions.md`), swap this token for the app's.
+The workflow mints a one-hour token scoped to the public repo only, and branch protection stops it pushing to `main`. Nothing long-lived crosses repos except the App's key, which sits in an environment secret.
 
 ## Using it
 
