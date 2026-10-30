@@ -1,6 +1,6 @@
 # damiano.dev — Handoff for Claude Code
 
-Last updated: 2026-10-29 · Owner: Skylar (@gayrobot)
+Last updated: 2026-10-30 · Owner: Skylar (@gayrobot)
 
 ## What this is
 
@@ -19,7 +19,7 @@ The site is the fixture. **The real project is the harness**: the pipeline, chec
 | Framework | Astro, static output | Content collections with schemas act as a build-time guardrail. |
 | Code repo | `gayrobot/damiano.dev`, **public** | Harness, workflows, and agent PRs are part of the showcase. Not created yet. |
 | Drafts repo | `gayrobot/damiano.dev-drafts`, **private**, not a fork | Musings are drafted here and promoted to the public repo by PR only after Skylar approves. GitHub doesn't allow private forks of public repos, and public branches and commits are public permanently. |
-| Design system | Deferred to a separate session in this project | Milestone 0 uses minimal, unstyled-but-clean defaults. |
+| Design system | Milestone 3, in a separate session | Milestones 0 to 2 use minimal, unstyled-but-clean defaults. |
 
 ## Open decisions
 
@@ -41,9 +41,9 @@ Goal: a merge to `main` puts a real page on `https://damiano.dev`. Nothing fancy
 
 **Done when:** a PR merged to `main` changes the live site with no manual steps, and a PR that breaks the build can't merge.
 
-## Milestone 1 — first real harness layers
+## Milestone 1 — first real harness layers (done)
 
-Add one at a time, each as its own PR:
+Built one at a time, each as its own PR:
 
 - **PR preview deploys:** each PR gets a preview URL posted as a comment.
 - **Link check** on the built output.
@@ -51,6 +51,35 @@ Add one at a time, each as its own PR:
 - **Content lint:** flags corporate-speak phrases. Skylar's voice is casual and plain.
 - **Privacy gate:** scans content for personal details (addresses, phone numbers, family names, anything flagged in a denylist) before merge. Mandatory for anything promoted from the drafts repo.
 - **Path filters:** skip builds and deploys for changes that don't touch the site, to save CI minutes.
+
+### What Milestone 1 left behind
+
+- Each check is its own workflow in `.github/workflows/` (`ci`, `content`, `links`, `lighthouse`, `preview`) so PRs for new checks don't conflict. Configs live in `harness/` (`content-lint.yml`, `privacy.yml`) and `lighthouserc.json`.
+- Required checks on `main`: `build` and `privacy-gate`. The rest are advisory.
+- Path filtering for `build` and `deploy` happens inside the job, not with `on.paths`, so the required `build` check always reports. Non-required workflows use plain `paths`.
+- The privacy gate's specific terms live in the `PRIVACY_DENYLIST` secret (the repo is public). `harness/privacy.yml` allowlists the site's own `https://github.com/gayrobot/` URLs and the public email.
+- Preview deploys use the `preview` GitHub environment, with its own Cloudflare token separate from `production`. Preview URLs must stay switched on for the Worker.
+- Lesson: don't stack PRs. A PR stacked on an unmerged branch can "merge" into that branch and never reach `main`.
+
+## Milestone 2 — content model, drafts flow, and room to grow
+
+Goal: adding a new kind of thing to the site is a known, boring recipe, and real content has somewhere to go.
+
+1. **Content collections:** `projects` and `musings` per the content model below, schemas as the build-time guardrail. The musings build fails without `approved: true`. No real content yet, only fixtures that prove the schemas and pages work.
+2. **Extension framework:** a short recipe in `docs/` for adding a section: the collection, its schema, its pages and routes, its nav entry, which checks cover it, and how it's tested. Back it with a small scaffold (a script or template) so a new section starts from the same shape, plus a consistency check that catches a collection missing its page, schema or nav entry. Keep it boring; no plugin system.
+3. **Drafts repo:** create `gayrobot/damiano.dev-drafts` (private) and a promote-by-PR flow into the public repo. The privacy gate must pass on anything promoted.
+4. **`harness/proposals.yml`:** the proposal policy, as written in this doc.
+5. **Open decisions:** settle the agent identity mechanism and agent-in-CI, or record that they stay deferred.
+
+**Done when:** a fixture project and a fixture musing build and render, an unapproved musing fails the build, and following the recipe for a throwaway new section works without touching unrelated files.
+
+## Milestone 3 — design system
+
+Build and apply a design system to the whole site, in its own session. The harness already enforces accessibility (Lighthouse 100) and the Lighthouse thresholds, so the design has to keep them passing. Record the system (tokens, components, rules) in the repo so later sections follow it.
+
+## Milestone 4 — publish content
+
+Upload the real musings and projects. Content comes only from facts Skylar has confirmed. Musings are drafted in the drafts repo and promoted only after Skylar approves. First candidates are listed under the content model.
 
 ## Content model (Astro collections)
 
@@ -100,4 +129,4 @@ scope: drudgery_only   # site, pipeline, chores. Not life or hobby advice.
 
 ## Out of scope for now
 
-Design system, comments, analytics, a contact form, newsletter, DNS-as-code (Terraform), event-driven agent runs in CI.
+Comments, analytics, a contact form, newsletter, DNS-as-code (Terraform), event-driven agent runs in CI.
