@@ -6,15 +6,35 @@ import { readFileSync } from 'node:fs';
 const { OUTPUT_FILE, PR_NUMBER, HEAD_SHA } = process.env;
 const MARKER = '<!-- preview-deploy -->';
 
+// wrangler doesn't always report the preview URL in its output file, so build
+// it: <alias>-<worker>.<account workers.dev subdomain>.workers.dev
 const entry = readFileSync(OUTPUT_FILE, 'utf-8')
   .split('\n')
   .filter(Boolean)
   .map((l) => JSON.parse(l))
   .find((e) => e.type === 'version-upload');
-const url = entry?.preview_alias_url ?? entry?.preview_url;
+if (!entry) throw new Error('no version-upload entry in wrangler output');
+
+let url = entry.preview_alias_url ?? entry.preview_url;
 if (!url) {
-  console.error('wrangler output:', readFileSync(OUTPUT_FILE, 'utf-8'));
-  throw new Error('wrangler reported no preview URL; is Preview URLs switched on for the Worker?');
+  const { CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID } = process.env;
+  const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/subdomain`, {
+    headers: { Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}` },
+  });
+  const subdomain = (await res.json()).result?.subdomain;
+  if (!subdomain) throw new Error(`could not look up the workers.dev subdomain (HTTP ${res.status})`);
+  url = `https://pr-${PR_NUMBER}-${entry.worker_name}.${subdomain}.workers.dev`;
+}
+
+// Make sure the URL really serves the site before announcing it.
+let status;
+for (let i = 0; i < 6; i++) {
+  status = (await fetch(url, { redirect: 'follow' }).catch(() => ({ status: 0 }))).status;
+  if (status === 200) break;
+  await new Promise((r) => setTimeout(r, 5000));
+}
+if (status !== 200) {
+  throw new Error(`${url} answered ${status}. Is Preview URLs switched on for the Worker (Settings > Domains & Routes)?`);
 }
 
 const body = `${MARKER}\n**Preview:** ${url}\n\nBuilt from ${HEAD_SHA.slice(0, 7)}. Updates on every push to this PR.`;
