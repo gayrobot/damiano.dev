@@ -1,4 +1,4 @@
-# Content checks that don't need a build: the corporate-speak lint.
+# Content checks that don't need a build: corporate-speak lint and the privacy gate.
 name: Content
 
 on:
@@ -26,3 +26,22 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint:content
+
+  privacy-gate:
+    name: privacy-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Privacy gate
+        run: npm run check:privacy
+        env:
+          # Specific terms to block, one per line. Kept out of the public repo.
+          PRIVACY_DENYLIST: ${{ secrets.PRIVACY_DENYLIST }}
