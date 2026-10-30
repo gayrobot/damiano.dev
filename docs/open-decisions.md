@@ -4,7 +4,7 @@ Two decisions from the handoff are still Skylar's. Each has a recommendation; un
 
 ## 1. Agent identity: GitHub App or fine-grained PAT
 
-**Decided (Skylar): GitHub App**, installed on `gayrobot/damiano.dev` only.
+**Decided (Skylar): GitHub App** (App ID 5545163), installed on `gayrobot/damiano.dev` only.
 
 | | GitHub App | Fine-grained PAT |
 |---|---|---|
