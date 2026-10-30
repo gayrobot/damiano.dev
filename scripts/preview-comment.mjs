@@ -12,7 +12,10 @@ const entry = readFileSync(OUTPUT_FILE, 'utf-8')
   .map((l) => JSON.parse(l))
   .find((e) => e.type === 'version-upload');
 const url = entry?.preview_alias_url ?? entry?.preview_url;
-if (!url) throw new Error('wrangler reported no preview URL; is preview_urls enabled in wrangler.jsonc?');
+if (!url) {
+  console.error('wrangler output:', readFileSync(OUTPUT_FILE, 'utf-8'));
+  throw new Error('wrangler reported no preview URL; is Preview URLs switched on for the Worker?');
+}
 
 const body = `${MARKER}\n**Preview:** ${url}\n\nBuilt from ${HEAD_SHA.slice(0, 7)}. Updates on every push to this PR.`;
 
