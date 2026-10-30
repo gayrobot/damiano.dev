@@ -4,7 +4,7 @@ Two decisions from the handoff are still Skylar's. Each has a recommendation; un
 
 ## 1. Agent identity: GitHub App or fine-grained PAT
 
-**Recommendation: GitHub App**, installed on `gayrobot/damiano.dev` only.
+**Decided (Skylar): GitHub App**, installed on `gayrobot/damiano.dev` only.
 
 | | GitHub App | Fine-grained PAT |
 |---|---|---|
@@ -18,7 +18,19 @@ Permissions either way: contents write and pull requests write on the one repo, 
 
 **Default until decided:** Claude Code sessions open PRs from Skylar's own machine under Skylar's login. That is fine at Level 0 but it blurs who did what, which is the reason to move to an app before the agent acts on its own.
 
-**Needed from Skylar:** pick App or PAT. If App, setup is about ten minutes of clicking in GitHub settings; ask and the steps will be written out.
+### Setup (about ten minutes, once)
+
+1. GitHub → your profile picture → **Settings** → **Developer settings** (bottom of the left menu) → **GitHub Apps** → **New GitHub App**.
+2. **GitHub App name:** `damiano-dev-agent` (add digits if taken). **Homepage URL:** `https://github.com/gayrobot/damiano.dev`.
+3. **Webhook:** untick *Active*.
+4. **Repository permissions:** *Contents: Read and write*, *Pull requests: Read and write*. Leave everything else as *No access* (Metadata read-only is added automatically). No organization or account permissions.
+5. **Where can this app be installed?** *Only on this account*. Click **Create GitHub App**.
+6. On the app's page, note the **App ID**. Scroll to **Private keys** → **Generate a private key**. A `.pem` file downloads. Save it in your password manager and delete the download. Treat it like a password; never put it in the repo or in chat.
+7. Left menu → **Install App** → **Install** next to `gayrobot` → **Only select repositories** → `damiano.dev` → **Install**.
+
+Branch protection on `main` still applies: the app can open branches and PRs but can't push to `main`, and you still merge.
+
+Later, when something in CI should act as the agent (including swapping the PAT in `docs/drafts-flow.md`), add the App ID and the key as environment secrets and mint a token with `actions/create-github-app-token`.
 
 ## 2. Agent-in-CI
 
