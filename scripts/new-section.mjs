@@ -58,27 +58,27 @@ This is fixture content. Delete it when the first real entry lands.
 write(p('src/pages', name, 'index.astro'), `---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import EntryList from '../../components/EntryList.astro';
 
 const entries = (await getCollection('${name}')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const items = entries.map((e) => ({
+  href: \`/${name}/\${e.id}\`,
+  title: e.data.title,
+  summary: e.data.summary,
+  meta: String(e.data.date.getUTCFullYear()),
+}));
 ---
 
 <Base title="${label} · damiano.dev">
-  <h1>${label}</h1>
-  {entries.length === 0 && <p>Coming soon.</p>}
-  <ul>
-    {entries.map((e) => (
-      <li>
-        <a href={\`/${name}/\${e.id}\`}>{e.data.title}</a>
-        <br />
-        {e.data.summary}
-      </li>
-    ))}
-  </ul>
+  <PageHeader title="${label}" />
+  <EntryList items={items} />
 </Base>
 `);
 write(p('src/pages', name, '[id].astro'), `---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('${name}');
@@ -91,7 +91,7 @@ const { title, summary } = entry.data;
 ---
 
 <Base title={\`\${title} · damiano.dev\`} description={summary}>
-  <h1>{title}</h1>
+  <PageHeader title={title} lede={summary} />
   <Content />
 </Base>
 `);

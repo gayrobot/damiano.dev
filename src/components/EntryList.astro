@@ -1,0 +1,43 @@
+---
+// A list of linked entries (projects, musings, any new section). Each item is a card.
+// `meta` is shown as small muted text; `tags` render as Tag components.
+interface Item {
+  href: string;
+  title: string;
+  summary: string;
+  meta?: string;
+  tags?: string[];
+}
+interface Props {
+  items: Item[];
+  empty?: string;
+}
+const { items, empty = 'Coming soon.' } = Astro.props;
+import Tag from './Tag.astro';
+---
+
+{items.length === 0 && <p>{empty}</p>}
+{items.length > 0 && (
+  <ul class="entry-list">
+    {items.map((item) => (
+      <li>
+        <h2><a href={item.href}>{item.title}</a></h2>
+        {item.meta && <p class="meta">{item.meta}</p>}
+        <p>{item.summary}</p>
+        {item.tags && item.tags.length > 0 && (
+          <p class="tags">{item.tags.map((t) => <Tag>{t}</Tag>)}</p>
+        )}
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .entry-list { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
+  li { background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius); padding: var(--space-4) var(--space-6); margin: 0; }
+  li + li { margin-top: 0; }
+  h2 { font-size: var(--text-lg); margin: 0 0 var(--space-1); }
+  p { margin: 0 0 var(--space-2); }
+  .meta { color: var(--color-text-muted); font-size: var(--text-sm); }
+  .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 0; }
+</style>

@@ -73,9 +73,11 @@ Goal: adding a new kind of thing to the site is a known, boring recipe, and real
 
 **Done when:** a fixture project and a fixture musing build and render, an unapproved musing fails the build, and following the recipe for a throwaway new section works without touching unrelated files.
 
-## Milestone 3 — design system
+## Milestone 3 — design system (done)
 
 Build and apply a design system to the whole site, in its own session. The harness already enforces accessibility (Lighthouse 100) and the Lighthouse thresholds, so the design has to keep them passing. Record the system (tokens, components, rules) in the repo so later sections follow it.
+
+Recorded in `docs/design-system.md`: tokens in `src/styles/tokens.css`, global styles, and components in `src/components/`. The new-section scaffold uses them.
 
 ## Milestone 4 — publish content
 

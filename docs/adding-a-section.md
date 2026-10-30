@@ -18,7 +18,7 @@ npm run build
 | Collection | `src/content.config.ts` | `defineCollection` with a `glob` loader and a `.strict()` schema. Add it to `export const collections`. |
 | Schema | same file | Required fields fail the build when missing. Gate anything that needs Skylar's sign-off the way `musings` does (`approved: z.literal(true)`). |
 | Content | `src/content/<name>/*.md` | Fixture entries are obviously fake. Real content only from facts Skylar has confirmed. |
-| Pages | `src/pages/<name>/index.astro` and `[id].astro` | List page and detail page, both using `layouts/Base.astro`. |
+| Pages | `src/pages/<name>/index.astro` and `[id].astro` | List page and detail page, both using `layouts/Base.astro` and the components in [`design-system.md`](design-system.md) (`PageHeader`, `EntryList`). |
 | Nav | `src/data/nav.ts` | One entry with `href: '/<name>'`. |
 
 ## What checks cover it
