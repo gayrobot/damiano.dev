@@ -9,6 +9,7 @@
     "check": "astro check",
     "check:links": "node scripts/check-links.mjs",
     "lint:content": "node scripts/lint-content.mjs",
+    "check:privacy": "node scripts/check-privacy.mjs",
     "resume:pdf": "node scripts/resume-pdf.mjs",
     "deploy": "wrangler deploy"
   },
