@@ -1,0 +1,10 @@
+# Proposal policy: how the agent may suggest things to build without
+# overwhelming Skylar. Change the numbers here; no other file needs to know.
+max_open: 1            # open claude-proposed issues at any time
+max_new_per_week: 1
+channel: github_issue  # label: claude-proposed; never interrupt a chat for this
+threshold: >
+  Propose only when something recurs: the same manual step 3+ times,
+  a check failing repeatedly, or a gap Skylar has mentioned twice.
+expire_after_days: 14  # close ignored proposals automatically
+scope: drudgery_only   # site, pipeline, chores. Not life or hobby advice.
