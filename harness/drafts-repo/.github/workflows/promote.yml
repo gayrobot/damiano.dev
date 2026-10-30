@@ -1,0 +1,60 @@
+# Lives in gayrobot/damiano.dev-drafts (private). Manual only: Skylar picks a
+# draft and it becomes a PR into the public repo. The PR's checks (build,
+# privacy gate, content lint) run there; Skylar still reviews and merges.
+name: Promote
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: 'Draft to promote, e.g. musings/my-essay.md'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: promote
+    env:
+      FILE: ${{ inputs.file }}
+      PUBLIC_REPO: gayrobot/damiano.dev
+      # Fine-grained PAT for the public repo only: contents + pull requests write.
+      # A PAT (not GITHUB_TOKEN) so the PR it opens triggers the public repo's checks.
+      GH_TOKEN: ${{ secrets.PROMOTE_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the draft is ready
+        run: |
+          case "$FILE" in
+            musings/*.md|projects/*.md) ;;
+            *) echo "::error::Only musings/*.md and projects/*.md can be promoted"; exit 1 ;;
+          esac
+          case "$FILE" in *..*) echo "::error::bad path"; exit 1 ;; esac
+          [ -f "$FILE" ] || { echo "::error::$FILE not found"; exit 1; }
+          if [[ "$FILE" == musings/* ]]; then
+            grep -qE '^approved: true$' "$FILE" || { echo "::error::Set 'approved: true' in the front matter first (only Skylar does this)"; exit 1; }
+          fi
+      - name: Open a PR in the public repo
+        run: |
+          set -euo pipefail
+          slug=$(basename "$FILE" .md)
+          branch="promote/${FILE%.md}"
+          branch="${branch//\//-}"
+          git clone --quiet "https://x-access-token:${GH_TOKEN}@github.com/${PUBLIC_REPO}.git" public
+          cd public
+          git checkout -q -b "$branch"
+          mkdir -p "src/content/$(dirname "$FILE")"
+          cp "../$FILE" "src/content/$FILE"
+          git config user.name "damiano-dev promote"
+          git config user.email "noreply@github.com"
+          git add .
+          git commit -qm "Promote $FILE from drafts"
+          git push -q origin "$branch"
+          gh pr create --repo "$PUBLIC_REPO" --head "$branch" --base main \
+            --title "Promote $slug from drafts" \
+            --body "Promoted from the private drafts repo. The privacy gate, content lint and build run on this PR. Skylar reviews and merges."
