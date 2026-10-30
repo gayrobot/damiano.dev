@@ -13,4 +13,5 @@ npm-debug.log*
 # macOS
 .DS_Store
 .wrangler/
+.lighthouseci/
 harness/privacy-denylist.local.txt

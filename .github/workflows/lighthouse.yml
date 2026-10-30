@@ -1,0 +1,42 @@
+# Lighthouse on the built site. Accessibility must be perfect (the checks are
+# automated axe rules, so 100 is reachable); the other categories need 90+.
+# Thresholds live in lighthouserc.json.
+name: Lighthouse
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - astro.config.mjs
+      - tsconfig.json
+      - package.json
+      - package-lock.json
+      - wrangler.jsonc
+      - .nvmrc
+      - lighthouserc.json
+      - .github/workflows/lighthouse.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lighthouse
