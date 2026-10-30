@@ -1,4 +1,6 @@
 ---
+import { nav } from '../data/nav';
+
 interface Props {
   title: string;
   description?: string;
@@ -30,8 +32,7 @@ const { title, description = 'Skylar Damiano: applied AI, IT and identity work, 
   <body>
     <header>
       <nav>
-        <a href="/">Home</a>
-        <a href="/resume">Resume</a>
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
     </header>
     <main>
