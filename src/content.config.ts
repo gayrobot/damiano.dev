@@ -1,4 +1,5 @@
 import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
 import { readFile } from 'node:fs/promises';
 import { z } from 'astro/zod';
 import { parse } from 'yaml';
@@ -94,4 +95,32 @@ const resume = defineCollection({
     .strict(),
 });
 
-export const collections = { resume };
+const projects = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: 'src/content/projects' }),
+  schema: z
+    .object({
+      title: z.string().min(1),
+      date: z.coerce.date(),
+      summary: z.string().min(1),
+      status: z.enum(['active', 'shipped', 'paused']),
+      tags: z.array(z.string().min(1)),
+    })
+    .strict(),
+});
+
+// A musing can't build until Skylar has approved it: `approved` must be exactly
+// true, so a missing or false value fails the build. Musings are drafted in the
+// private drafts repo and promoted by PR; see docs/drafts-flow.md.
+const musings = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: 'src/content/musings' }),
+  schema: z
+    .object({
+      title: z.string().min(1),
+      date: z.coerce.date(),
+      summary: z.string().min(1),
+      approved: z.literal(true, { error: 'Musings need approved: true, set by Skylar after review' }),
+    })
+    .strict(),
+});
+
+export const collections = { resume, projects, musings };
