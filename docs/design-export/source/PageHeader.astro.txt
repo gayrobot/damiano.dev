@@ -1,0 +1,19 @@
+---
+// Page title block. Use once per page; it renders the page's h1.
+interface Props {
+  title: string;
+  lede?: string;
+}
+const { title, lede } = Astro.props;
+---
+
+<div class="page-header">
+  <h1>{title}</h1>
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</div>
+
+<style>
+  .page-header { margin-bottom: var(--space-8); }
+  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-bottom: 0; }
+</style>

@@ -45,3 +45,5 @@ Component styles are scoped to the component and use tokens.
 - New component: put it in `src/components/`, use tokens only, add a row above.
 - `npm run new:section` already scaffolds pages with `PageHeader` and `EntryList`.
 - Check with `npm run build` then `npm run lighthouse`.
+
+A hand-off bundle for a designer or design tool is in `docs/design-export/`. It's a snapshot; regenerate it when the system changes.
