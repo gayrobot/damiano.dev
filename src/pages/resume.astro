@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 const entry = await getEntry('resume', 'resume');
 if (!entry) {
@@ -21,10 +22,10 @@ const isEmpty =
 ---
 
 <Base title="Resume · damiano.dev">
-  <h1>{name}</h1>
-  {headline && <p>{headline}</p>}
-  {location && <p>{location}</p>}
-  <p><a href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
+  <PageHeader title={name} lede={headline}>
+    {location && <p class="meta">{location}</p>}
+    <p><a href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
+  </PageHeader>
   {summary && <p>{summary}</p>}
 
   {isEmpty && <p>Coming soon.</p>}
@@ -35,7 +36,7 @@ const isEmpty =
       {jobs.map((job) => (
         <article>
           <h3>{job.role}, {job.company}</h3>
-          <p>
+          <p class="meta">
             {job.location && <>{job.location} · </>}
             {showMonth(job.start)} to {showMonth(job.end)}
           </p>
@@ -106,3 +107,8 @@ const isEmpty =
     </section>
   )}
 </Base>
+
+<style>
+  .meta { color: var(--color-text-muted); font-size: var(--text-sm); }
+  article { margin-bottom: var(--space-8); }
+</style>

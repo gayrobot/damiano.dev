@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Tag from '../../components/Tag.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -13,10 +15,11 @@ const { title, summary, status, tags, date } = entry.data;
 ---
 
 <Base title={`${title} · damiano.dev`} description={summary}>
-  <h1>{title}</h1>
-  <p>
-    {status} · <time datetime={date.toISOString()}>{date.getUTCFullYear()}</time>
-    {tags.length > 0 && <> · {tags.join(', ')}</>}
-  </p>
+  <PageHeader title={title} lede={summary}>
+    <p class="meta">
+      <Tag>{status}</Tag> <time datetime={date.toISOString()}>{date.getUTCFullYear()}</time>
+      {tags.length > 0 && <> · {tags.join(', ')}</>}
+    </p>
+  </PageHeader>
   <Content />
 </Base>

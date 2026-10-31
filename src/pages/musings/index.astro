@@ -1,20 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import EntryList from '../../components/EntryList.astro';
 
 const musings = (await getCollection('musings')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const items = musings.map((m) => ({
+  href: `/musings/${m.id}`,
+  title: m.data.title,
+  summary: m.data.summary,
+  meta: String(m.data.date.getUTCFullYear()),
+}));
 ---
 
 <Base title="Musings · damiano.dev">
-  <h1>Musings</h1>
-  {musings.length === 0 && <p>Coming soon.</p>}
-  <ul>
-    {musings.map((m) => (
-      <li>
-        <a href={`/musings/${m.id}`}>{m.data.title}</a>
-        <br />
-        {m.data.summary}
-      </li>
-    ))}
-  </ul>
+  <PageHeader title="Musings" />
+  <EntryList items={items} />
 </Base>
