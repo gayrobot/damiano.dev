@@ -1,6 +1,6 @@
 # damiano.dev — Handoff for Claude Code
 
-Last updated: 2026-10-30 · Owner: Skylar (@gayrobot)
+Last updated: 2026-10-31 · Owner: Skylar (@gayrobot)
 
 ## What this is
 
@@ -15,6 +15,7 @@ The site is the fixture. **The real project is the harness**: the pipeline, chec
 | Domain | `damiano.dev`, registered at Squarespace | Registration stays at Squarespace. No email on the domain. |
 | DNS | Move to Cloudflare (nameserver change at Squarespace) | Required: Workers can't serve custom domains on zones Cloudflare doesn't manage. `.dev` is HSTS-preloaded, so HTTPS only. |
 | Hosting | Cloudflare Workers with static assets | Not Pages. Static asset requests are free. Account is active; sign-in is Google OAuth with a passkey. |
+| `www` | 301 redirect to `damiano.dev` | Set in Cloudflare, not in the repo: `www` is a custom domain on the Worker, which creates its DNS record, and a Redirect Rule sends it to the apex, keeping the path and query. Without these, `www` falls through to the preview URL wildcard and shows Cloudflare's "nothing here yet" page. |
 | Deploys | GitHub Actions builds and deploys with `wrangler` | Not Workers Builds. All checks and the deploy live in one pipeline. PR preview deploys are wired up by us. |
 | Framework | Astro, static output | Content collections with schemas act as a build-time guardrail. |
 | Code repo | `gayrobot/damiano.dev`, **public** | Harness, workflows, and agent PRs are part of the showcase. Not created yet. |
