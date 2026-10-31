@@ -104,6 +104,10 @@ const projects = defineCollection({
       summary: z.string().min(1),
       status: z.enum(['active', 'shipped', 'paused']),
       tags: z.array(z.string().min(1)),
+      // The live product, when there is one. Never a private repo.
+      url: z.url().optional(),
+      // Featured projects show on the home page.
+      featured: z.boolean().default(false),
     })
     .strict(),
 });

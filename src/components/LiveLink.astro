@@ -1,0 +1,23 @@
+---
+// Button-style link out to a live product, labeled with its domain.
+interface Props {
+  href: string;
+}
+const { href } = Astro.props;
+const host = new URL(href).hostname.replace(/^www\./, '');
+---
+
+<a class="live-link" href={href}>Visit {host}</a>
+
+<style>
+  .live-link {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .live-link:hover { background: var(--color-accent-hover); color: var(--color-accent-contrast); }
+</style>

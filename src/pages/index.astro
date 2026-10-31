@@ -1,6 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import EntryList from '../components/EntryList.astro';
 import PageHeader from '../components/PageHeader.astro';
+
+const featured = (await getCollection('projects', (p) => p.data.featured)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const items = featured.map((p) => ({
+  href: `/projects/${p.id}`,
+  title: p.data.title,
+  summary: p.data.summary,
+  meta: `Featured project · ${p.data.status} · ${p.data.date.getUTCFullYear()}`,
+  tags: p.data.tags,
+  url: p.data.url,
+}));
 ---
 
 <Base title="damiano.dev">
@@ -12,6 +24,7 @@ import PageHeader from '../components/PageHeader.astro';
     The site itself is part of the project: an AI agent proposes changes as
     pull requests, and I review and merge them.
   </p>
+  {items.length > 0 && <EntryList items={items} />}
   <p>
     <a href="/projects">Projects</a> · <a href="/musings">Musings</a> · <a href="/resume">Resume</a>
   </p>
