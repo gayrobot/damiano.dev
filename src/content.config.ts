@@ -101,7 +101,8 @@ const projects = defineCollection({
     .object({
       title: z.string().min(1),
       date: z.coerce.date(),
-      summary: z.string().min(1),
+      // Shown on the card, as the project page's intro, and in search results.
+      summary: z.string().min(1).max(160, 'Keep the summary to 160 characters; the card is a teaser'),
       status: z.enum(['active', 'shipped', 'paused']),
       tags: z.array(z.string().min(1)),
       // The live product, when there is one. Never a private repo.

@@ -16,6 +16,7 @@ const { title, summary, status, tags, date, url } = entry.data;
 ---
 
 <Base title={`${title} · damiano.dev`} description={summary}>
+  <p class="back"><a href="/projects">← All projects</a></p>
   <PageHeader title={title} lede={summary}>
     <p class="meta">
       <Tag>{status}</Tag> <time datetime={date.toISOString()}>{date.getUTCFullYear()}</time>
@@ -25,3 +26,7 @@ const { title, summary, status, tags, date, url } = entry.data;
   </PageHeader>
   <Content />
 </Base>
+
+<style>
+  .back { font-size: var(--text-sm); margin: 0 0 var(--space-3); }
+</style>
