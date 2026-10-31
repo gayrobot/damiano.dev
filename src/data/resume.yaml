@@ -39,7 +39,6 @@ experience:
           - "Risky changes are gated on a fresh, hash-verified, off-box gateway backup; the NAS pulls the gateway backup nightly, encrypts it to an offline key, and stores it under immutable snapshots"
           - "Git hooks and a CI job block commits that leak real hostnames or inventory; every MCP server is vetted and pinned before use"
       - name: damiano.dev
-        url: https://github.com/gayrobot/damiano.dev
         bullets:
           - "Building a personal site where an AI agent proposes every change as a pull request and I review and merge; the real project is the harness of checks, permissions, and policies that lets an agent change the site safely"
           - "Astro static site with a schema-validated resume, so bad data fails the build; branch protection on main; CI and deployment to Cloudflare Workers through GitHub Actions in progress"
