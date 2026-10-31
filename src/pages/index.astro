@@ -1,15 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
 <Base title="damiano.dev">
-  <h1>Hi, I'm Skylar.</h1>
-  <p>
-    This is where my applied-AI work, my IT and identity experience, and some
-    musings on working with AI will live.
-  </p>
+  <PageHeader
+    title="Hi, I'm Skylar."
+    lede="This is where my applied-AI work, my IT and identity experience, and some musings on working with AI will live."
+  />
   <p>
     The site itself is part of the project: an AI agent proposes changes as
     pull requests, and I review and merge them.
+  </p>
+  <p>
+    <a href="/projects">Projects</a> · <a href="/musings">Musings</a> · <a href="/resume">Resume</a>
   </p>
 </Base>
