@@ -87,7 +87,7 @@ Upload the real musings and projects. Content comes only from facts Skylar has c
 
 | Collection | What | Required fields (starting point) |
 |---|---|---|
-| `projects` | Write-ups of AI work | title, date, summary, status (`active` / `shipped` / `paused`), tags |
+| `projects` | Write-ups of AI work | title, date, summary, status (`active` / `shipped` / `paused`), tags. Optional: `url` (the live product), `featured` (shows on the home page) |
 | `musings` | Essays on working with AI | title, date, summary, `approved: true` (build fails without it) |
 | resume (data file) | Experience, certs, skills | role, company, dates, bullets |
 

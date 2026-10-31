@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import LiveLink from '../../components/LiveLink.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Tag from '../../components/Tag.astro';
 
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, status, tags, date } = entry.data;
+const { title, summary, status, tags, date, url } = entry.data;
 ---
 
 <Base title={`${title} · damiano.dev`} description={summary}>
@@ -20,6 +21,7 @@ const { title, summary, status, tags, date } = entry.data;
       <Tag>{status}</Tag> <time datetime={date.toISOString()}>{date.getUTCFullYear()}</time>
       {tags.length > 0 && <> · {tags.join(', ')}</>}
     </p>
+    {url && <p><LiveLink href={url} /></p>}
   </PageHeader>
   <Content />
 </Base>

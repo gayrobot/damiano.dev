@@ -30,7 +30,8 @@ Element defaults (headings, links, lists, code, quotes), the `.container` width 
 |---|---|
 | `Header`, `Footer` | Site chrome, included by `layouts/Base.astro`. The nav comes from `src/data/nav.ts` and marks the current page with `aria-current`. |
 | `PageHeader` | The page `h1`, an optional `lede`, and a slot for meta lines. One per page. |
-| `EntryList` | Card list for a collection: `items` of `{ href, title, summary, meta?, tags? }`, plus an empty-state message. |
+| `EntryList` | Card list for a collection: `items` of `{ href, title, summary, meta?, tags?, url? }`, plus an empty-state message. `url` adds a `LiveLink`. |
+| `LiveLink` | Button-style link to a live product, labeled "Visit" plus its domain. |
 | `Tag` | Small label for a status or tag. |
 
 Component styles are scoped to the component and use tokens.
