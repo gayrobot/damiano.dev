@@ -8,8 +8,8 @@ import '../styles/components.css';
 interface Props {
   title: string;
   description?: string;
-  /** 'reading' = one narrow column (lists, essays, resume). 'wide' = the Home tile grid. */
-  width?: 'reading' | 'wide';
+  /** 'reading' = one narrow column (resume). 'article' = wider column (Musings, Projects). 'wide' = the Home tile grid. */
+  width?: 'reading' | 'article' | 'wide';
 }
 
 const {
@@ -35,7 +35,7 @@ const {
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main">
-      <div class:list={['container', { 'container--wide': width === 'wide' }]}>
+      <div class:list={['container', { 'container--wide': width === 'wide', 'container--article': width === 'article' }]}>
         <slot />
       </div>
     </main>

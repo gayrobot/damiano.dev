@@ -19,14 +19,14 @@ Small, token-based, no framework. Plain CSS plus a few Astro components. Later s
 | Group | Tokens |
 |---|---|
 | Color | `--color-bg`, `-surface`, `-surface-hover`, `-text`, `-text-muted`, `-accent` (magenta), `-accent-hover`, `-on-accent`, `-gold`, `-on-gold`, `-label`, `-panel` (lavender), `-on-panel`, `-on-panel-muted`, `-rule`, `-rule-soft`, `-focus`, `-focus-on-panel`, `-tag-bg`, `-tag-text`, `-code-bg` |
-| Type | `--font-display`, `--font-mono`, `--font-sans`; `--text-xs` to `--text-2xl`, `--text-code`, `--text-print`, `--text-print-title`; `--leading-tight`, `--leading-body`, `--tracking-label` |
+| Type | `--font-display`, `--font-mono`, `--font-sans`; `--text-xs` to `--text-2xl`, `--text-headline` (Musings/Projects h1), `--text-code`, `--text-print`, `--text-print-title`; `--leading-tight`, `--leading-body`, `--tracking-label` |
 | Space | `--space-1` to `--space-24` on a 4px base |
-| Layout | `--measure` (reading width), `--page-max` (Home grid), `--radius`, `--radius-frame`, `--radius-round`, `--border-width`, `--rule-heavy`, `--print-margin` |
+| Layout | `--measure` (reading width), `--measure-article` (Musings/Projects width), `--page-max` (Home grid), `--radius`, `--radius-frame`, `--radius-round`, `--border-width`, `--rule-heavy`, `--print-margin` |
 | Motion | `--duration`, `--ease` (only inside `prefers-reduced-motion: no-preference`) |
 
 ## Styles
 
-- `src/styles/global.css`: element defaults, `.container` (and `.container--wide`), `.label` (mono marker), the skip link, print rules (`.no-print` hides an element on paper).
+- `src/styles/global.css`: element defaults, `.container` (and `.container--wide`, `.container--article`), `.label` (mono marker), the skip link, print rules (`.no-print` hides an element on paper).
 - `src/styles/components.css`: every component's styles, class-based, in one file. Components carry no `<style>` blocks. Useful classes for pages: `.prose` (reading column for Markdown), `.button` (gold) and `.button--accent` (magenta), `.back` (mono back link), `.resume`, and `.transcript` (a shared chat inside a musing: session lanes, `<details class="t-msg">` for expandable messages, `<mark class="t-edit">` for passages edited for sharing; see the comment in `components.css`).
 
 ## Components (`src/components/`)

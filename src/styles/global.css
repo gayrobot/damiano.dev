@@ -22,6 +22,8 @@ body {
   padding-inline: var(--space-4);
 }
 .container--wide { max-width: calc(var(--page-max) + 2 * var(--space-4)); }
+.container--article { max-width: calc(var(--measure-article) + 2 * var(--space-4)); }
+.container--article h1 { font-size: var(--text-headline); }
 
 main { flex: 1; padding-block: var(--space-12) var(--space-16); }
 
@@ -116,6 +118,6 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-rule); margin-
   .container, .container--wide { max-width: none; padding-inline: 0; }
   .site-header, .site-footer, .skip-link, .no-print { display: none; }
   a { color: var(--color-text); text-decoration: underline; }
-  h1 { font-size: var(--text-print-title); }
+  h1, .container--article h1 { font-size: var(--text-print-title); }
   h2, h3 { break-after: avoid; }
 }
