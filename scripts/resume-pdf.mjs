@@ -46,9 +46,9 @@ const contact = [r.location, r.email, ...r.certifications.map((c) => c.name)].fi
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>${esc(r.name)} Resume</title>
 <style>
-  @page { size: Letter; margin: 0.5in 0.6in; }
+  @page { size: Letter; margin: 0.4in 0.6in; }
   * { box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #1A1A1A; line-height: 1.2; margin: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #1A1A1A; line-height: 1.15; margin: 0; }
   p { margin: 0; }
   a { color: inherit; text-decoration: none; }
   h1 { font-size: 20pt; color: #1F4E79; text-align: center; margin: 0 0 2pt; letter-spacing: 0.5pt; text-transform: uppercase; }
