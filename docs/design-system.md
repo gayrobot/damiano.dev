@@ -47,7 +47,7 @@ Small, token-based, no framework. Plain CSS plus a few Astro components. Later s
 
 `layouts/Base.astro` loads the tokens, global and component CSS, preloads the display font, and adds the skip link, header, `main` and footer. `width="reading"` (default) is one narrow column; `width="wide"` is for the Home grid.
 
-The Home grid draws its lines with a 1px gap over `--color-rule`, so keep its rows full: the Spec tile spans the last row. Three columns, two under 52rem, one under 36rem.
+The Home grid draws its lines with a 1px gap over `--color-rule`, and every row is full: hero and SD tile, then one row of section tiles, then the Spec panel. The section row splits evenly for however many sections `nav.ts` has, and wraps (last line stretching to fill) when they don't fit. New Spec rows are just entries in the `spec` list in `src/pages/index.astro`. Three columns, two under 52rem (the SD tile goes full width), one under 36rem.
 
 ## Adding to the system
 
