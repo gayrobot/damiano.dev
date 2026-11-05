@@ -39,16 +39,18 @@ const spec = [
       <div>
         <h1>Hi, I'm Skylar.</h1>
         <p class="lede">
-          This is where my applied-AI work, my IT and identity experience, and some musings on working with AI will live.
+          This site is all about my IT administration career and how I navigate the new world of applied AI in IT.
         </p>
       </div>
     </div>
     <div class="tile tile--panel on-panel">
       <SdMark />
     </div>
-    {tiles.map((t) => (
-      <Tile href={t.href} label={t.number} title={t.label} shape={t.shape} />
-    ))}
+    <div class="tile-row">
+      {tiles.map((t) => (
+        <Tile href={t.href} label={t.number} title={t.label} shape={t.shape} />
+      ))}
+    </div>
     <Spec items={spec}>
       <p>
         The site itself is part of the project: an AI agent proposes changes as

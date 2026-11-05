@@ -95,8 +95,8 @@
 .tile-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  /* The 1px gap over a rule-colored background draws the grid lines. Keep rows
-     full (the Spec tile spans the last row) or empty cells show as rule color. */
+  /* The 1px gap over a rule-colored background draws the grid lines. Every row
+     is full: hero + panel, then .tile-row (any number of section tiles), then Spec. */
   gap: var(--border-width);
   background: var(--color-rule);
   border: var(--border-width) solid var(--color-rule);
@@ -115,6 +115,17 @@
   color: var(--color-text);
   text-decoration: none;
 }
+/* Section tiles share one full-width row and split it evenly, so adding a
+   section never leaves an empty cell. Too many to fit wrap, and the last
+   line's tiles grow to fill it. */
+.tile-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--border-width);
+  background: var(--color-rule);
+}
+.tile-row > .tile { flex: 1 1 12rem; }
 .tile--wide { grid-column: span 2; }
 .tile--full { grid-column: 1 / -1; }
 .tile--hero { min-height: 22rem; justify-content: flex-end; }
@@ -162,6 +173,7 @@ a.tile:hover .tile-title { color: var(--color-accent); }
   .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tile--wide { grid-column: span 2; }
   .tile--hero { min-height: 16rem; }
+  .tile--panel { grid-column: 1 / -1; }
 }
 @media (max-width: 36rem) {
   .tile-grid { grid-template-columns: minmax(0, 1fr); }
