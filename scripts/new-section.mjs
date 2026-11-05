@@ -91,8 +91,11 @@ const { title, summary } = entry.data;
 ---
 
 <Base title={\`\${title} · damiano.dev\`} description={summary}>
-  <PageHeader title={title} lede={summary} />
-  <Content />
+  <p class="back"><a href="/${name}">← All ${label.toLowerCase()}</a></p>
+  <PageHeader title={title} lede={summary} kicker="${label}" />
+  <div class="prose">
+    <Content />
+  </div>
 </Base>
 `);
 console.log(`Created section "${name}". Next: edit the schema in src/content.config.ts, then npm run build.`);

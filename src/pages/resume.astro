@@ -22,9 +22,9 @@ const isEmpty =
 ---
 
 <Base title="Resume · damiano.dev">
-  <PageHeader title={name} lede={headline}>
-    {location && <p class="meta">{location}</p>}
-    <p><a href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
+  <div class="resume">
+  <PageHeader title={name} lede={headline} kicker="Resume" meta={location}>
+    <p class="actions no-print"><a class="button" href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
   </PageHeader>
   {summary && <p>{summary}</p>}
 
@@ -34,7 +34,7 @@ const isEmpty =
     <section>
       <h2>Experience</h2>
       {jobs.map((job) => (
-        <article>
+        <article class="job">
           <h3>{job.role}, {job.company}</h3>
           <p class="meta">
             {job.location && <>{job.location} · </>}
@@ -106,9 +106,5 @@ const isEmpty =
       </dl>
     </section>
   )}
+  </div>
 </Base>
-
-<style>
-  .meta { color: var(--color-text-muted); font-size: var(--text-sm); }
-  article { margin-bottom: var(--space-8); }
-</style>

@@ -1,0 +1,21 @@
+---
+// The harness, shown as a spec sheet. Only list checks CI actually enforces,
+// so the panel stays proof rather than decoration. Intro text goes in the slot.
+interface Props {
+  label?: string;
+  items: { term: string; value: string }[];
+}
+const { label = 'Spec', items } = Astro.props;
+---
+
+<section class:list={['spec', 'tile', 'tile--full']} aria-labelledby="spec-title">
+  <div>
+    <h2 id="spec-title" class="label">{label}</h2>
+    <slot />
+    <dl>
+      {items.map((i) => (
+        <div class="row"><dt>{i.term}</dt><dd>{i.value}</dd></div>
+      ))}
+    </dl>
+  </div>
+</section>

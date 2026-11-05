@@ -62,7 +62,15 @@ jobs:
         run: npm run check
       - name: Build
         if: steps.changes.outputs.site == 'true'
-        run: npm run build
+        # The footer's build stamp (src/components/BuildStamp.astro) reads these.
+        # On a PR, github.sha is a temporary merge commit, so stamp the PR head.
+        run: |
+          export PUBLIC_COMMIT="${COMMIT:0:7}"
+          export PUBLIC_BUILD_DATE="$(date -u +%Y-%m-%d)"
+          npm run build
+        env:
+          COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          PUBLIC_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: steps.changes.outputs.site == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:

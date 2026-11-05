@@ -1,15 +1,10 @@
+---
+import BuildStamp from './BuildStamp.astro';
+---
+
 <footer class="site-footer">
-  <div class="container">
+  <div class="container container--wide cells">
     <p>Built with Astro on Cloudflare.</p>
+    <BuildStamp />
   </div>
 </footer>
-
-<style>
-  .site-footer {
-    border-top: var(--border-width) solid var(--color-border);
-    padding-block: var(--space-6);
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-  }
-  p { margin: 0; }
-</style>

@@ -1,0 +1,7 @@
+---
+// The SD mark, inlined so it takes no request and follows text color.
+// S is two half-discs of radius r; D is one half-disc of radius 2r.
+import mark from '../assets/sd-mark.svg?raw';
+---
+
+<Fragment set:html={mark.replace('<svg ', '<svg class="sd-mark" aria-hidden="true" focusable="false" ')} />

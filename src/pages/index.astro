@@ -2,42 +2,65 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import EntryList from '../components/EntryList.astro';
-import PageHeader from '../components/PageHeader.astro';
+import SdMark from '../components/SdMark.astro';
+import Spec from '../components/Spec.astro';
+import Tile from '../components/Tile.astro';
+import { nav } from '../data/nav';
 
 const featured = (await getCollection('projects', (p) => p.data.featured)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const items = featured.map((p) => ({
   href: `/projects/${p.id}`,
   title: p.data.title,
   summary: p.data.summary,
-  meta: `Featured project · ${p.data.status} · ${p.data.date.getUTCFullYear()}`,
+  meta: `${p.data.status} · ${p.data.date.getUTCFullYear()}`,
 }));
+
+// One tile per section, numbered to match its place in the nav.
+const shapes = ['circle', 'triangle', 'square'] as const;
+const tiles = nav
+  .map((item, i) => ({ ...item, number: String(i + 1).padStart(2, '0') }))
+  .filter((item) => item.href !== '/')
+  .map((item, i) => ({ ...item, shape: shapes[i % shapes.length] }));
+
+// Only what CI and branch protection actually enforce.
+const spec = [
+  { term: 'Every change', value: 'Pull request' },
+  { term: 'Type check and build', value: 'Required' },
+  { term: 'Privacy gate', value: 'Required' },
+  { term: 'Lighthouse accessibility', value: '100' },
+  { term: 'Lighthouse performance, best practices, SEO', value: '90+' },
+  { term: 'Hosting', value: 'Static, Cloudflare Workers' },
+];
 ---
 
-<Base title="damiano.dev">
-  <PageHeader
-    title="Hi, I'm Skylar."
-    lede="This is where my applied-AI work, my IT and identity experience, and some musings on working with AI will live."
-  />
-  <p>
-    The site itself is part of the project: an AI agent proposes changes as
-    pull requests, and I review and merge them.
-  </p>
-  <p class="note">
-    This site is a work in progress. Right now I'm working on the human side of the
-    design system: finding the creative inspiration for how it should look and feel.
-  </p>
-  {items.length > 0 && <EntryList items={items} />}
-  <p>
-    <a href="/projects">Projects</a> · <a href="/musings">Musings</a> · <a href="/resume">Resume</a>
-  </p>
-</Base>
+<Base title="damiano.dev" width="wide">
+  <div class="tile-grid">
+    <div class="tile tile--wide tile--hero">
+      <div>
+        <h1>Hi, I'm Skylar.</h1>
+        <p class="lede">
+          This is where my applied-AI work, my IT and identity experience, and some musings on working with AI will live.
+        </p>
+      </div>
+    </div>
+    <div class="tile tile--panel on-panel">
+      <SdMark />
+    </div>
+    {tiles.map((t) => (
+      <Tile href={t.href} label={t.number} title={t.label} shape={t.shape} />
+    ))}
+    <Spec items={spec}>
+      <p>
+        The site itself is part of the project: an AI agent proposes changes as
+        pull requests, and I review and merge them.
+      </p>
+    </Spec>
+  </div>
 
-<style>
-  .note {
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-surface);
-    border: var(--border-width) solid var(--color-border);
-    border-left: 3px solid var(--color-accent);
-    border-radius: var(--radius);
-  }
-</style>
+  {items.length > 0 && (
+    <section class="featured" aria-labelledby="featured-title">
+      <h2 id="featured-title" class="label">Featured</h2>
+      <EntryList items={items} />
+    </section>
+  )}
+</Base>
