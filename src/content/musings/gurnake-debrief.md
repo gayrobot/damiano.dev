@@ -13,8 +13,8 @@ Then it handed me test instructions with a typo it had written itself:
 
 > **~~Gurnake~~ → Gurnee.** Better still: leave the town out.
 
-Small mistake. But tracing it taught me more about working with AI than most
-of what went right that day.
+Small mistake. But tracing it taught me the most important thing about working
+with AI: read what it gives you.
 
 ## What happened
 
@@ -77,6 +77,13 @@ mentioned the problem" as the job done. That gap matters more when the stakes
 are bigger: a flaky test, a leaked detail in a commit.
 
 ## What I took from it
+
+The number one thing: read your LLM's output. Not doing it is how small
+mistakes become big ones, and it makes you complacent. Claude flagged this
+typo in plain sight, and it still would have gone out if I'd pasted the blurb
+without reading it.
+
+The rest:
 
 - **Check rare names, numbers and links.** Small towns, ride names, version
   numbers and URLs are where models slip most. Verify them against a source.
