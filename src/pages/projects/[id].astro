@@ -15,7 +15,7 @@ const { Content } = await render(entry);
 const { title, summary, status, tags, date, url } = entry.data;
 ---
 
-<Base title={`${title} · damiano.dev`} description={summary}>
+<Base title={`${title} · damiano.dev`} description={summary} width="article">
   <p class="back"><a href="/projects">← All projects</a></p>
   <PageHeader title={title} lede={summary} kicker="Project">
     <p class="details">

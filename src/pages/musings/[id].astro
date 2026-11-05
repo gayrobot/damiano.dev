@@ -13,7 +13,7 @@ const { Content } = await render(entry);
 const { title, summary, date } = entry.data;
 ---
 
-<Base title={`${title} · damiano.dev`} description={summary}>
+<Base title={`${title} · damiano.dev`} description={summary} width="article">
   <p class="back"><a href="/musings">← All musings</a></p>
   <PageHeader title={title} lede={summary} kicker="Musing">
     <p class="details"><time datetime={date.toISOString()}>{date.getUTCFullYear()}</time></p>
