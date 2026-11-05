@@ -1,0 +1,21 @@
+---
+// One cell of the Home grid. A link tile to a section, with a decorative shape.
+// Add a section to nav and a Tile here; the grid reflows.
+interface Props {
+  href: string;
+  label: string;
+  title: string;
+  shape?: 'circle' | 'square' | 'triangle';
+  wide?: boolean;
+}
+const { href, label, title, shape = 'square', wide = false } = Astro.props;
+---
+
+<a class:list={['tile', { 'tile--wide': wide }]} href={href}>
+  <span class={`shape shape--${shape}`} aria-hidden="true"></span>
+  <span>
+    <span class="label">{label}</span>
+    <span class="tile-title">{title}</span>
+  </span>
+  <span class="arrow" aria-hidden="true">→</span>
+</a>

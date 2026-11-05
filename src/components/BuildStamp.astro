@@ -1,0 +1,18 @@
+---
+// Proof, not decoration: which commit this page was built from.
+// Reads build-time env vars; if none are set it renders nothing, so it never shows invented data.
+//   PUBLIC_COMMIT      short commit hash (CI: git rev-parse --short HEAD)
+//   PUBLIC_BUILD_DATE  ISO date, e.g. 2026-11-05
+//   PUBLIC_REPO_URL    repository URL, used to link the commit
+const commit = import.meta.env.PUBLIC_COMMIT as string | undefined;
+const date = import.meta.env.PUBLIC_BUILD_DATE as string | undefined;
+const repo = import.meta.env.PUBLIC_REPO_URL as string | undefined;
+---
+
+{commit && (
+  <p class="build-stamp">
+    build{' '}
+    {repo ? <a href={`${repo}/commit/${commit}`}>{commit}</a> : <span>{commit}</span>}
+    {date && <> · <time datetime={date}>{date}</time></>}
+  </p>
+)}

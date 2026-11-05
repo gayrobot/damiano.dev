@@ -1,32 +1,122 @@
 /* Design tokens: the only place raw colors, sizes and spacing are defined.
-   Everything else uses var(--token). See docs/design-system.md. */
-:root {
-  color-scheme: light dark;
+   Everything else uses var(--token). Direction: "Spec Sheet" (revision 3: ruled grid, gentle rounding).
+   Dark is the primary look and the default; light applies when the visitor's
+   system asks for it. [data-theme] overrides both (used by the design canvas
+   and available for a future toggle). A print block at the bottom swaps the
+   palette for paper. */
 
-  /* Color: light. Text and background pairs meet WCAG AA (most meet AAA). */
-  --color-bg: #faf8f4;
+/* Self-hosted display face: Alfa Slab One, Latin subset, ~19 KB WOFF2, SIL OFL.
+   Used for the wordmark and h1 only. Preload it in Base.astro. */
+@font-face {
+  font-family: 'Alfa Slab One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/alfa-slab-one-latin-400-normal.woff2') format('woff2');
+}
+
+:root,
+:root[data-theme='dark'],
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Color: dark (primary). Pairs are checked in docs/design-spec-sheet/DESIGN.md. */
+  --color-bg: #0b0912;
+  --color-surface: #15111f;
+  --color-text: #f3f0fa;
+  --color-text-muted: #b4adc6;
+  --color-accent: #ff4db8;          /* magenta: links, hot marks, text on dark */
+  --color-accent-hover: #ff8dd2;
+  --color-on-accent: #0b0912;       /* text on a magenta fill */
+  --color-gold: #f2c14e;            /* rules, fills, focus */
+  --color-label: #f2c14e;           /* mono section labels (gold on dark) */
+  --color-on-gold: #0b0912;         /* text on a gold fill */
+  --color-panel: #c4b2ff;           /* soft lavender fill; ink text on top */
+  --color-on-panel: #14101c;
+  --color-on-panel-muted: #3d3361;
+  --color-rule: #f2c14e;            /* hairlines and grid lines */
+  --color-rule-soft: #3b3350;       /* quiet dividers inside long text */
+  --color-focus: #f2c14e;
+  --color-focus-on-panel: #14101c;
+  --color-surface-hover: #1f1830;
+  --color-tag-bg: #241c38;
+  --color-tag-text: #f3f0fa;
+  --color-code-bg: #15111f;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --color-bg: #f6f2ea;
+    --color-surface: #ffffff;
+    --color-text: #14101c;
+    --color-text-muted: #51495f;
+    --color-accent: #b0006c;        /* deep magenta: text-safe on paper */
+    --color-accent-hover: #80004f;
+    --color-on-accent: #ffffff;
+    --color-gold: #f2c14e;          /* fill only in light; never text */
+    --color-label: #5b2bd1;         /* violet labels on paper */
+    --color-on-gold: #14101c;
+    --color-panel: #c4b2ff;           /* soft lavender fill; ink text on top */
+    --color-on-panel: #14101c;
+    --color-on-panel-muted: #3d3361;
+    --color-rule: #14101c;
+    --color-rule-soft: #cfc7b8;
+    --color-focus: #5b2bd1;
+    --color-focus-on-panel: #14101c;
+    --color-surface-hover: #efe9db;
+  --color-tag-bg: #ebe4d3;
+    --color-tag-text: #14101c;
+    --color-code-bg: #ffffff;
+  }
+}
+
+:root[data-theme='light'],
+[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f6f2ea;
   --color-surface: #ffffff;
-  --color-text: #1c1b1a;
-  --color-text-muted: #55514b;
-  --color-border: #ddd8cf;
-  --color-accent: #0b5cad;
-  --color-accent-hover: #084a8c;
-  --color-accent-contrast: #ffffff;
-  --color-focus: #0b5cad;
-  --color-tag-bg: #ece7dd;
+  --color-text: #14101c;
+  --color-text-muted: #51495f;
+  --color-accent: #b0006c;
+  --color-accent-hover: #80004f;
+  --color-on-accent: #ffffff;
+  --color-gold: #f2c14e;
+  --color-label: #5b2bd1;         /* violet labels on paper */
+  --color-on-gold: #14101c;
+  --color-panel: #c4b2ff;           /* soft lavender fill; ink text on top */
+  --color-on-panel: #14101c;
+  --color-on-panel-muted: #3d3361;
+  --color-rule: #14101c;
+  --color-rule-soft: #cfc7b8;
+  --color-focus: #5b2bd1;
+  --color-focus-on-panel: #14101c;
+  --color-surface-hover: #efe9db;
+  --color-tag-bg: #ebe4d3;
+  --color-tag-text: #14101c;
+  --color-code-bg: #ffffff;
+}
 
-  /* Type */
+:root {
+  /* Type. Display: Alfa Slab One (self-hosted). Labels and meta: Andale Mono
+     where installed (macOS, many Windows machines), else the system mono.
+     Reading text: system sans, no download. */
+  --font-display: 'Alfa Slab One', Rockwell, 'Roboto Slab', Georgia, serif;
+  --font-mono: 'Andale Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: ui-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
+  --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1.0625rem;
   --text-lg: 1.25rem;
   --text-xl: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
-  --text-2xl: clamp(2rem, 1.5rem + 2.4vw, 3rem);
-  --leading-tight: 1.2;
+  --text-2xl: clamp(2.25rem, 1.4rem + 4vw, 4.5rem);
+  --text-code: 0.92em;
+  --text-print: 10.5pt;
+  --text-print-title: 24pt;
+  --leading-tight: 1.1;
   --leading-body: 1.65;
+  --tracking-label: 0.08em;
 
   /* Space (4px base) */
   --space-1: 0.25rem;
@@ -37,24 +127,41 @@
   --space-8: 2rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-24: 6rem;
 
-  /* Layout and shape */
+  /* Layout and shape: square corners, hairline and heavy rules */
   --measure: 42rem;
+  --page-max: 72rem;
   --radius: 0.5rem;
+  --radius-frame: 1rem;
+  --radius-round: 50%;
   --border-width: 1px;
+  --rule-heavy: 2px;
+  --print-margin: 0.6in;
+
+  /* Motion: color and transform only, 120ms. Disabled for reduced motion. */
+  --duration: 120ms;
+  --ease: ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #151515;
-    --color-surface: #1e1e1d;
-    --color-text: #ece9e3;
-    --color-text-muted: #b3aea5;
-    --color-border: #3a3834;
-    --color-accent: #7ab8f5;
-    --color-accent-hover: #a5d0fa;
-    --color-accent-contrast: #151515;
-    --color-focus: #7ab8f5;
-    --color-tag-bg: #2b2a27;
+@media print {
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'],
+  [data-theme='print'] {
+    color-scheme: light;
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-text: #000000;
+    --color-text-muted: #333333;
+    --color-accent: #000000;
+    --color-accent-hover: #000000;
+    --color-gold: #000000;
+    --color-label: #000000;
+    --color-rule: #000000;
+    --color-rule-soft: #999999;
+    --color-tag-bg: #ffffff;
+    --color-tag-text: #000000;
+    --color-code-bg: #ffffff;
   }
 }

@@ -14,8 +14,11 @@ const { title, summary, date } = entry.data;
 ---
 
 <Base title={`${title} · damiano.dev`} description={summary}>
-  <PageHeader title={title} lede={summary}>
-    <p class="meta"><time datetime={date.toISOString()}>{date.getUTCFullYear()}</time></p>
+  <p class="back"><a href="/musings">← All musings</a></p>
+  <PageHeader title={title} lede={summary} kicker="Musing">
+    <p class="details"><time datetime={date.toISOString()}>{date.getUTCFullYear()}</time></p>
   </PageHeader>
-  <Content />
+  <div class="prose">
+    <Content />
+  </div>
 </Base>

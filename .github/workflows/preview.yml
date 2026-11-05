@@ -48,7 +48,13 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Build
-        run: npm run build
+        run: |
+          export PUBLIC_COMMIT="${HEAD_SHA:0:7}"
+          export PUBLIC_BUILD_DATE="$(date -u +%Y-%m-%d)"
+          npm run build
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUBLIC_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
       - name: Upload preview version
         run: npx wrangler versions upload --preview-alias "pr-${PR_NUMBER}" --message "PR ${PR_NUMBER} ${HEAD_SHA}"
         env:

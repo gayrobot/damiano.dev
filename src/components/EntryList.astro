@@ -1,46 +1,36 @@
 ---
-// A list of linked entries (projects, musings, any new section). Each item is a
-// card: a short teaser, with the details left to the entry's own page.
-// `meta` is shown as small muted text. The whole card links to `href`, and `more`
-// starts the visible label at the bottom of it, e.g. "More about ride-waits".
+// A numbered index of linked entries (projects, musings, any new section).
+// The number is a CSS counter, so new entries renumber themselves. Whole row is the link.
+// `meta` renders as mono text; `tags` render as Tag components.
+import Tag from './Tag.astro';
 interface Item {
   href: string;
   title: string;
   summary: string;
   meta?: string;
+  tags?: string[];
 }
 interface Props {
   items: Item[];
   empty?: string;
-  more?: string;
 }
-const { items, empty = 'Coming soon.', more = 'More about' } = Astro.props;
+const { items, empty = 'Coming soon.' } = Astro.props;
 ---
 
-{items.length === 0 && <p>{empty}</p>}
+{items.length === 0 && <p class="entry-empty">{empty}</p>}
 {items.length > 0 && (
   <ul class="entry-list">
     {items.map((item) => (
       <li>
-        <h2><a href={item.href}>{item.title}</a></h2>
-        {item.meta && <p class="meta">{item.meta}</p>}
-        <p>{item.summary}</p>
-        {/* Screen readers already get the title link, so the label is hidden from them. */}
-        <p class="more" aria-hidden="true">{more} {item.title} →</p>
+        <a class="entry" href={item.href}>
+          <h2>{item.title}</h2>
+          {item.meta && <p class="meta">{item.meta}</p>}
+          <p class="summary">{item.summary}</p>
+          {item.tags && item.tags.length > 0 && (
+            <p class="tags">{item.tags.map((t) => <Tag>{t}</Tag>)}</p>
+          )}
+        </a>
       </li>
     ))}
   </ul>
 )}
-
-<style>
-  .entry-list { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
-  li { position: relative; background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius); padding: var(--space-4) var(--space-6); margin: 0; }
-  li + li { margin-top: 0; }
-  li:hover { border-color: var(--color-accent); }
-  h2 { font-size: var(--text-lg); margin: 0 0 var(--space-1); }
-  /* Stretches the title link over the whole card. */
-  h2 a::after { content: ''; position: absolute; inset: 0; }
-  p { margin: 0 0 var(--space-2); }
-  .meta { color: var(--color-text-muted); font-size: var(--text-sm); }
-  .more { color: var(--color-accent); font-size: var(--text-sm); font-weight: 600; margin: var(--space-3) 0 0; }
-</style>

@@ -1,19 +1,20 @@
 ---
 // Page title block. Use once per page; it renders the page's h1.
+// `kicker` is the section name in a mono label above the title (e.g. "Musings").
+// `meta` is a mono line below it (date, status). Extra content goes in the slot.
 interface Props {
   title: string;
   lede?: string;
+  kicker?: string;
+  meta?: string;
 }
-const { title, lede } = Astro.props;
+const { title, lede, kicker, meta } = Astro.props;
 ---
 
 <div class="page-header">
+  {kicker && <span class="label kicker">{kicker}</span>}
   <h1>{title}</h1>
   {lede && <p class="lede">{lede}</p>}
+  {meta && <p class="label meta">{meta}</p>}
   <slot />
 </div>
-
-<style>
-  .page-header { margin-bottom: var(--space-8); }
-  .lede { font-size: var(--text-lg); color: var(--color-text-muted); margin-bottom: 0; }
-</style>

@@ -80,6 +80,8 @@ Build and apply a design system to the whole site, in its own session. The harne
 
 Recorded in `docs/design-system.md`: tokens in `src/styles/tokens.css`, global styles, and components in `src/components/`. The new-section scaffold uses them.
 
+Revised 2026-11-05: Skylar picked the "Spec Sheet" direction from a design-tool round (dark default, magenta, gold and lavender, Alfa Slab One for display, a ruled tile grid on Home). The hand-off is in `docs/design-spec-sheet/DESIGN.md`; component styles moved into `src/styles/components.css`.
+
 ## Milestone 4 — publish content
 
 Upload the real musings and projects. Content comes only from facts Skylar has confirmed. Musings are drafted in the drafts repo and promoted only after Skylar approves. First candidates are listed under the content model.
