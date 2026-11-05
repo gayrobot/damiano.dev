@@ -13,8 +13,8 @@ controls deciding what that agent is allowed to do. It's built around a UniFi
 gateway and a Synology NAS, which the agent reaches through MCP servers. The
 repo is public and public domain, so anyone can copy the setup.
 
-The interesting part isn't the network. It's the question I spend my day job
-on, pointed at an agent: what access should a non-human identity have, who
+The interesting part isn't the network. It's the identity question, pointed at
+an agent: what access should a non-human identity have, who
 approves it, and how do you prove what it did afterwards?
 
 ## How changes are governed
@@ -22,7 +22,7 @@ approves it, and how do you prove what it did afterwards?
 Everything the agent does falls into one of four tiers, based on how much
 damage it could do and how easy it is to undo.
 
-- **Tier 0, read:** inventory, health checks, listing config. I do nothing.
+- **Tier 0, read:** inventory, health checks, listing config. No action from me.
 - **Tier 1, small and reversible:** rename a device, add a DHCP reservation,
   restart one device. I click Allow on the call.
 - **Tier 2, can break things:** firewall, VLANs, Wi-Fi, routing, NAS share
@@ -60,7 +60,7 @@ whichever agent runs the repo, not only Claude Code.
 
 ## What changed along the way
 
-- **A skipped check became a rule.** Early on, the agent closed two port
+- **A skipped check became a rule.** Early on, the agent disabled two port
   forwards it believed nothing used. It skipped the step that asked whether
   anything still did, and something did. We rolled it back the same day. Now
   every proposal lists its checks, and a skipped check means no write unless I
