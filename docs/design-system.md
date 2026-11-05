@@ -27,7 +27,7 @@ Small, token-based, no framework. Plain CSS plus a few Astro components. Later s
 ## Styles
 
 - `src/styles/global.css`: element defaults, `.container` (and `.container--wide`), `.label` (mono marker), the skip link, print rules (`.no-print` hides an element on paper).
-- `src/styles/components.css`: every component's styles, class-based, in one file. Components carry no `<style>` blocks. Useful classes for pages: `.prose` (reading column for Markdown), `.button` (gold) and `.button--accent` (magenta), `.back` (mono back link), `.resume`.
+- `src/styles/components.css`: every component's styles, class-based, in one file. Components carry no `<style>` blocks. Useful classes for pages: `.prose` (reading column for Markdown), `.button` (gold) and `.button--accent` (magenta), `.back` (mono back link), `.resume`, and `.transcript` (a shared chat inside a musing: session lanes, `<details class="t-msg">` for expandable messages, `<mark class="t-edit">` for passages edited for sharing; see the comment in `components.css`).
 
 ## Components (`src/components/`)
 
