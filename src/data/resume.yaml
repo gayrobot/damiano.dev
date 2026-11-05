@@ -3,7 +3,7 @@
 # The PDF at public/downloads/Skylar_Damiano_Resume.pdf is generated from this file:
 # run `npm run resume:pdf` after editing.
 #
-# A job uses either `bullets` (a flat list) or `sections` (headed groups), not both.
+# A job uses either `bullets` (a flat list) or `sections` (headed groups), not both; a job can also have only `projects`.
 # `projects` (name, optional url, bullets) is optional and shows after a job's bullets.
 # Dates are YYYY-MM; `end` can also be `present`.
 
@@ -26,22 +26,29 @@ experience:
     location: Chicago, IL
     start: 2025-01
     end: present
-    bullets:
-      - "Ran a 50+ client Ubiquiti UniFi network (UDM Pro, 8 access points, switching) as an AI-assisted operations lab: Claude Code ran a read-only audit, then applied approved changes that put all APs on non-overlapping 2.4 GHz channels at lower power"
-      - "Replaced the ISP gateway with an XGS-PON SFP+ ONT, removing double NAT; set up dual-WAN failover, IPv6 prefix delegation, and firewall and VPN configuration; fixed a DHCP issue that was handing out retired DNS servers"
-      - "Set up MCP servers for Home Assistant, Synology NAS, UniFi, and HomeKit, moving credentials from plaintext JSON into the macOS Keychain; ran Home Assistant in Docker"
-      - "Wrote reusable Claude skills (a Python audio sample-pack builder and a playlist automation tool) and CLAUDE.md guardrails; ran agents under change control with backups, dry runs, and change logs"
     projects:
       - name: netstack
         url: https://github.com/gayrobot/netstack
         bullets:
-          - "Built a public, reusable framework for running a home network with an AI agent under governance: read-only by default, writes only through separate connections where every call is approved, and every change logged in git with diff, rollback, and verification"
-          - "Risky changes are gated on a fresh, hash-verified, off-box gateway backup; the NAS pulls the gateway backup nightly, encrypts it to an offline key, and stores it under immutable snapshots"
-          - "Git hooks and a CI job block commits that leak real hostnames or inventory; every MCP server is vetted and pinned before use"
+          - "Designed and run a governed change process for an AI agent that manages my home network (gateway, NAS, and VM host through MCP servers): separate read and write accounts, owner approval on every write, a four-tier risk model, change windows that refuse to open without a fresh verified backup, and a git log of every proposal; automated nightly encrypted backups with verified restores"
+          - "Shipped first-party Python tools built with Claude Code (stdlib MCP servers, a tool that rotates 1Password service-account tokens into the macOS Keychain, a write gate for agent connections), each with offline unit tests that run in CI on GitHub Actions; vetted and pinned every third-party MCP server before use"
+      - name: ridewaits.com
+        url: https://ridewaits.com
+        bullets:
+          - "Built and run ridewaits.com, a live site that serves theme park wait times to AI agents: a TypeScript Cloudflare Worker with a markdown version of every page, zod-validated upstream data, and auto-deploy through CI; an agent-as-user eval checks that assistants answer correctly from the deployed site"
+          - "Set the repo up for agents to build with little supervision (harness engineering): a feature list agents can only mark passing with evidence, per-session handoff logs, hooks that block on failing typecheck, lint, or tests, a custom lint rule enforcing architecture layers, an independent reviewer agent, and a privacy scan in CI"
       - name: damiano.dev
         bullets:
           - "Building a personal site where an AI agent proposes every change as a pull request and I review and merge; the real project is the harness of checks, permissions, and policies that lets an agent change the site safely"
-          - "Astro static site with a schema-validated resume, so bad data fails the build; branch protection on main; CI and deployment to Cloudflare Workers through GitHub Actions in progress"
+          - "Astro static site with a schema-validated resume, so bad data fails the build; branch protection on main; GitHub Actions deploys every merge to Cloudflare Workers, posts a preview URL on each PR, and runs link, Lighthouse, content-lint, and privacy checks"
+
+  - role: Professional DJ
+    company: heroic.versRADIO LLC
+    start: 2025-01
+    end: present
+    bullets:
+      - "Headlined the Saturday night rave at Anime Central 2026 and kicked off the world tour for Japanese artist kors k's 25th anniversary"
+      - "Ran a monthly party at a local club and created a streaming channel"
 
   - role: Staff Systems Administrator
     company: NerdWallet
@@ -70,7 +77,7 @@ experience:
     start: 2018-06
     end: 2020-04
     bullets:
-      - "Implemented Okta and Google Workspace identity for a 560+ person company, owning SSO, MFA, provisioning, and SOC 2 control evidence as the primary IT owner"
+      - "Rolled out Okta and Google Workspace identity to a 560+ person company as the primary IT owner, using automation to get 95% of employees enrolled within 5 business days; owned SSO, MFA, provisioning, and SOC 2 control evidence"
       - "Built production Zapier automation that onboarded devices from the company CRM; featured in a Zapier customer article"
       - "Managed IT asset inventory and hardware lifecycle for the office and remote staff; administered Proofpoint email security"
       - "Supported office network equipment, including Cisco Meraki, and shared-space technology for a growing Chicago office; managed Chrome Enterprise and Jamf Pro"
@@ -107,7 +114,7 @@ certifications:
 
 skills:
   - group: "Automation & IaC"
-    items: [Okta Workflows, Workday API, REST APIs and webhooks, Bash/zsh, PowerShell, Python (developing), Terraform (AWS), Zapier, Git/GitHub, Docker (Home Assistant)]
+    items: [Okta Workflows, Workday API, REST APIs and webhooks, Bash/zsh, PowerShell, Python and TypeScript (built with Claude Code), Terraform (AWS), Zapier, Git/GitHub, Docker (Home Assistant)]
   - group: "Identity & SaaS"
     items: ["Okta (Certified Administrator; SSO, SCIM, Workflows)", Entra ID/AD, Microsoft 365, Google Workspace, "Atlassian (Jira, Confluence, JSM)", Slack, Zoom, SAML, OIDC, FIDO2/WebAuthn, conditional access, privileged access management, 1Password, SPF/DKIM/DMARC, license and vendor management]
   - group: "AI & Agents"

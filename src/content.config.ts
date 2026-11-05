@@ -17,7 +17,8 @@ const project = z
   })
   .strict();
 
-// A job has either a flat list of bullets or headed groups of them, not both.
+// A job has either a flat list of bullets or headed groups of them, not both,
+// or only projects (e.g. the sabbatical, where the projects are the work).
 const job = z
   .object({
     role: z.string().min(1),
@@ -33,8 +34,8 @@ const job = z
     projects: z.array(project).min(1).optional(),
   })
   .strict()
-  .refine((j) => (j.bullets === undefined) !== (j.sections === undefined), {
-    message: 'use either bullets or sections',
+  .refine((j) => !(j.bullets && j.sections) && (j.bullets || j.sections || j.projects), {
+    message: 'use either bullets or sections (or only projects), not both',
     path: ['bullets'],
   })
   .refine((j) => j.end === 'present' || j.end >= j.start, {
