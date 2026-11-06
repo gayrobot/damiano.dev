@@ -5,7 +5,7 @@ summary: The site for my DJ work, built by Claude Code. Agents update it by edit
 status: active
 tags: [ai-agents, claude-code, harness-engineering, cloudflare-workers, astro]
 url: https://hvrad.io
-featured: false
+featured: true
 ---
 
 [hvrad.io](https://hvrad.io) is the site for heroic.vers, my DJ name, and
