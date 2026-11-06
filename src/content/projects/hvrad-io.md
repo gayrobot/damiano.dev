@@ -50,24 +50,8 @@ machine, in an agent's session and in CI:
 The agent rules also cover things a check can't: unknown facts get left out,
 never guessed, and Japanese copy is never machine translated.
 
-## The GitHub Free problem
-
-The repo is private, and I'm on GitHub Free. That means no protected branches
-and no required checks, so nothing on GitHub's side stops a push straight to
-`main`.
-
-So the deploy job checks where each commit came from. Before it ships, it looks
-at every commit since the last successful deploy and asks GitHub which merged
-PR it came from. If a commit didn't come through a merged PR, nothing ships and
-the job opens an issue. Agent tokens can't edit the workflows, and they can't
-write the deploy history the check reads.
-
 ## What changed along the way
 
-- **Dropped the login on previews.** The plan put every preview behind
-  Cloudflare Access, which needs a separate sign-up. I skipped it. Previews are
-  public, but they're marked PREVIEW and tell search engines not to index
-  them.
 - **A dependency update broke `main`.** I merged a Dependabot bump to a new
   major version of ESLint, and a plugin the lint step needs didn't support it
   yet. ESLint is now pinned, and Dependabot skips its major versions.
@@ -84,5 +68,3 @@ write the deploy history the check reads.
 - **A press kit.** Bios, photos, logos and featured mixes, as a page and a PDF.
 - **Auto-merge for small content PRs.** It's built but off until I trust the
   content checks.
-- **The drill.** I haven't yet pushed a test commit straight to `main` to
-  prove the deploy refuses it.
