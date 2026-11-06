@@ -18,14 +18,14 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "astro": "7.4.4",
+    "astro": "7.4.5",
     "yaml": "2.9.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
-    "@lhci/cli": "0.15.1",
+    "@lhci/cli": "0.16.0",
     "@types/node": "24.19.2",
     "typescript": "6.0.3",
-    "wrangler": "4.155.0"
+    "wrangler": "4.157.0"
   }
 }
