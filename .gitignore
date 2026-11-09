@@ -10,6 +10,10 @@ npm-debug.log*
 .env
 .env.*
 
+# local agent files (can hold approved commands; never commit)
+.claude/settings.local.json
+GEMINI.md
+
 # macOS
 .DS_Store
 .wrangler/
