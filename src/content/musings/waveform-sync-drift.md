@@ -92,7 +92,8 @@ Putting this one on the Pi was even easier: one web file copied over and the
 screen reloaded. No services restarted, and the recording wasn't touched.
 Claude checked that the Pi had exactly the old version first, so it was a
 clean swap, then reloaded the page and measured again with both decks
-playing at 124 BPM.
+playing at 124 BPM. This time I watched the monitor, and the two waveforms
+stayed lined up.
 
 ## The questions I made sure to ask
 
@@ -112,7 +113,8 @@ would have been worse than the bug. The screen is only useful if it's honest.
 
 ## Then GitHub
 
-Only after both fixes had been running on the Pi did we commit. Three
+Only after both fixes were running on the Pi, and I'd seen the result on the
+monitor, did we commit. Three
 commits, one for each part: the waveform drawing, the position updates, and
 the hardware notes. Then a pull request, and I merged it.
 
