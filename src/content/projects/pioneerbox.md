@@ -3,6 +3,7 @@ title: PioneerBox
 date: 2026-11-10
 summary: A Raspberry Pi for the DJ booth that records the set with a real tracklist and shows what's playing. Built by Claude Code in an unattended loop.
 status: active
+featured: true
 tags: [ai-agents, claude-code, harness-engineering, raspberry-pi, dj-tools]
 ---
 

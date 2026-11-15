@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Monogram from '../components/Monogram.astro';
 
 const entry = await getEntry('resume', 'resume');
 if (!entry) {
@@ -23,6 +24,7 @@ const isEmpty =
 
 <Base title="Resume · damiano.dev">
   <div class="resume">
+  <Monogram class="watermark" />
   <PageHeader title={name} lede={headline} kicker="Resume" meta={location}>
     <p class="actions no-print"><a class="button" href="/downloads/Skylar_Damiano_Resume.pdf">Download PDF</a></p>
   </PageHeader>
@@ -76,7 +78,7 @@ const isEmpty =
       <h2>Education</h2>
       <ul>
         {education.map((d) => (
-          <li>{d.degree}, {d.school}</li>
+          <li>{d.degree}, <span class="school">{d.school}</span></li>
         ))}
       </ul>
     </section>

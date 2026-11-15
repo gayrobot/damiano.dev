@@ -13,6 +13,29 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-left: var(--rail-width);
+}
+
+/* Letterhead rail: fixed down the left edge, colored by --color-rail and shaped by
+   the 60x49 tile in /rail-mask.svg (4pt + 2pt rules broken by diagonal slashes). Decorative. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--rail-width);
+  background: var(--color-rail);
+  -webkit-mask: url('/rail-mask.svg') 0 0 / var(--rail-width) var(--rail-tile-h) repeat-y;
+  mask: url('/rail-mask.svg') 0 0 / var(--rail-width) var(--rail-tile-h) repeat-y;
+  pointer-events: none;
+  z-index: 1;
+}
+@media (max-width: 36rem) {
+  body { padding-left: var(--rail-width-sm); }
+  body::before {
+    width: var(--rail-width-sm);
+    -webkit-mask-size: var(--rail-width-sm) var(--rail-tile-h-sm);
+    mask-size: var(--rail-width-sm) var(--rail-tile-h-sm);
+  }
 }
 
 .container {
@@ -31,15 +54,17 @@ main { flex: 1; padding-block: var(--space-12) var(--space-16); }
 h1, h2, h3, h4, h5 { line-height: var(--leading-tight); margin: var(--space-8) 0 var(--space-3); }
 h1 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: var(--weight-medium);
   font-size: var(--text-2xl);
   letter-spacing: -0.01em;
   margin-top: 0;
   overflow-wrap: anywhere;
 }
-h2 { font-family: var(--font-sans); font-weight: 800; font-size: var(--text-xl); }
-h3 { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-lg); }
-h4, h5 { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-base); }
+h2 { font-family: var(--font-sans); font-weight: var(--weight-medium); font-size: var(--text-xl); }
+h3 { font-family: var(--font-sans); font-weight: var(--weight-medium); font-size: var(--text-lg); }
+h4, h5 { font-family: var(--font-sans); font-weight: var(--weight-medium); font-size: var(--text-base); }
+/* Only Book (400) and Medium (500) are shipped; bold maps to Medium so nothing is faux-bolded. */
+b, strong { font-weight: var(--weight-medium); }
 
 p, ul, ol, dl { margin: 0 0 var(--space-4); }
 ul, ol { padding-left: var(--space-6); }
@@ -58,7 +83,7 @@ a:hover { color: var(--color-accent-hover); }
 }
 .on-panel :focus-visible { outline-color: var(--color-focus-on-panel); }
 
-dt { font-weight: 700; }
+dt { font-weight: var(--weight-medium); }
 dd { margin: 0 0 var(--space-3); }
 
 code, kbd, samp { font-family: var(--font-mono); font-size: var(--text-code); }
@@ -86,7 +111,7 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-rule); margin-
   font-size: var(--text-sm);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  font-weight: 400;
+  font-weight: var(--weight-book);
   color: var(--color-label);
 }
 
@@ -111,7 +136,8 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-rule); margin-
 }
 
 /* Print: palette is swapped in tokens.css. Chrome and decoration go away. */
-@page { margin: var(--print-margin); }
+/* @page can't read custom properties; keep this in step with --print-margin. */
+@page { margin: 0.6in; }
 @media print {
   body { display: block; font-size: var(--text-print); line-height: 1.45; }
   main { padding-block: 0; }

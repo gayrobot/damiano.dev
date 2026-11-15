@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   padding-block: var(--space-3);
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: var(--text-lg);
   color: var(--color-text);
   text-decoration: none;
@@ -131,18 +131,30 @@
 .tile--hero { min-height: 22rem; justify-content: flex-end; }
 .tile--hero .lede { font-size: var(--text-lg); color: var(--color-text-muted); max-width: 36rem; margin: var(--space-4) 0 0; }
 .tile--panel { background: var(--color-panel); color: var(--color-on-panel); align-items: center; justify-content: center; }
-.tile--panel .sd-mark { display: block; width: min(70%, 12rem); height: auto; color: var(--color-on-panel); }
+.tile--panel .monogram { display: block; width: min(45%, 8rem); height: auto; color: var(--color-on-panel); }
 a.tile:hover { background: var(--color-surface-hover); }
 a.tile:hover .tile-title { color: var(--color-accent); }
-.tile-title { font-family: var(--font-display); font-size: var(--text-xl); line-height: var(--leading-tight); margin: 0; color: var(--color-text); }
+.tile-title { font-family: var(--font-display); font-weight: var(--weight-medium); font-size: var(--text-xl); line-height: var(--leading-tight); margin: 0; color: var(--color-text); }
+/* Section tiles: a line icon, the title, an arrow, and the nav number set large and faded
+   in the top right, like the resume watermark. The number is generated content with empty
+   alt text, so screen readers skip it; it's decorative and carries no contrast requirement. */
+.tile-icon { display: block; width: var(--tile-icon); height: var(--tile-icon); fill: none; stroke: var(--color-accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tile--section::after {
+  content: attr(data-number);
+  content: attr(data-number) / '';
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--tile-number);
+  line-height: 1;
+  color: var(--color-watermark);
+  opacity: var(--watermark-opacity);
+  pointer-events: none;
+}
 .tile .label { display: block; }
 .tile .arrow { font-family: var(--font-mono); color: var(--color-label); }
 
-/* Geometric marks: decorative CSS shapes (aria-hidden in markup). */
-.shape { display: block; width: 3.5rem; height: 3.5rem; background: var(--color-accent); }
-.shape--circle { border-radius: var(--radius-round); }
-.shape--square { background: var(--color-gold); }
-.shape--triangle { background: var(--color-label); clip-path: polygon(0 100%, 100% 100%, 0 0); }
 
 /* ---------- Spec panel: the harness, stated as checks CI enforces ---------- */
 .spec { background: var(--color-surface); color: var(--color-text); padding: var(--space-6); }
@@ -150,7 +162,7 @@ a.tile:hover .tile-title { color: var(--color-accent); }
 .spec p { color: var(--color-text); max-width: 38rem; }
 .spec dl { margin: var(--space-6) 0 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border-top: var(--border-width) solid var(--color-rule-soft); }
 .spec .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4); align-items: baseline; padding-block: var(--space-2); border-bottom: var(--border-width) solid var(--color-rule-soft); }
-.spec dt { font-weight: 400; margin: 0; color: var(--color-text-muted); }
+.spec dt { font-weight: var(--weight-book); margin: 0; color: var(--color-text-muted); }
 .spec dd { margin: 0; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); font-size: var(--text-sm); text-align: right; color: var(--color-text); }
 
 /* ---------- Prose (essay reading) ---------- */
@@ -162,7 +174,16 @@ a.tile:hover .tile-title { color: var(--color-accent); }
 .container--article .page-header .lede { max-width: var(--measure-article); }
 
 /* ---------- Resume ---------- */
-.resume h2 { font-family: var(--font-mono); font-weight: 400; font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--color-label); margin: var(--space-12) 0 var(--space-4); padding-top: var(--space-2); border-top: var(--rule-heavy) solid var(--color-rule); }
+/* Resume section heads follow the letterhead: Futura Medium, a size up, with a trailing colon
+   (generated, and hidden from screen readers via the empty alt text). */
+.resume { position: relative; isolation: isolate; }
+.resume h2 { font-family: var(--font-sans); font-weight: var(--weight-medium); font-size: var(--text-xl); color: var(--color-text); margin: var(--space-12) 0 var(--space-4); padding-top: var(--space-2); border-top: var(--rule-heavy) solid var(--color-rule); }
+.resume h2::after { content: ':'; content: ':' / ''; }
+.resume .school { font-weight: var(--weight-medium); font-style: italic; }
+
+/* Monogram watermark: top right, behind the text, as on the letterhead. */
+.watermark { position: absolute; top: 0; right: 0; z-index: -1; width: var(--watermark-w); height: auto; color: var(--color-watermark); opacity: var(--watermark-opacity); pointer-events: none; }
+@media (max-width: 36rem) { .watermark { width: var(--watermark-w-sm); } }
 .resume h3 { margin: var(--space-6) 0 var(--space-1); }
 .resume .meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 var(--space-3); }
 .resume .job { break-inside: avoid-page; }
@@ -226,13 +247,13 @@ a.tile:hover .tile-title { color: var(--color-accent); }
 .transcript .t-user code { color: var(--color-on-panel); }
 
 .transcript details.t-msg { border: var(--border-width) solid var(--color-rule-soft); border-radius: var(--radius); margin: var(--space-2) 0; background: var(--color-surface); }
-.transcript details.t-msg > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); font-weight: 600; border-radius: var(--radius); }
+.transcript details.t-msg > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); font-weight: var(--weight-medium); border-radius: var(--radius); }
 .transcript details.t-msg > summary::-webkit-details-marker { display: none; }
 .transcript details.t-msg > summary::before { content: ''; flex: none; border-left: 0.45em solid var(--color-gold); border-block: 0.32em solid transparent; transition: transform var(--duration) var(--ease); }
 .transcript details.t-msg[open] > summary::before { transform: rotate(90deg); }
 .transcript details.t-msg > summary:hover { background: var(--color-surface-hover); }
 .transcript details.t-msg > summary:focus-visible { outline: var(--rule-heavy) solid var(--color-focus); outline-offset: var(--rule-heavy); }
-.transcript details.t-msg .t-hint { font-weight: 400; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+.transcript details.t-msg .t-hint { font-weight: var(--weight-book); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
 .transcript details.t-msg[open] .t-hint { display: none; }
 .transcript .t-msg-body { padding: 0 var(--space-4) var(--space-2); border-top: var(--border-width) solid var(--color-rule-soft); }
 
@@ -240,7 +261,7 @@ a.tile:hover .tile-title { color: var(--color-accent); }
 .transcript .t-box ul { list-style: none; padding: 0; }
 .transcript .t-btn { display: inline-block; border: var(--border-width) solid var(--color-rule-soft); border-radius: var(--radius); padding: 0 var(--space-2); font-family: var(--font-mono); font-size: var(--text-sm); }
 .transcript .t-btn--primary { background: var(--color-gold); color: var(--color-on-gold); border-color: var(--color-gold); }
-.transcript .t-flag { color: var(--color-accent); font-weight: 600; }
+.transcript .t-flag { color: var(--color-accent); font-weight: var(--weight-medium); }
 .transcript .t-fork { border-left: var(--rule-heavy) dashed var(--color-accent); margin: 0 0 var(--space-6) var(--space-3); padding-left: var(--space-4); color: var(--color-text-muted); }
 .transcript .t-brief { background: var(--color-surface); color: var(--color-text); border-radius: var(--radius); padding: var(--space-2) var(--space-4); }
 

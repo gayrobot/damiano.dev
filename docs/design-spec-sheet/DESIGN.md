@@ -1,70 +1,104 @@
-# damiano.dev: Spec Sheet direction
+# damiano.dev: Spec Sheet direction, with the letterhead
 
-Skylar picked direction A ("Spec Sheet"). Revision 3, the middle ground between the first hard-edged version and the over-softened second: the Westinghouse-style ruled grid is back, the dark purple is replaced by soft lavender, the Spec panel sits on the normal surface color, and corners are small (`--radius` 0.5rem on buttons, tags and the nav's current item; `--radius-frame` 1rem on the Home grid's outer frame only). Live artboards are on the Design canvas; this file is the written hand-off. Everything here is checked against the constraints in BRIEF.md except where the Tradeoffs section says it was not.
+The written hand-off for the site's visual identity. Live artboards are on the Design canvas ("damiano.dev Spec Sheet"). Revision 4, 2026-11-14: Skylar's 2020 letterhead (`claude/design-system-letterhead.md` in the project) is now part of the system.
+
+## How revision 4 landed in the repo
+
+This hand-off was written without access to the repo, so a few things changed on the way in:
+
+- **Styles were merged, not copied.** The repo had moved on since revision 3 (`--measure-article`, the `.tile-row` grid, transcript styles). Those stay; the revision 4 changes were applied on top.
+- **The PDF uses the existing flow.** No Playwright, `pdfjs-dist` or new CI steps. `npm run resume:pdf` serves `dist/` and prints `/resume/letterhead/` with local Chrome to `public/downloads/Skylar_Damiano_Resume.pdf`, which is committed as before. `scripts/build-resume-pdf.mjs`, `scripts/check-pdf-privacy.mjs` and `docs/letterhead-wiring.md` weren't added.
+- **The letterhead page is public**, so Lighthouse and the link check cover it. It has a viewport and description, no `noindex`, and the name is its `h1`.
+- **Jobs with headed groups.** `ResumeLetterhead` takes `groups` (a heading and bullets) for a job's `sections` and `projects`. Certifications get their own section before Skills. The summary and headline aren't on the letterhead.
+- **Estimated spacing was tightened to fit two pages:** `--lh-top` 58 → 54pt, `--lh-bottom` 48 → 36pt, `--lh-gap-section` 14 → 12pt, `--lh-gap-entry` 8 → 6pt. Still estimates; check them against the 2020 original.
+- The placeholder PDF is kept in `examples/` for comparison.
+- **After review, Skylar replaced the section tiles' flat shapes** with magenta line icons, plus each tile's nav number set large and faded in the top right, in the resume watermark's color and opacity. The small mono number label went with them.
+
+## Decisions on record
+
+| Question | Decision |
+|---|---|
+| Direction | A, "Spec Sheet": a Rand-style ruled grid, flat shapes, mono labels. |
+| Shape | Middle ground: ruled cells in one frame with a 1rem corner; 0.5rem on buttons, tags and the current nav item. |
+| Panel color | Soft lavender `#c4b2ff` with ink text (the dark purple was rejected). |
+| Logo | Skylar's SJ monogram replaces the SD half-disc mark everywhere: Home tile, favicon, resume watermark, PDF. |
+| heroic.vers mark | Removed from the site. |
+| Type | The letterhead pairing: Futura (as self-hosted Jost) for headings and text, a mono for the name, labels and nav. Alfa Slab One is dropped. |
+| Rail | The letterhead's left rail on every page, in magenta (`--color-rail`). |
+| Resume PDF | Matches the letterhead, no phone number; footer location "Chicago, IL", not the street address. |
 
 ## 1. Rationale
 
-The idea: the site reads like a specification sheet for a person. A hairline grid cuts the page into rectangles, the way Paul Rand's Westinghouse manual cover does, and the whole frame has a gentle rounded corner. A few flat shapes (circle, triangle, square) carry the color. Mono labels and numbered indexes do the work that card chrome did before. One lavender tile carrying the SD mark sits where Rand puts his logo tile. The mark is built from one module: S is two half-discs of radius r, D is one half-disc of radius 2r. The IIDX poster's feature-callout box becomes the Spec panel, which lists only what CI really enforces, so the harness story is proof instead of decoration.
+The site reads like a specification sheet for a person, set on Skylar's own letterhead. A hairline grid cuts Home into rectangles, the way Paul Rand's Westinghouse manual cover does. A few flat shapes carry the color, and mono labels and numbered indexes replace card chrome. The letterhead supplies the rest: the double rule with diagonal breaks running down the left edge, the SJ monogram, Futura with a mono name, and section heads with a trailing colon. The lavender tile holds the monogram where Rand puts his logo tile.
 
-What it reacts against: the baseline is a template. A centered column, a grey lede, blue links, one rounded card. Nothing in it says anyone chose it. Here the choices are visible and a little opinionated: a ruled grid of cells with a softly rounded frame, small corner radii on buttons and tags, a heavy slab display face, a dark primary look, magenta and gold as the hot colors, lavender as the one soft panel color.
+It reacts against the baseline template (centered column, grey lede, blue links, rounded cards) and against the obvious 2020s moves: no gradients, glow, synthwave grids or copied poster art. Colors are flat: magenta (`#ff4db8` on dark, `#b0006c` on light) for links, the rail and the hot mark; gold for rules, fills and focus; lavender for the one panel. Dark is the default. The resume PDF stays strictly ink on white, like the letterhead.
 
-What it is not: no gradients, no glow, no grid-floor synthwave (that is the 2020s trend you said to avoid), no illustration copied from the posters, no rotated text in anything people read.
+## 2. Files
 
-**Colors.** Dark is the default and the primary look. Light follows `prefers-color-scheme: light`. Magenta (`#ff4db8` on dark, deep `#b0006c` on light) is for links and the single hot mark. Gold is rules, fills and focus; on light it is a fill only and never text. Lavender (`#c4b2ff`) is the panel fill, with ink text on top. In light, violet (`#5b2bd1`) is used for labels and focus.
-
-**Type.** Display: Alfa Slab One, self-hosted, for the wordmark, h1 and tile titles only. Labels, nav, dates, tags: Andale Mono if the visitor has it, else the system mono. Reading text: system sans.
-
-## 2. Files in this folder
-
-| File | What changed |
+| File | What it is |
 |---|---|
-| `src/styles/tokens.css` | Replaced. Dark default, light via media query, `[data-theme]` overrides, print palette, self-hosted `@font-face`. |
-| `src/styles/global.css` | Replaced. Base elements, heading rules, `.label`, skip link, print rules. |
-| `src/styles/components.css` | New. All component styles in one class-based file (see Tradeoffs). Import it in `Base.astro` after `global.css`. |
-| `src/layouts/Base.astro` | New `width` prop (`reading` or `wide`), font preload, `color-scheme` meta, imports `components.css`. |
-| `src/components/Header.astro`, `Footer.astro`, `PageHeader.astro`, `Tag.astro`, `EntryList.astro` | Same names and props; markup uses the new classes; their `<style>` blocks are gone. `PageHeader` gains optional `kicker` and `meta`. |
-| `src/components/Tile.astro` | New. One link tile on Home. |
-| `src/components/Spec.astro` | New. The harness panel on Home. |
-| `src/components/SdMark.astro`, `src/assets/sd-mark.svg`, `public/favicon.svg` | New. The SD mark (option B), inlined on Home and used as the favicon (ink on lavender, rounded square). About 0.4 KB each. |
-| `src/components/BuildStamp.astro` | New. Footer commit and date; renders nothing unless the env vars below are set. |
-| `public/fonts/alfa-slab-one-latin-400-normal.woff2` and licence | Self-hosted display face, SIL OFL. |
+| `src/styles/tokens.css` | Every raw value. Dark default, light by media query, `[data-theme]` overrides, print palette in letterhead ink, self-hosted `@font-face`, letterhead `--lh-*` measurements. |
+| `src/styles/global.css` | Base elements, the rail (`body::before`), heading weights, `.label`, skip link, print rules. |
+| `src/styles/components.css` | All component styles, class-based. Import after `global.css`. |
+| `src/styles/letterhead.css` | Styles for the PDF page only. Not imported by `Base.astro`. |
+| `src/layouts/Base.astro` | `width` prop (`reading` / `wide`), favicon, preloads Jost 400 and 500, imports the three site stylesheets. |
+| `src/components/Header.astro`, `Footer.astro`, `PageHeader.astro`, `Tag.astro`, `EntryList.astro`, `Tile.astro`, `Spec.astro`, `BuildStamp.astro` | As before. The wordmark is now mono. |
+| `src/components/Monogram.astro` | The SJ monogram inlined; `class="monogram"` (Home tile) or `class="watermark"` (resume). Replaces `SdMark.astro`. |
+| `src/components/ResumeLetterhead.astro` | The resume as the letterhead: a whole HTML document, typed props, no phone field. |
+| `src/assets/sj-monogram.svg` | The exact vector from the letterhead PDF, with its `translate()` transforms baked into the path coordinates (Chromium drops transformed paths when it repeats a fixed element on page 2). Checked against the original: identical to the pixel. |
+| `public/rail-mask.svg` | One 60×49 tile of the rail, used as a CSS mask so the color comes from a token. |
+| `public/favicon.svg` | SJ in ink on a lavender rounded square. |
+| `public/fonts/` | Jost 400, 400 italic, 500, 500 italic; M PLUS 1 Code 400; both SIL OFL, licences included. |
+| `scripts/build-resume-pdf.mjs` | After `astro build`: serves `dist/`, prints the letterhead page to `dist/skylar-damiano-resume.pdf` with Playwright. |
+| `scripts/check-pdf-privacy.mjs` | Fails CI if the PDF text contains a phone number, a `t:` label or a street-address shape. |
+| `docs/letterhead-wiring.md` | The three steps left to connect the PDF to `resume.yaml`. |
 
-Build-time env vars (set in CI; nothing renders if they are missing, so nothing invented ever shows): `PUBLIC_COMMIT` (short hash), `PUBLIC_BUILD_DATE`, `PUBLIC_REPO_URL`.
+Removed since revision 3: `SdMark.astro`, `sd-mark.svg`, the logo options, Alfa Slab One.
 
-### Token renames and additions
+### Tokens changed in this revision
 
-| Old | New | Note |
-|---|---|---|
-| `--color-border` | `--color-rule` | Hairlines and grid lines. Gold on dark, ink on light. |
-| (none) | `--color-rule-soft` | Quiet dividers inside long text. |
-| `--color-accent-contrast` | `--color-on-accent` | Text on a magenta fill. |
-| `--color-accent` | same name | Now magenta, not blue. |
-| `--leading-tight` | same name | 1.2 became 1.1. |
-| `--text-2xl` | same name | Larger, up to 4.5rem. |
-| `--radius` | same name | Now `0.5rem`. |
+| Token | Now |
+|---|---|
+| `--font-display`, `--font-sans` | `'Jost', Futura, 'Futura PT', …` |
+| `--font-mono` | `'Andale Mono', 'M PLUS 1 Code', ui-monospace, …` |
+| Print palette | Letterhead ink `#231f20` instead of `#000`. |
 
-Added: `--color-gold`, `--color-on-gold`, `--color-label`, `--color-surface-hover`, `--radius-frame`, `--color-panel`, `--color-on-panel`, `--color-on-panel-muted`, `--color-focus-on-panel`, `--color-tag-text`, `--color-code-bg`, `--font-display`, `--text-xs`, `--text-code`, `--text-print`, `--text-print-title`, `--radius-round`, `--tracking-label`, `--space-24`, `--page-max`, `--rule-heavy`, `--print-margin`, `--duration`, `--ease`. Unchanged names: `--color-bg`, `--color-surface`, `--color-text`, `--color-text-muted`, `--color-accent-hover`, `--color-focus`, `--color-tag-bg`, the font stacks (`--font-sans`, `--font-mono`; `--font-serif` is removed), the space scale, `--measure`, `--border-width`.
+Added: `--weight-book`, `--weight-medium`, `--color-rail`, `--color-watermark`, `--watermark-opacity`, `--rail-width`, `--rail-tile-h`, `--rail-width-sm`, `--rail-tile-h-sm`, `--watermark-w`, `--watermark-w-sm`, and the `--lh-*` letterhead set. Earlier revisions added `--color-surface-hover`, `--radius-frame`, `--radius-round`, `--text-code`, `--text-print-title`. Renames from the baseline still stand: `--color-border` → `--color-rule`, `--color-accent-contrast` → `--color-on-accent`.
 
-## 3. Page-by-page
+`@page` rules can't read custom properties, so `global.css` keeps `@page { margin: 0.6in }` and `letterhead.css` keeps `@page { size: letter; margin: 0 }` as literals. Everything else is a token.
 
-**Home** (`width="wide"`). A three-column grid of ruled cells inside one rounded frame, with a heavy rule on the header above it.
-- Hero tile (two columns): the existing h1 and lede, set large in the display face.
-- Lavender tile: the SD half-disc mark in ink, in the position of Rand's logo tile.
-- Three link tiles, one per section, each with a flat shape (circle, triangle, square) and a number that matches its place in the nav.
-- Spec panel, full width: the existing "site is part of the project" sentence, then rows listing only what CI enforces (every change is a pull request; Lighthouse accessibility 100, the other three 90+; contrast AA in both schemes; static on Cloudflare Workers).
-- Extending: add an entry to `nav.ts` and a `Tile`; the grid reflows. Down to two columns under 52rem and one under 36rem. Home needs a `width="wide"` on its `Base` call.
+## 3. Page by page
 
-**List page** (Projects, Musings). A numbered index, not cards: a heavy rule on top, hairlines between rows. The number is a CSS counter, so new entries renumber themselves. The whole row is the link; hover shifts the row to a slightly lighter surface and the title to magenta with an underline. Meta is mono, tags are small outlined mono labels with a slight radius. The empty state is a mono line.
+**Every page.** The rail runs down the left edge, fixed: a 4px and a 2px rule broken by diagonal slashes every 49px, in magenta. The body is padded so nothing sits under it. Under 36rem it drops to half scale (30px). The header wordmark is mono, like the name on the letterhead.
 
-**Detail page** (essay). One 42rem column, about 70 characters a line, system sans at 17px and 1.65 leading. Only the title uses the display face. h2 sits under a 2px rule so a long essay can be scanned from the rules. Links are magenta with a 2px underline that never goes away. Blockquotes sit on the surface color with a slight radius (no side stripe). Code blocks have a soft border and a slight radius. The reading column carries no decoration; the personality is in the frame around it.
+**Home** (`width="wide"`). Ruled cells inside one rounded frame:
+- hero: the existing h1 and lede;
+- the lavender tile with the SJ monogram in ink;
+- three numbered section tiles with flat shapes (since replaced; see the top of this doc);
+- the Spec panel listing only checks CI enforces.
 
-**Resume, screen.** The quiet page, as agreed. Same type and palette, no panels or tiles. Section names are mono labels under a 2px rule, job titles are the heavy sans, meta is mono. The Download PDF link becomes a gold button with a slight radius.
+Two columns under 52rem, one under 36rem.
 
-**Resume, print.** Tokens swap to black on white inside `@media print`; the display face stays for the name at 24pt. Header, footer, skip link and the download button are hidden (`.no-print`). Body is 10.5pt at 1.45, page margin 0.6in, links underlined in black, each job avoids splitting across a page, and headings avoid being stranded at a page bottom. Heavy rules stay as the only decoration. No phone number appears anywhere in the design; keep it out of the content as before.
+**List page.** A numbered index: heavy rule on top, hairlines between rows. The whole row is the link. Mono meta, small outlined tags.
 
-## 4. Contrast table
+**Detail page (essay).** One 42rem column of Jost at 17px and 1.65 leading. h2 under a 2px rule. Links magenta with a permanent 2px underline.
 
-Computed by script from the actual `tokens.css`, so the table cannot drift from the file. WCAG 2.x relative-luminance ratios. Text needs 4.5:1; UI parts (focus ring, rules that define controls) need 3:1. Hover states are in the table: link hover, and row or tile hover onto `--color-surface-hover`.
+**Resume, screen.** The quiet page. The SJ monogram sits top right behind the header as a watermark: paper at 10% on dark, ink at 12% on light. The letterhead's 25% fails AA for muted text and links on screen (4.41:1 and 3.56:1), so it's lighter here. Section heads follow the letterhead: Futura Medium a size up, with a trailing colon generated in CSS and hidden from screen readers. School names use `.school` (Medium Italic). Download PDF is a gold button.
+
+**Resume, browser print.** The tokens swap to letterhead ink on white. Header, footer and button are hidden, and the rail prints down every page.
+
+**Resume PDF.** A separate page rendered by `ResumeLetterhead.astro` and printed by the build script. It's built from the letterhead measurements:
+- the rail at x = 24.25 and 42.1pt;
+- the monogram at 446–576 × 21–185pt, at 25%;
+- the name in the mono at x = 68pt;
+- the body's left edge at 68pt;
+- the footer 18pt from the bottom: `e-: <email>  a: Chicago, IL`.
+
+The rail, monogram, name and footer repeat on every page, and body text runs over the monogram on page 2, as in the original. Section heads are Medium with a colon, role titles Medium, school names Medium Italic, everything else Book. Bullets are "•" set against the text with no indent. Tested with placeholder content: two pages, Jost and M PLUS 1 Code embedded, 22 KB.
+
+## 4. Contrast
+
+Computed by script from `tokens.css`. WCAG 2.x ratios; text needs 4.5:1, UI parts 3:1. The rail and the monogram are decorative and carry no requirement.
 
 ### Screen
 
@@ -95,36 +129,57 @@ Computed by script from the actual `tokens.css`, so the table cannot drift from 
 | Focus ring on lavender tile (UI, 3:1) | 3.0:1 | `#14101c` on `#c4b2ff` | 9.96:1 | Pass | `#14101c` on `#c4b2ff` | 9.96:1 | Pass |
 | Hairline rule on page (UI, 3:1) | 3.0:1 | `#f2c14e` on `#0b0912` | 11.78:1 | Pass | `#14101c` on `#f6f2ea` | 16.78:1 | Pass |
 
-### Print
+### Text over the resume watermark (screen)
+
+The monogram sits behind the resume header. Lighthouse can't see through an SVG to measure this, so it's computed here from the blended color.
+
+| Text over the watermark | Needs | Dark (paper at 10% on `#0b0912` = `#222029`) | Dark | Light (ink at 12% on `#f6f2ea` = `#dbd7d1`) | Light |
+|---|---|---|---|---|---|
+| Body text | 4.5:1 | `#f3f0fa`: 14.28:1 | Pass | `#14101c`: 13.08:1 | Pass |
+| Muted text | 4.5:1 | `#b4adc6`: 7.45:1 | Pass | `#51495f`: 5.94:1 | Pass |
+| Link / accent | 4.5:1 | `#ff4db8`: 5.36:1 | Pass | `#b0006c`: 4.78:1 | Pass |
+| Mono label | 4.5:1 | `#f2c14e`: 9.58:1 | Pass | `#5b2bd1`: 5.4:1 | Pass |
+
+### Print and the resume PDF
 
 | Pair | Needs | Colors | Ratio | Result |
 |---|---|---|---|---|
-| Body and headings | 4.5:1 | `#000000` on `#ffffff` | 21.0:1 | Pass |
-| Muted text (meta, labels) | 4.5:1 | `#333333` on `#ffffff` | 12.63:1 | Pass |
-| Soft divider (decorative, not required) | n/a | `#999999` on `#ffffff` | 2.85:1 | n/a (decorative) |
+| Text (letterhead ink) | 4.5:1 | `#231f20` on `#ffffff` | 16.3:1 | Pass |
+| Text over the 25% monogram | 4.5:1 | `#231f20` on `#c8c7c7` | 9.66:1 | Pass |
 
 ## 5. Tradeoffs
 
-**Weight and requests.**
-- One web font: Alfa Slab One, Latin subset, 19,052 bytes of WOFF2, one request, preloaded. Nothing else downloads. Andale Mono costs 0 bytes because it comes from the visitor's system; visitors without it (most Linux, most phones) get their system mono, so labels look different there.
-- CSS: 18.9 KB raw across the three files, about 4.7 KB gzipped, no new requests (Astro bundles it).
+**Weight.**
+- **Fonts:** Jost is 9.4 KB (400), 10.5 KB (500), 11.1 KB (400 italic) and 12.0 KB (500 italic). A typical page fetches the two preloaded upright weights, about 20 KB. M PLUS 1 Code (9.4 KB) only downloads for visitors without Andale Mono. The old Alfa Slab One (19 KB) is gone.
+- **CSS:** 23.9 KB raw across tokens, global and components, about 6.1 KB gzipped.
+- **Monogram:** 2.3 KB, inlined.
+- **Rail mask:** 0.5 KB.
+- **Favicon:** 3 KB.
 
-**Not verified.** I did not run Lighthouse; there is no built site in this session. Contrast was computed from the tokens. Accessibility 100 and the three 0.9+ scores need CI to confirm. The main risk to watch is CLS from the display font swapping in: the fallback stack (Rockwell, Roboto Slab, Georgia) has different metrics. The preload narrows the gap; if CI reports a shift, add `size-adjust` and `ascent-override` to a fallback `@font-face`.
+**Checked here, in a throwaway Astro 5 project with placeholder pages:**
+- the components build;
+- Lighthouse scored 100 in all four categories on Home and Resume, in the default dark scheme;
+- the PDF renders with the right fonts on two pages;
+- the privacy gate passes it, and fails a copy with a planted phone number and street address.
 
-**Motion.** Minimal. Colors and backgrounds on links, tiles and rows transition for 120ms, and only inside `prefers-reduced-motion: no-preference`. Nothing moves otherwise. You didn't pick a level, so this is my default; "none" is one deleted rule.
+None of this ran in your repo or CI. Confirm there.
 
-**Dark default.** Visitors with no stated preference see dark. Visitors whose system says light see light. If you would rather default to light, swap which block sits on `:root`.
+**Estimated, not measured.** The brief has positions but no type sizes. Name 18pt, section heads 14pt, role titles 11pt, body 9.5pt, footer 8pt, and the top and bottom spacing are estimates, marked `(est.)` in `tokens.css`. Compare one generated page against the 2020 PDF and adjust the `--lh-*` tokens.
 
-**Light is the derived look.** On light, gold cannot be text, so mono labels turn violet and gold is fills only. The lavender tile is the same in both schemes.
+**Font stand-ins.**
+- Jost is close to Futura but not identical. The `a`, `t` and the bullet glyph differ, and Jost's bullet is small. Real Futura needs a web licence; Futura PT is on Adobe Fonts, which can't be self-hosted.
+- Osaka-Mono is an Apple system font with no web licence. The PDF uses M PLUS 1 Code, so it looks the same when CI renders it on Linux. On the site, Mac visitors see Andale Mono.
 
-**Middle ground.** The ruled grid keeps the Westinghouse reference; rounding is limited to the Home frame (1rem) and small controls (0.5rem). There are no shadows or gradients. Many rules still make pages denser than the baseline, which is the intent.
+**Rail.** Drawn with a CSS mask so a token sets its color. Masks are supported unprefixed in current Chrome, Firefox and Safari, with a `-webkit-` copy for older Safari. Where a mask fails to load, the rail disappears rather than showing a solid bar. It takes 60px of width on desktop and 30px on phones.
 
-**Generated numbers.** Nav and list numerals are CSS counters. They are given an empty alt (`content: ... / ''`) so screen readers skip them. Browsers that don't support that syntax fall back to reading them aloud ("01 Home"), which is noisy but not wrong.
+**Magenta rail.** You chose an accent-colored rail. I picked magenta over gold because gold on the light paper is too faint to read as a line. Change `--color-rail` to `var(--color-gold)` in the dark block to try gold there.
 
-**One components file.** I moved component styles out of each `.astro` file into `components.css` so the design canvas and the site share one source. If you prefer Astro's scoped styles, paste each block into its component's `<style is:global>`; class names are already unique.
+**Section-head colons.** Generated in CSS on the resume only, and hidden from screen readers with `content: ':' / ''`. Browsers without that syntax read the colon aloud, which is harmless. Not applied site-wide; easy to extend.
 
-**What the canvas does differently from the repo.** The canvas loads Alfa Slab One from Google Fonts (it can't use your self-hosted file). The CSS files are otherwise the real ones.
+**Motion.** 120ms color transitions only, off under reduced motion.
 
-**Illustration.** None. The IIDX poster's character art is not something to imitate; the geometric shapes stand in. If you have your own artwork, it would drop into the hero tile or the panel tile; images cost bytes (budget under 100 KB, WebP or AVIF, with width and height set).
+## 6. Open items
 
-**Open items for you.** The final display face after you see it on a real page (Bitter 900 is the closest alternative, 18.4 KB); and the placeholder copy on every page except the Home lede and the "site is part of the project" sentence, which are your existing words.
+- Map `src/data/resume.yaml` onto `ResumeLetterhead` (`docs/letterhead-wiring.md`). I couldn't read the repo from this session, so the component takes a small typed shape instead of guessing your field names.
+- Check the estimated letterhead type sizes against the original PDF.
+- Whether the colon-headed sections should spread beyond the resume ("Projects:", "Musings:").

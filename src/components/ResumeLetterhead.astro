@@ -1,0 +1,96 @@
+---
+// The resume as the 2020 letterhead: rail, SJ monogram watermark, mono name, Futura (Jost)
+// text, one-line footer. A whole HTML document, served at /resume/letterhead/ and printed to
+// public/downloads/Skylar_Damiano_Resume.pdf by `npm run resume:pdf`.
+//
+// Props are a small, explicit shape on purpose; src/pages/resume/letterhead.astro maps
+// src/data/resume.yaml onto it. There is no phone field, and `location` is a city, never a
+// street address.
+import Monogram from './Monogram.astro';
+import '../styles/tokens.css';
+import '../styles/letterhead.css';
+
+export interface LetterheadEntry {
+  title?: string;        // role title, Futura Medium (Work Experience)
+  org?: string;          // company or school line, Futura Book
+  orgIsSchool?: boolean; // school names are Futura Medium Italic on the letterhead
+  lines?: string[];      // company/date and location lines, Futura Book
+  bullets?: string[];
+  groups?: { heading: string; bullets: string[] }[]; // headed bullet groups and projects within a job
+}
+export interface LetterheadSection {
+  heading: string;       // rendered with a trailing colon, e.g. "Work Experience:"
+  entries: LetterheadEntry[];
+}
+export interface LetterheadResume {
+  name: string;          // as on the letterhead, e.g. "Skylar J Damiano"
+  email: string;
+  location: string;      // city only
+  sections: LetterheadSection[];
+}
+interface Props {
+  resume: LetterheadResume;
+}
+const { resume } = Astro.props;
+const railTiles = Array.from({ length: 17 }, (_, i) => i * 49);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={`${resume.name}'s resume, as a printable letterhead page.`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/jost-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jost-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/m-plus-1-code-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{`${resume.name}: resume`}</title>
+  </head>
+  <body class="lh-doc">
+    <svg class="lh-rail" viewBox="0 0 60 792" aria-hidden="true" focusable="false">
+      <line class="bar" x1="24.25" y1="0" x2="24.25" y2="792" stroke-width="4" />
+      <line class="bar" x1="42.1" y1="0" x2="42.1" y2="792" stroke-width="2" />
+      {railTiles.map((y) => (
+        <line class="cut" x1="13.6" y1={y + 49} x2="88.9" y2={y + 8.1} stroke-width="4" />
+      ))}
+    </svg>
+    <Monogram class="lh-monogram" />
+    <h1 class="lh-name">{resume.name}</h1>
+    <p class="lh-footer"><span>e-: {resume.email}</span><span>a: {resume.location}</span></p>
+
+    <table class="lh-frame" role="presentation">
+      <thead><tr><td></td></tr></thead>
+      <tfoot><tr><td></td></tr></tfoot>
+      <tbody>
+        <tr>
+          <td class="lh-body">
+            {resume.sections.map((section) => (
+              <section class="lh-section">
+                <h2 class="lh-head">{section.heading}:</h2>
+                {section.entries.map((e) => (
+                  <div class="lh-entry">
+                    <div class="lh-entry-head">
+                      {e.title && <h3 class="lh-role">{e.title}</h3>}
+                      {e.org && <p class:list={['lh-org', { 'lh-org--school': e.orgIsSchool }]}>{e.org}</p>}
+                      {e.lines?.map((l) => <p class="lh-line">{l}</p>)}
+                    </div>
+                    {e.bullets && e.bullets.length > 0 && (
+                      <ul class="lh-bullets">{e.bullets.map((b) => <li>{b}</li>)}</ul>
+                    )}
+                    {e.groups?.map((g) => (
+                      <>
+                        <h4 class="lh-group">{g.heading}</h4>
+                        <ul class="lh-bullets">{g.bullets.map((b) => <li>{b}</li>)}</ul>
+                      </>
+                    ))}
+                  </div>
+                ))}
+              </section>
+            ))}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
