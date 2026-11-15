@@ -12,6 +12,7 @@ This hand-off was written without access to the repo, so a few things changed on
 - **Jobs with headed groups.** `ResumeLetterhead` takes `groups` (a heading and bullets) for a job's `sections` and `projects`. Certifications get their own section before Skills. The summary and headline aren't on the letterhead.
 - **Estimated spacing was tightened to fit two pages:** `--lh-top` 58 → 54pt, `--lh-bottom` 48 → 36pt, `--lh-gap-section` 14 → 12pt, `--lh-gap-entry` 8 → 6pt. Still estimates; check them against the 2020 original.
 - The placeholder PDF is kept in `examples/` for comparison.
+- **After review, Skylar replaced the section tiles' flat shapes** with magenta line icons, plus each tile's nav number set large and faded in the top right, in the resume watermark's color and opacity. The small mono number label went with them.
 
 ## Decisions on record
 
@@ -73,7 +74,7 @@ Added: `--weight-book`, `--weight-medium`, `--color-rail`, `--color-watermark`, 
 **Home** (`width="wide"`). Ruled cells inside one rounded frame:
 - hero: the existing h1 and lede;
 - the lavender tile with the SJ monogram in ink;
-- three numbered section tiles with flat shapes;
+- three numbered section tiles with flat shapes (since replaced; see the top of this doc);
 - the Spec panel listing only checks CI enforces.
 
 Two columns under 52rem, one under 36rem.

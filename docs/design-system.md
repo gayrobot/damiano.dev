@@ -1,6 +1,6 @@
 # Design system
 
-Direction: **Spec Sheet**. The site reads like a specification sheet for a person: a hairline ruled grid, a few flat shapes carrying the color, mono labels and numbered indexes instead of card chrome, one lavender tile with the SJ monogram, all set on Skylar's letterhead (the magenta rail down the left edge, Futura-style type with a mono name). The full rationale, page-by-page notes and the contrast table are in [`design-spec-sheet/DESIGN.md`](design-spec-sheet/DESIGN.md).
+Direction: **Spec Sheet**. The site reads like a specification sheet for a person: a hairline ruled grid, thin line icons and a few flat fills carrying the color, mono labels and numbered indexes instead of card chrome, one lavender tile with the SJ monogram, all set on Skylar's letterhead (the magenta rail down the left edge, Futura-style type with a mono name). The full rationale, page-by-page notes and the contrast table are in [`design-spec-sheet/DESIGN.md`](design-spec-sheet/DESIGN.md).
 
 Small, token-based, no framework. Plain CSS plus a few Astro components. Later sections follow it by using the same tokens, classes and components instead of adding their own styles.
 
@@ -21,7 +21,7 @@ Small, token-based, no framework. Plain CSS plus a few Astro components. Later s
 | Color | `--color-bg`, `-surface`, `-surface-hover`, `-text`, `-text-muted`, `-accent` (magenta), `-accent-hover`, `-on-accent`, `-gold`, `-on-gold`, `-label`, `-panel` (lavender), `-on-panel`, `-on-panel-muted`, `-rule`, `-rule-soft`, `-focus`, `-focus-on-panel`, `-tag-bg`, `-tag-text`, `-code-bg`, `-rail`, `-watermark`; `--watermark-opacity` |
 | Type | `--font-display`, `--font-mono`, `--font-sans`; `--weight-book`, `--weight-medium`; `--text-xs` to `--text-2xl`, `--text-headline` (Musings/Projects h1), `--text-code`, `--text-print`, `--text-print-title`; `--leading-tight`, `--leading-body`, `--tracking-label` |
 | Space | `--space-1` to `--space-24` on a 4px base |
-| Layout | `--measure` (reading width), `--measure-article` (Musings/Projects width), `--page-max` (Home grid), `--radius`, `--radius-frame`, `--radius-round`, `--border-width`, `--rule-heavy`, `--print-margin`; the rail and watermark sizes (`--rail-width`, `--rail-tile-h`, `--watermark-w` and their `-sm` versions) |
+| Layout | `--measure` (reading width), `--measure-article` (Musings/Projects width), `--page-max` (Home grid), `--radius`, `--radius-frame`, `--radius-round`, `--border-width`, `--rule-heavy`, `--print-margin`; the rail and watermark sizes (`--rail-width`, `--rail-tile-h`, `--watermark-w` and their `-sm` versions); `--tile-icon`, `--tile-number` |
 | Letterhead | `--lh-*`: the resume PDF's measurements in points. Values marked `(est.)` weren't measured from the original. |
 | Motion | `--duration`, `--ease` (only inside `prefers-reduced-motion: no-preference`) |
 
@@ -37,7 +37,7 @@ Small, token-based, no framework. Plain CSS plus a few Astro components. Later s
 | `Header`, `Footer` | Site chrome, included by `layouts/Base.astro`. Nav items come from `src/data/nav.ts`, numbered by a CSS counter, current page marked with `aria-current`. |
 | `PageHeader` | The page `h1`, optional `lede`, `kicker` (mono label above) and `meta` (mono line below), plus a slot. One per page. |
 | `EntryList` | Numbered index for a collection: `items` of `{ href, title, summary, meta?, tags? }`, plus an empty-state message. Rows are teasers and the whole row links; leave `tags` off list pages (they stay on the entry's page). |
-| `Tile` | One link cell of the Home grid, with a flat shape (`circle`, `triangle`, `square`). Home builds one per nav entry automatically. |
+| `Tile` | One link cell of the Home grid: a magenta line icon (Tabler outline paths inlined in `Tile.astro`), the title, and the nav number set large and faded in the top right, in the resume watermark's color and opacity. Home builds one per nav entry; the entry's `icon` in `src/data/nav.ts` picks the icon (default: a plain page). |
 | `Spec` | The harness panel on Home: a label, a slot for intro text, and term/value rows. |
 | `Monogram` | The SJ monogram, inlined from `src/assets/sj-monogram.svg`. `class="monogram"` on Home's lavender tile, `class="watermark"` behind the resume header. Also the favicon (`public/favicon.svg`). |
 | `ResumeLetterhead` | The resume as the letterhead, a whole HTML document styled by `src/styles/letterhead.css` (not loaded by `Base`). `src/pages/resume/letterhead.astro` maps `resume.yaml` onto it. |
@@ -55,7 +55,7 @@ The Home grid draws its lines with a 1px gap over `--color-rule`, and every row 
 
 - New token: add it to all three color blocks in `tokens.css` (and print if it matters on paper), then to the table above and the contrast table in `design-spec-sheet/DESIGN.md`.
 - New component: put it in `src/components/`, styles in `components.css` using tokens only, add a row above.
-- `npm run new:section` scaffolds pages with `PageHeader`, `EntryList`, `.prose` and a back link; the nav entry it adds also gives Home a new tile.
+- `npm run new:section` scaffolds pages with `PageHeader`, `EntryList`, `.prose` and a back link; the nav entry it adds also gives Home a new tile. Give the entry an `icon` (add the paths to `Tile.astro` if it's a new one).
 - Check with `npm run build` then `npm run lighthouse`.
 
 ## Resume PDF

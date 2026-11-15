@@ -16,11 +16,9 @@ const items = featured.map((p) => ({
 }));
 
 // One tile per section, numbered to match its place in the nav.
-const shapes = ['circle', 'triangle', 'square'] as const;
 const tiles = nav
   .map((item, i) => ({ ...item, number: String(i + 1).padStart(2, '0') }))
-  .filter((item) => item.href !== '/')
-  .map((item, i) => ({ ...item, shape: shapes[i % shapes.length] }));
+  .filter((item) => item.href !== '/');
 
 // Only what CI and branch protection actually enforce.
 const spec = [
@@ -48,7 +46,7 @@ const spec = [
     </div>
     <div class="tile-row">
       {tiles.map((t) => (
-        <Tile href={t.href} label={t.number} title={t.label} shape={t.shape} />
+        <Tile href={t.href} number={t.number} title={t.label} icon={t.icon} />
       ))}
     </div>
     <Spec items={spec}>

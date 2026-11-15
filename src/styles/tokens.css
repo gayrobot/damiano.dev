@@ -191,6 +191,8 @@
   --rail-width-sm: 1.875rem;
   --rail-tile-h-sm: 1.53125rem;
   --watermark-w: 9rem;
+  --tile-icon: 2.5rem;      /* line icon on Home's section tiles */
+  --tile-number: clamp(4rem, 3rem + 3vw, 6rem);  /* faded nav number, top right of a section tile */
   --watermark-w-sm: 6rem;
 
   /* Motion: color and transform only, 120ms. Disabled for reduced motion. */

@@ -135,14 +135,26 @@
 a.tile:hover { background: var(--color-surface-hover); }
 a.tile:hover .tile-title { color: var(--color-accent); }
 .tile-title { font-family: var(--font-display); font-weight: var(--weight-medium); font-size: var(--text-xl); line-height: var(--leading-tight); margin: 0; color: var(--color-text); }
+/* Section tiles: a line icon, the title, an arrow, and the nav number set large and faded
+   in the top right, like the resume watermark. The number is generated content with empty
+   alt text, so screen readers skip it; it's decorative and carries no contrast requirement. */
+.tile-icon { display: block; width: var(--tile-icon); height: var(--tile-icon); fill: none; stroke: var(--color-accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tile--section::after {
+  content: attr(data-number);
+  content: attr(data-number) / '';
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--tile-number);
+  line-height: 1;
+  color: var(--color-watermark);
+  opacity: var(--watermark-opacity);
+  pointer-events: none;
+}
 .tile .label { display: block; }
 .tile .arrow { font-family: var(--font-mono); color: var(--color-label); }
 
-/* Geometric marks: decorative CSS shapes (aria-hidden in markup). */
-.shape { display: block; width: 3.5rem; height: 3.5rem; background: var(--color-accent); }
-.shape--circle { border-radius: var(--radius-round); }
-.shape--square { background: var(--color-gold); }
-.shape--triangle { background: var(--color-label); clip-path: polygon(0 100%, 100% 100%, 0 0); }
 
 /* ---------- Spec panel: the harness, stated as checks CI enforces ---------- */
 .spec { background: var(--color-surface); color: var(--color-text); padding: var(--space-6); }
