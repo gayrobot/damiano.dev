@@ -1,0 +1,89 @@
+/* Letterhead resume (PDF). Used only by ResumeLetterhead.astro; not imported by Base.astro.
+   Only var(--token) values; the measurements live in tokens.css under --lh-*.
+
+   How the page works in headless Chromium:
+   - @page has zero margin, so fixed elements sit at exact paper coordinates and repeat on
+     every printed page (rail, monogram, name, footer).
+   - Body text sits in a table whose thead/tfoot spacer rows repeat on every page; that gives
+     each page its top and bottom space. Chromium clips anything in @page margins, which is
+     why real page margins aren't used. */
+
+/* @page can't read custom properties, so this is the one literal: US Letter, no margin. */
+@page { size: letter; margin: 0; }
+
+.lh-doc {
+  margin: 0;
+  background: var(--lh-paper);
+  color: var(--lh-ink);
+  font-family: var(--font-lh);
+  font-weight: var(--weight-book);
+  font-size: var(--lh-size-body);
+  line-height: var(--lh-leading);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.lh-rail { position: fixed; left: 0; top: 0; width: var(--lh-rail-w); height: var(--lh-page-h); color: var(--lh-ink); }
+.lh-rail .bar { stroke: currentColor; }
+.lh-rail .cut { stroke: var(--lh-paper); }
+
+.lh-monogram {
+  position: fixed;
+  left: var(--lh-mono-x);
+  top: var(--lh-mono-y);
+  width: var(--lh-mono-w);
+  height: var(--lh-mono-h);
+  color: var(--lh-ink);
+  opacity: var(--lh-monogram-opacity);
+}
+
+.lh-name {
+  position: fixed;
+  font-weight: var(--weight-book);
+  left: var(--lh-text-x);
+  top: var(--lh-name-top);
+  margin: 0;
+  font-family: var(--font-lh-name);
+  font-size: var(--lh-size-name);
+  line-height: 1;
+}
+
+.lh-footer {
+  position: fixed;
+  left: var(--lh-text-x);
+  bottom: var(--lh-footer-bottom);
+  margin: 0;
+  font-size: var(--lh-size-footer);
+  line-height: 1;
+}
+.lh-footer span + span { margin-left: var(--lh-gap-entry); }
+
+/* Body text sits above the monogram, which reads as a watermark behind it. */
+.lh-frame { position: relative; width: 100%; border-collapse: collapse; }
+.lh-frame thead td { height: var(--lh-top); padding: 0; }
+.lh-frame tfoot td { height: var(--lh-bottom); padding: 0; }
+.lh-body { padding: 0 var(--lh-margin-right) 0 var(--lh-text-x); vertical-align: top; }
+
+.lh-head {
+  margin: var(--lh-gap-section) 0 var(--lh-gap-entry);
+  font-weight: var(--weight-medium);
+  font-size: var(--lh-size-head);
+  line-height: 1.2;
+  break-after: avoid;
+}
+.lh-section:first-child .lh-head { margin-top: 0; }
+
+/* Long jobs may split across pages; a job's title block, a group head and a single bullet never do. */
+.lh-entry { margin: 0 0 var(--lh-gap-entry); }
+.lh-entry-head { break-inside: avoid; break-after: avoid; }
+.lh-bullets li { break-inside: avoid; }
+.lh-role { margin: 0; font-weight: var(--weight-medium); font-size: var(--lh-size-role); line-height: 1.25; }
+.lh-org { margin: 0; }
+.lh-org--school { font-weight: var(--weight-medium); font-style: italic; }
+.lh-line { margin: 0; }
+.lh-group { margin: var(--lh-gap-group) 0 0; font-size: inherit; font-weight: var(--weight-medium); break-after: avoid; }
+
+/* Bullets: "•" set directly against the text, no indent. */
+.lh-bullets { list-style: none; margin: 0; padding: 0; }
+.lh-bullets li { margin: 0; }
+.lh-bullets li::before { content: '•'; }

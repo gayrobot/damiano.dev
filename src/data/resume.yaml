@@ -1,7 +1,7 @@
 # Resume data, rendered to /resume and validated by the schema in src/content.config.ts.
 # Only facts Skylar has confirmed go here. Leave a section empty rather than guessing.
-# The PDF at public/downloads/Skylar_Damiano_Resume.pdf is generated from this file:
-# run `npm run resume:pdf` after editing.
+# The PDF at public/downloads/Skylar_Damiano_Resume.pdf is generated from this file, on the letterhead:
+# run `npm run build` then `npm run resume:pdf` after editing.
 #
 # A job uses either `bullets` (a flat list) or `sections` (headed groups), not both; a job can also have only `projects`.
 # `projects` (name, optional url, bullets) is optional and shows after a job's bullets.

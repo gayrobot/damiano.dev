@@ -1,19 +1,51 @@
 /* Design tokens: the only place raw colors, sizes and spacing are defined.
-   Everything else uses var(--token). Direction: "Spec Sheet" (revision 3: ruled grid, gentle rounding).
+   Everything else uses var(--token). Direction: "Spec Sheet" (revision 4: letterhead type, SJ monogram, rail).
    Dark is the primary look and the default; light applies when the visitor's
    system asks for it. [data-theme] overrides both (used by the design canvas
    and available for a future toggle). A print block at the bottom swaps the
    palette for paper. */
 
-/* Self-hosted display face: Alfa Slab One, Latin subset, ~19 KB WOFF2, SIL OFL.
-   Used for the wordmark and h1 only. Preload it in Base.astro. */
+/* @font-face:start  Self-hosted Jost (SIL OFL), Latin subset. Stands in for Futura on the
+   letterhead: 400 = Futura Book, 500 = Futura Medium, 500 italic = Futura Medium Italic.
+   ~9-12 KB each; browsers fetch only the faces a page uses. Preload 400 and 500 in Base.astro. */
 @font-face {
-  font-family: 'Alfa Slab One';
+  font-family: 'Jost';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/alfa-slab-one-latin-400-normal.woff2') format('woff2');
+  src: url('/fonts/jost-latin-400-normal.woff2') format('woff2');
 }
+@font-face {
+  font-family: 'Jost';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jost-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jost-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jost-latin-500-italic.woff2') format('woff2');
+}
+/* M PLUS 1 Code (SIL OFL), Latin subset, ~9 KB: stands in for the letterhead's Osaka-Mono
+   in the resume PDF, and is the site's mono fallback where Andale Mono isn't installed. */
+@font-face {
+  font-family: 'M PLUS 1 Code';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/m-plus-1-code-latin-400-normal.woff2') format('woff2');
+}
+/* @font-face:end */
 
 :root,
 :root[data-theme='dark'],
@@ -42,6 +74,9 @@
   --color-tag-bg: #241c38;
   --color-tag-text: #f3f0fa;
   --color-code-bg: #15111f;
+  --color-rail: #ff4db8;            /* letterhead rail, in magenta */
+  --color-watermark: #f3f0fa;       /* monogram watermark: paper on dark */
+  --watermark-opacity: 0.1;
 }
 
 @media (prefers-color-scheme: light) {
@@ -68,6 +103,9 @@
   --color-tag-bg: #ebe4d3;
     --color-tag-text: #14101c;
     --color-code-bg: #ffffff;
+    --color-rail: #b0006c;
+    --color-watermark: #14101c;
+    --watermark-opacity: 0.12;
   }
 }
 
@@ -95,15 +133,20 @@
   --color-tag-bg: #ebe4d3;
   --color-tag-text: #14101c;
   --color-code-bg: #ffffff;
+  --color-rail: #b0006c;
+  --color-watermark: #14101c;
+  --watermark-opacity: 0.12;
 }
 
 :root {
-  /* Type. Display: Alfa Slab One (self-hosted). Labels and meta: Andale Mono
-     where installed (macOS, many Windows machines), else the system mono.
-     Reading text: system sans, no download. */
-  --font-display: 'Alfa Slab One', Rockwell, 'Roboto Slab', Georgia, serif;
-  --font-mono: 'Andale Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Type, from the letterhead: Futura (as self-hosted Jost) for headings and text;
+     a mono for the name, labels and nav. The letterhead's Osaka-Mono is an Apple font
+     that can't be self-hosted, so Andale Mono stands in where installed. */
+  --font-display: 'Jost', Futura, 'Futura PT', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Andale Mono', 'M PLUS 1 Code', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-sans: 'Jost', Futura, 'Futura PT', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --weight-book: 400;
+  --weight-medium: 500;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -142,9 +185,55 @@
   --rule-heavy: 2px;
   --print-margin: 0.6in;
 
+  /* Letterhead rail: one 60x49 tile repeated down the left edge (see /rail-mask.svg). */
+  --rail-width: 3.75rem;
+  --rail-tile-h: 3.0625rem;
+  --rail-width-sm: 1.875rem;
+  --rail-tile-h-sm: 1.53125rem;
+  --watermark-w: 9rem;
+  --watermark-w-sm: 6rem;
+
   /* Motion: color and transform only, 120ms. Disabled for reduced motion. */
   --duration: 120ms;
   --ease: ease-out;
+}
+
+/* Letterhead (resume PDF). Measured from the 2020 letterhead PDF in points on a 612x792 page.
+   Values marked (est.) were not in the measurements and need checking against the original. */
+:root {
+  --lh-ink: #231f20;
+  --lh-paper: #ffffff;
+  --lh-monogram-opacity: 0.25;
+  --font-lh-name: 'M PLUS 1 Code', 'Osaka-Mono', Osaka, monospace;
+  --font-lh: 'Jost', Futura, 'Futura PT', sans-serif;
+
+  --lh-page-w: 612pt;
+  --lh-page-h: 792pt;
+  --lh-text-x: 68pt;
+  --lh-margin-right: 36pt;
+  --lh-top: 54pt;             /* (est.) space above body text on every page; spec had 58pt */
+  --lh-bottom: 36pt;          /* (est.) space below body text, clears the footer; spec had 48pt */
+
+  --lh-rail-w: 60pt;          /* rail tile: 4pt rule at x=24.25, 2pt rule at x=42.1 */
+  --lh-rail-tile-h: 49pt;     /* slash every 49pt, x 13.6 to 88.9, rising 40.9pt */
+
+  --lh-mono-x: 446pt;
+  --lh-mono-y: 21pt;
+  --lh-mono-w: 130pt;
+  --lh-mono-h: 164pt;
+
+  --lh-name-top: 19pt;        /* puts an 18pt name's baseline near y=35 */
+  --lh-footer-bottom: 18pt;
+
+  --lh-size-name: 18pt;       /* (est.) */
+  --lh-size-head: 14pt;       /* (est.) section heads, Futura Medium */
+  --lh-size-role: 11pt;       /* (est.) role titles, Futura Medium */
+  --lh-size-body: 9.5pt;      /* (est.) Futura Book */
+  --lh-size-footer: 8pt;      /* (est.) */
+  --lh-leading: 1.3;
+  --lh-gap-section: 12pt;     /* (est.) spec had 14pt */
+  --lh-gap-entry: 6pt;        /* (est.) spec had 8pt */
+  --lh-gap-group: 4pt;        /* (est.) above a headed group of bullets inside a job */
 }
 
 @media print {
@@ -155,16 +244,19 @@
     color-scheme: light;
     --color-bg: #ffffff;
     --color-surface: #ffffff;
-    --color-text: #000000;
-    --color-text-muted: #333333;
-    --color-accent: #000000;
-    --color-accent-hover: #000000;
-    --color-gold: #000000;
-    --color-label: #000000;
-    --color-rule: #000000;
+    --color-text: #231f20;
+    --color-text-muted: #231f20;
+    --color-accent: #231f20;
+    --color-accent-hover: #231f20;
+    --color-gold: #231f20;
+    --color-label: #231f20;
+    --color-rule: #231f20;
     --color-rule-soft: #999999;
     --color-tag-bg: #ffffff;
-    --color-tag-text: #000000;
+    --color-tag-text: #231f20;
     --color-code-bg: #ffffff;
+    --color-rail: #231f20;
+    --color-watermark: #231f20;
+    --watermark-opacity: 0.25;
   }
 }

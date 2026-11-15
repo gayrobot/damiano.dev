@@ -1,0 +1,56 @@
+---
+// The resume on Skylar's letterhead. `npm run resume:pdf` prints this page to
+// public/downloads/Skylar_Damiano_Resume.pdf, so the PDF and /resume share one data file.
+import { getEntry } from 'astro:content';
+import ResumeLetterhead, { type LetterheadResume } from '../../components/ResumeLetterhead.astro';
+
+const entry = await getEntry('resume', 'resume');
+if (!entry) throw new Error('src/data/resume.yaml is missing or could not be parsed');
+const { email, location, experience, education, certifications, skills } = entry.data;
+if (!email) throw new Error('resume.yaml needs `email` for the letterhead footer');
+
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const month = (m: string) => (m === 'present' ? 'Present' : fmt.format(new Date(`${m}-01T00:00:00Z`)));
+const bare = (url: string) => url.replace(/^https?:\/\//, '');
+
+// Most recent first, current roles on top (same order as /resume).
+const sortKey = (end: string) => (end === 'present' ? '9999' : end);
+const jobs = [...experience].sort((a, b) => sortKey(b.end).localeCompare(sortKey(a.end)) || b.start.localeCompare(a.start));
+
+const resume: LetterheadResume = {
+  name: 'Skylar J Damiano', // as on the letterhead
+  email,
+  location: location ?? 'Chicago, IL', // a city only, never a street address
+  sections: [
+    {
+      heading: 'Education',
+      entries: education.map((d) => ({ org: d.school, orgIsSchool: true, lines: [d.degree] })),
+    },
+    {
+      heading: 'Work Experience',
+      entries: jobs.map((j) => ({
+        title: j.role,
+        lines: [`${j.company} | ${month(j.start)} - ${month(j.end)}`, ...(j.location ? [j.location] : [])],
+        bullets: j.bullets,
+        groups: [
+          ...(j.sections ?? []),
+          ...(j.projects ?? []).map((p) => ({
+            heading: `Project: ${p.name}${p.url ? ` (${bare(p.url)})` : ''}`,
+            bullets: p.bullets,
+          })),
+        ],
+      })),
+    },
+    {
+      heading: 'Certifications',
+      entries: [{ bullets: certifications.map((c) => `${c.name}, ${c.issuer}${c.year ? ` (${c.year})` : ''}`) }],
+    },
+    {
+      heading: 'Skills',
+      entries: [{ bullets: skills.map((s) => `${s.group}: ${s.items.join(', ')}`) }],
+    },
+  ].filter((s) => s.entries.some((e) => Object.values(e).some((v) => (Array.isArray(v) ? v.length > 0 : Boolean(v))))),
+};
+---
+
+<ResumeLetterhead resume={resume} />
