@@ -28,3 +28,5 @@ The workflow mints a one-hour token scoped to the public repo only, and branch p
 ## Using it
 
 Draft in the drafts repo. When it's ready, set `approved: true`, then Actions → Promote → Run workflow with the file path. Review the PR that appears in the public repo and merge it.
+
+To post a merged musing on Substack too, see `docs/substack.md`.
