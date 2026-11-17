@@ -9,7 +9,7 @@ drafts repo --promote PR--> damiano.dev (merged, live)
             npm run substack:draft -- <id>   (title, subtitle, body HTML)
                                |
                                v
-            Claude opens a new Substack draft in Skylar's Chrome and fills it in
+            Claude opens a new Substack draft in Skylar's browser and fills it in
                                |
                                v
             Skylar reads it in Substack and presses Publish
@@ -25,16 +25,16 @@ drafts repo --promote PR--> damiano.dev (merged, live)
 
 1. Merge the musing's promote PR and wait for the deploy.
 2. `npm run build`, then `npm run substack:draft -- <id>`. The id is the file name without `.md`. This writes `dist/substack/<id>.json` (`title`, `subtitle`, `url`, `html`) and `dist/substack/<id>.html`. The body is taken from the built page, so it matches what the site shows. Site links and images become absolute URLs, and the post ends with "Originally published at damiano.dev", linked to the musing.
-3. Ask Claude for the Substack draft. The `substack-draft` skill (`.claude/skills/substack-draft/SKILL.md`) uses Claude in Chrome with Skylar's own Substack sign-in to open a new post, fill in the title and subtitle, paste the body, and leave it as a draft.
+3. Ask Claude for the Substack draft. The `substack-draft` skill (`.claude/skills/substack-draft/SKILL.md`) uses Skylar's own Substack sign-in in a browser to open a new post, fill in the title and subtitle, paste the body, and leave it as a draft.
 4. Skylar opens the draft in Substack, checks it, and publishes. Substack's publish dialog decides whether it is emailed to subscribers or only posted on the web.
 
-**Not yet tested against Substack:** step 3 (the editor URL, the field and editor selectors, and the HTML paste) is written from how Substack's editor usually works and hasn't been run yet. The first real run checks it; fix the skill if anything differs.
+The browser steps were confirmed on 2026-11-17 with a trial draft of `waveform-sync-drift`.
 
 ## Setup
 
 - **Substack profile:** `https://substack.com/@gayrobot`.
-- **Publication address:** not confirmed yet. `gayrobot.substack.com` currently redirects to the profile, and the profile lists no public publication. Once the publication exists and its address is confirmed, put it here (for example `https://gayrobot.substack.com`) so the skill opens the right one.
-- Claude in Chrome needs to be connected, and Skylar needs to be signed in to Substack in Chrome. Claude never signs in for Skylar.
+- **Publication address:** `https://gayrobot.substack.com`. It hasn't launched yet, so until it does, the address redirects visitors to the profile and the profile shows no publication. The editor works anyway.
+- Skylar needs to be signed in to Substack in the browser Claude uses: the app's built-in browser (signed in there as of 2026-11-17) or Chrome with Claude in Chrome connected. Claude never signs in for Skylar.
 
 ## Not covered
 
