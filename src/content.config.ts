@@ -124,6 +124,9 @@ const musings = defineCollection({
       title: z.string().min(1),
       date: z.coerce.date(),
       summary: z.string().min(1),
+      // A "read more" that belongs to another musing: the parent's id. It's left
+      // off the musings list and only reached from a link inside its parent.
+      parent: z.string().min(1).optional(),
       approved: z.literal(true, { error: 'Musings need approved: true, set by Skylar after review' }),
     })
     .strict(),

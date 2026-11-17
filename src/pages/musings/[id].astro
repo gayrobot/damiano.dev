@@ -5,16 +5,23 @@ import PageHeader from '../../components/PageHeader.astro';
 
 export async function getStaticPaths() {
   const musings = await getCollection('musings');
-  return musings.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+  const byId = new Map(musings.map((m) => [m.id, m]));
+  return musings.map((entry) => {
+    const { parent } = entry.data;
+    if (parent && !byId.has(parent)) throw new Error(`Musing "${entry.id}" has parent "${parent}", which doesn't exist`);
+    return { params: { id: entry.id }, props: { entry, parent: parent ? byId.get(parent) : undefined } };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, parent } = Astro.props;
 const { Content } = await render(entry);
 const { title, summary, date } = entry.data;
 ---
 
 <Base title={`${title} · damiano.dev`} description={summary} width="article">
-  <p class="back"><a href="/musings">← All musings</a></p>
+  <p class="back">
+    {parent ? <a href={`/musings/${parent.id}`}>← {parent.data.title}</a> : <a href="/musings">← All musings</a>}
+  </p>
   <PageHeader title={title} lede={summary} kicker="Musing">
     <p class="details"><time datetime={date.toISOString()}>{date.getUTCFullYear()}</time></p>
   </PageHeader>
