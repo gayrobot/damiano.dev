@@ -1,6 +1,6 @@
 # damiano.dev — Handoff for Claude Code
 
-Last updated: 2026-10-31 · Owner: Skylar (@gayrobot)
+Last updated: 2026-11-17 · Owner: Skylar (@gayrobot)
 
 ## What this is
 
@@ -21,6 +21,7 @@ The site is the fixture. **The real project is the harness**: the pipeline, chec
 | Code repo | `gayrobot/damiano.dev`, **public** | Harness, workflows, and agent PRs are part of the showcase. Not created yet. |
 | Drafts repo | `gayrobot/damiano.dev-drafts`, **private**, not a fork | Musings are drafted here and promoted to the public repo by PR only after Skylar approves. GitHub doesn't allow private forks of public repos, and public branches and commits are public permanently. |
 | Design system | Milestone 3, in a separate session | Milestones 0 to 2 use minimal, unstyled-but-clean defaults. |
+| Substack | Musings publish on damiano.dev first; Substack gets a draft that Skylar publishes by hand | Substack has no API for writing posts, and the unofficial ones need a copy of the login cookie. `npm run substack:draft` prepares the post and the `substack-draft` skill fills the draft in Skylar's signed-in browser. Automatic drafting from a GitHub Action was considered and declined (2026-11-17): it would need the full-access session cookie as a secret, for about a minute saved per musing. See `docs/substack.md`. |
 
 ## Open decisions
 
