@@ -32,7 +32,8 @@ drafts repo --promote PR--> damiano.dev (merged, live)
 
 ## Setup
 
-- **Substack address:** not recorded yet. Once Skylar confirms it, put it here (for example `https://<name>.substack.com`) so the skill opens the right publication.
+- **Substack profile:** `https://substack.com/@gayrobot`.
+- **Publication address:** not confirmed yet. `gayrobot.substack.com` currently redirects to the profile, and the profile lists no public publication. Once the publication exists and its address is confirmed, put it here (for example `https://gayrobot.substack.com`) so the skill opens the right one.
 - Claude in Chrome needs to be connected, and Skylar needs to be signed in to Substack in Chrome. Claude never signs in for Skylar.
 
 ## Not covered
