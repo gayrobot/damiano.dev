@@ -4,7 +4,8 @@ import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import EntryList from '../../components/EntryList.astro';
 
-const musings = (await getCollection('musings')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Musings with a parent are "read more" pages, linked only from inside their parent.
+const musings = (await getCollection('musings', (m) => !m.data.parent)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const items = musings.map((m) => ({
   href: `/musings/${m.id}`,
   title: m.data.title,

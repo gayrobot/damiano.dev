@@ -170,6 +170,10 @@ a.tile:hover .tile-title { color: var(--color-accent); }
 .prose h2 { margin-top: var(--space-12); padding-top: var(--space-3); border-top: var(--rule-heavy) solid var(--color-rule); }
 .prose img { max-width: 100%; height: auto; }
 .prose a { color: var(--color-accent); }
+/* Tables scroll sideways on narrow screens instead of widening the page. */
+.prose table { display: block; overflow-x: auto; border-collapse: collapse; margin-block: var(--space-6); font-size: var(--text-sm); }
+.prose th, .prose td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: var(--border-width) solid var(--color-rule-soft); }
+.prose th { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--color-label); border-bottom-color: var(--color-rule); white-space: nowrap; }
 .container--article .prose,
 .container--article .page-header .lede { max-width: var(--measure-article); }
 
