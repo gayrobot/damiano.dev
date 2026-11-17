@@ -85,6 +85,8 @@ Revised 2026-11-05: Skylar picked the "Spec Sheet" direction from a design-tool 
 
 Revised 2026-11-14 (revision 4): Skylar's 2020 letterhead joined the system. The SJ monogram replaces the SD mark, Jost (for Futura) and a mono replace Alfa Slab One, a magenta rail runs down every page, and the resume PDF is printed from a letterhead page (`/resume/letterhead/`) with `npm run resume:pdf`.
 
+Revised 2026-11-17: Home's hero row is now monogram, intro, photo (Skylar's DJ booth photo in the old monogram spot), and Featured moved above a smaller Spec panel. `docs/design-system.md` has the layout.
+
 ## Milestone 4 — publish content
 
 Upload the real musings and projects. Content comes only from facts Skylar has confirmed. Musings are drafted in the drafts repo and promoted only after Skylar approves. First candidates are listed under the content model.

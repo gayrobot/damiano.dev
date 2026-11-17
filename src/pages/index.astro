@@ -1,11 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import EntryList from '../components/EntryList.astro';
 import Monogram from '../components/Monogram.astro';
 import Spec from '../components/Spec.astro';
 import Tile from '../components/Tile.astro';
 import { nav } from '../data/nav';
+import portrait from '../assets/skylar-dj.jpg';
 
 const featured = (await getCollection('projects', (p) => p.data.featured)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const items = featured.map((p) => ({
@@ -33,28 +35,38 @@ const spec = [
 
 <Base title="damiano.dev" width="wide">
   <div class="tile-grid">
-    <div class="tile tile--wide tile--hero">
-      <div>
-        <h1>Hi, I'm Skylar.</h1>
-        <p class="lede">
-          This site is all about my IT administration career and how I navigate the new world of applied AI in IT.
-        </p>
+    <div class="hero-row">
+      <div class="tile tile--panel on-panel">
+        <Monogram class="monogram" />
       </div>
-    </div>
-    <div class="tile tile--panel on-panel">
-      <Monogram class="monogram" />
+      <div class="tile tile--hero">
+        <div>
+          <h1>Hi, I'm Skylar.</h1>
+          <p class="lede">
+            I'm a staff-level IT administrator and an art school dropout. I've
+            spent the last few years working as a professional DJ, and now I'm
+            looking at my passion for IT through the lens of applied AI. Coming
+            from art school, these are tricky but very fun waters to navigate.
+          </p>
+        </div>
+      </div>
+      <div class="tile tile--photo">
+        <Image
+          src={portrait}
+          alt="Skylar at the DJ booth in a red bandana, round glasses and a gold chain, looking at the camera."
+          widths={[320, 480, 640, 980]}
+          sizes="(max-width: 52rem) 50vw, 18rem"
+          loading="eager"
+          fetchpriority="high"
+          class="portrait"
+        />
+      </div>
     </div>
     <div class="tile-row">
       {tiles.map((t) => (
         <Tile href={t.href} number={t.number} title={t.label} icon={t.icon} />
       ))}
     </div>
-    <Spec items={spec}>
-      <p>
-        The site itself is part of the project: an AI agent proposes changes as
-        pull requests, and I review and merge them.
-      </p>
-    </Spec>
   </div>
 
   {items.length > 0 && (
@@ -63,4 +75,11 @@ const spec = [
       <EntryList items={items} />
     </section>
   )}
+
+  <Spec items={spec}>
+    <p>
+      The site itself is part of the project: an AI agent proposes changes as
+      pull requests, and I review and merge them.
+    </p>
+  </Spec>
 </Base>
