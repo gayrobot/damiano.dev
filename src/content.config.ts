@@ -114,9 +114,8 @@ const projects = defineCollection({
     .strict(),
 });
 
-// A musing can't build until Skylar has approved it: `approved` must be exactly
-// true, so a missing or false value fails the build. Musings are drafted in the
-// private drafts repo and promoted by PR; see docs/drafts-flow.md.
+// Musings are drafted in the private drafts repo and promoted by PR; merging that
+// PR is what publishes them, and only Skylar merges. See docs/drafts-flow.md.
 const musings = defineCollection({
   loader: glob({ pattern: '**/*.md', base: 'src/content/musings' }),
   schema: z
@@ -127,7 +126,6 @@ const musings = defineCollection({
       // A "read more" that belongs to another musing: the parent's id. It's left
       // off the musings list and only reached from a link inside its parent.
       parent: z.string().min(1).optional(),
-      approved: z.literal(true, { error: 'Musings need approved: true, set by Skylar after review' }),
     })
     .strict(),
 });

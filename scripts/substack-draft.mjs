@@ -49,8 +49,7 @@ const main = (id) => {
   if (!id || !/^[a-z0-9-]+$/.test(id)) throw new Error('Usage: npm run substack:draft -- <musing-id>');
   const source = `src/content/musings/${id}.md`;
   if (!existsSync(source)) throw new Error(`${source} not found`);
-  const { title, summary, approved } = readFrontmatter(readFileSync(source, 'utf-8'));
-  if (approved !== true) throw new Error(`${source} isn't approved: true`);
+  const { title, summary } = readFrontmatter(readFileSync(source, 'utf-8'));
 
   const built = `dist/musings/${id}/index.html`;
   if (!existsSync(built)) throw new Error(`${built} not found; run \`npm run build\` first`);

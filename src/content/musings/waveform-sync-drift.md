@@ -3,7 +3,6 @@ title: "Waveform sync drift: the first fix passed every test and didn't fix it"
 date: 2026-11-13
 summary: Two synced decks, two waveforms sliding apart on the screen. Claude found a real bug, fixed it, and it wasn't the one I was seeing. How we got to the actual cause, and how we tested on the Raspberry Pi before anything hit GitHub.
 # Skylar flips this to true after reading the draft. The public build fails without it.
-approved: true
 ---
 
 PioneerBox is a Raspberry Pi that sits in my DJ booth. It records the set and

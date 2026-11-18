@@ -3,7 +3,6 @@ title: "The Gurnake debrief: how a typo got into a ridewaits.com test"
 date: 2026-11-05
 summary: While testing whether AI assistants can use ridewaits.com, a Claude session wrote a misspelled town into my test instructions, then flagged it instead of fixing it. Here's why, and what I took from it.
 # Skylar flips this to true after reading the draft. The public build fails without it.
-approved: true
 ---
 
 [ridewaits.com](https://ridewaits.com) publishes live theme park wait times as

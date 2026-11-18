@@ -1,6 +1,6 @@
 # damiano.dev — Handoff for Claude Code
 
-Last updated: 2026-11-17 · Owner: Skylar (@gayrobot)
+Last updated: 2026-11-18 · Owner: Skylar (@gayrobot)
 
 ## What this is
 
@@ -67,13 +67,13 @@ Built one at a time, each as its own PR:
 
 Goal: adding a new kind of thing to the site is a known, boring recipe, and real content has somewhere to go.
 
-1. **Content collections:** `projects` and `musings` per the content model below, schemas as the build-time guardrail. The musings build fails without `approved: true`. No real content yet, only fixtures that prove the schemas and pages work.
+1. **Content collections:** `projects` and `musings` per the content model below, schemas as the build-time guardrail. No real content yet, only fixtures that prove the schemas and pages work.
 2. **Extension framework:** a short recipe in `docs/` for adding a section: the collection, its schema, its pages and routes, its nav entry, which checks cover it, and how it's tested. Back it with a small scaffold (a script or template) so a new section starts from the same shape, plus a consistency check that catches a collection missing its page, schema or nav entry. Keep it boring; no plugin system.
 3. **Drafts repo:** create `gayrobot/damiano.dev-drafts` (private) and a promote-by-PR flow into the public repo. The privacy gate must pass on anything promoted.
 4. **`harness/proposals.yml`:** the proposal policy, as written in this doc.
 5. **Open decisions:** settle the agent identity mechanism and agent-in-CI, or record that they stay deferred.
 
-**Done when:** a fixture project and a fixture musing build and render, an unapproved musing fails the build, and following the recipe for a throwaway new section works without touching unrelated files.
+**Done when:** a fixture project and a fixture musing build and render, and following the recipe for a throwaway new section works without touching unrelated files.
 
 ## Milestone 3 — design system (done)
 
@@ -96,7 +96,7 @@ Upload the real musings and projects. Content comes only from facts Skylar has c
 | Collection | What | Required fields (starting point) |
 |---|---|---|
 | `projects` | Write-ups of AI work. The card is the short teaser; the project page holds the full story | title, date, summary (160 characters max), status (`active` / `shipped` / `paused`), tags. Optional: `url` (the live product), `featured` (shows on the home page) |
-| `musings` | Essays on working with AI | title, date, summary, `approved: true` (build fails without it) |
+| `musings` | Essays on working with AI | title, date, summary. Optional: `parent` (a read-more) |
 | resume (data file) | Experience, certs, skills | role, company, dates, bullets |
 
 Candidate first project write-ups, in Skylar's words, not invented: the voice-activated Rekordbox tagger, the DJ tools suite, the Rekordbox and HomeKit MCP setups, Docker and home-network work with Claude Code.
@@ -113,7 +113,7 @@ The agent is a non-human identity. It starts at Level 0 and moves up only when S
 | 1 | Auto-merge content-only PRs (typos, links) when all checks pass | Spot-checks |
 | 2 | Act on schedules (e.g. weekly link fix, weekly proposal) | Reviews proposals |
 
-Musings never move past Level 0. A human merge is always required.
+Musings never move past Level 0. A human merge is always required, and the merge is the publish: there's no `approved` flag (removed 2026-11-18). Only Skylar merges; Claude never runs `gh pr merge`.
 
 ## Proposal policy (don't overwhelm Skylar)
 
