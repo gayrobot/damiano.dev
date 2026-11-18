@@ -36,7 +36,7 @@ test('makes site links absolute, keeps external links, drops heading ids, links 
   assert.match(html, /Originally published at <a href="https:\/\/damiano\.dev\/musings\/m">damiano\.dev<\/a>/);
 });
 
-test('reads title, summary and approval from frontmatter', () => {
-  const fm = readFrontmatter('---\ntitle: "A: b"\nsummary: S\napproved: true\n---\n\nBody');
-  assert.deepEqual(fm, { title: 'A: b', summary: 'S', approved: true });
+test('reads title and summary from frontmatter', () => {
+  const fm = readFrontmatter('---\ntitle: "A: b"\nsummary: S\n---\n\nBody');
+  assert.deepEqual(fm, { title: 'A: b', summary: 'S' });
 });

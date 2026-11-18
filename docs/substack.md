@@ -18,7 +18,7 @@ drafts repo --promote PR--> damiano.dev (merged, live)
 ## Why it works this way
 
 - **Substack has no API for writing posts.** Its official API only reads data. The libraries that do publish use Substack's private endpoints and a copy of your login cookie. They break when Substack changes, and they would leave a login cookie in a repo or CI secret. So we don't use them.
-- **The site stays the source.** Every musing has already passed the privacy gate, the content lint, the `approved: true` build check and Skylar's merge before it reaches Substack. Substack never gets anything the site didn't.
+- **The site stays the source.** Every musing has already passed the privacy gate, the content lint, the build and Skylar's merge before it reaches Substack. Substack never gets anything the site didn't.
 - **Skylar's Publish click is the human sign-off.** Musings never move past Level 0 (`docs/handoff.md`), and publishing on Substack also emails subscribers. Claude fills in a draft and stops there.
 
 ## Steps

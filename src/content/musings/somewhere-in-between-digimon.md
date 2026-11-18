@@ -4,7 +4,6 @@ date: 2026-11-17
 summary: Project Glasswing and the OpenAI and Hugging Face incident, explained beat by beat through the first two Digimon movies.
 # The "read more" for Somewhere in between. It isn't listed on its own; it links back to its parent.
 parent: somewhere-in-between
-approved: true
 ---
 
 Claude Fable wrote this for [Somewhere in between](/musings/somewhere-in-between). Project Glasswing lines up with the first Digimon movie, *Digimon Adventure* (1999). The OpenAI and Hugging Face incident lines up with the second, *Our War Game!* (2000). The facts come first and the analogy is a teaching device; where they pull apart, the last section says so. Both stories are still moving, and this is as of November 17, 2026. English dub names are used (Tai, Kari, Izzy, Omnimon), with the Japanese name in brackets on first use.
