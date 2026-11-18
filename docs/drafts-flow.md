@@ -11,12 +11,14 @@ drafts repo (private)  --Promote workflow-->  PR in damiano.dev (public)
 
 ## Why the privacy gate covers it
 
-The promote PR is an ordinary PR, so the required checks (`build`, `privacy-gate`) run on it. The gate scans `src/content/`, so any personal detail in a draft blocks the merge. Musings also fail the build unless `approved: true`.
+The promote PR is an ordinary PR, so the required checks (`build`, `privacy-gate`) run on it. The gate scans `src/content/`, so any personal detail in a draft blocks the merge.
+
+There's no `approved` flag. Merging the promote PR is the publish, and only Skylar merges. (The flag was removed 2026-11-18: it was a second sign-off on top of the merge.)
 
 ## What lives where
 
 - `harness/drafts-repo/` in this repo is the template for the drafts repo: `README.md`, `musings/_template.md`, `.github/workflows/promote.yml`. Copy it into the drafts repo root.
-- The workflow only allows `musings/*.md` and `projects/*.md`, and refuses a musing without `approved: true`.
+- The workflow only allows `musings/*.md` and `projects/*.md`.
 
 ## One-time setup (after the drafts repo exists)
 
@@ -27,6 +29,6 @@ The workflow mints a one-hour token scoped to the public repo only, and branch p
 
 ## Using it
 
-Draft in the drafts repo. When it's ready, set `approved: true`, then Actions → Promote → Run workflow with the file path. Review the PR that appears in the public repo and merge it.
+Draft in the drafts repo. When it's ready, run Actions → Promote → Run workflow with the file path (or ask Claude to open the PR). Review the PR that appears in the public repo; merging it publishes the musing.
 
 To post a merged musing on Substack too, see `docs/substack.md`.

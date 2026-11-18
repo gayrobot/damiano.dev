@@ -3,7 +3,6 @@ title: "Somewhere in between: talking to my family about AI"
 date: 2026-11-17
 summary: The truth on if AI is "good" or "evil" is somewhere in between, and the only way to find where is to actually understand AI.
 # Skylar flips this to true after reading the draft. The public build fails without it.
-approved: true
 ---
 
 The way AI showed up in the US convinced a lot of people that it's pure evil. They won't touch it. Other people talk about it like it's going to save us all. I hope for a world where AI can lead to abundance, beauty, a new renaissance, and good health. I don't believe we will reach either extreme.

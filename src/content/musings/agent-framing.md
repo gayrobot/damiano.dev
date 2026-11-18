@@ -3,7 +3,6 @@ title: "Agent framing: why I build the guardrails"
 date: 2026-11-05
 summary: Claude suggested the fun next step instead of the safe one. Asking why taught me what agent governance is actually for.
 # Skylar flips this to true after reading the draft. The public build fails without it.
-approved: true
 ---
 
 While working on [netstack](/projects/netstack), my home network that an AI
