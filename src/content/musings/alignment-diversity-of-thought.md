@@ -2,7 +2,6 @@
 title: "Alignment and diversity of thought"
 date: 2026-11-18
 summary: I pushed models from China, IBM, OpenAI, Switzerland and Anthropic on what their makers would rather not talk about. More models from more people is the best defense I've got.
-approved: true
 ---
 
 ## Nobody can see inside the box
