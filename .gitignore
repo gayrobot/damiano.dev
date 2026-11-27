@@ -15,3 +15,6 @@ npm-debug.log*
 .wrangler/
 .lighthouseci/
 harness/privacy-denylist.local.txt
+
+# Cowork letterhead skill, built by `npm run letterhead:skill`
+cowork/build/

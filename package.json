@@ -15,6 +15,7 @@
     "test": "node --test tests/*.test.mjs",
     "check:privacy": "node scripts/check-privacy.mjs",
     "resume:pdf": "node scripts/resume-pdf.mjs",
+    "letterhead:skill": "node scripts/letterhead-skill.mjs",
     "deploy": "wrangler deploy",
     "substack:draft": "node scripts/substack-draft.mjs"
   },
