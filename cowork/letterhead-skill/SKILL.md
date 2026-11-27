@@ -29,11 +29,11 @@ This skill's folder may be read-only, so write your files (the body, the PDF) in
    python3 <this skill's folder>/scripts/make_pdf.py body.html "Skylar_Damiano_Resume_Acme.pdf" --title "Skylar J Damiano: resume"
    ```
    It says which browser it used. If it can't find or start one, run `pip install playwright && playwright install chromium` and try again; if that fails too, use the fallback below.
-3. **Look at the result** before handing it over. Render each page to an image and check that nothing is cut off, that headings aren't stranded at the bottom of a page, and that the page count is right. A resume should fit on two pages unless Skylar asks otherwise. If it runs long, tighten the wording or drop the least relevant bullets. Don't shrink the type.
+3. **Look at the result** before handing it over. Render each page to an image and check that nothing is cut off, that no text runs under the SJ monogram, that headings aren't stranded at the bottom of a page, and that the page count is right. A resume should fit on two pages unless Skylar asks otherwise. If it runs long, tighten the wording or drop the least relevant bullets. Don't shrink the type.
 
 ## If no browser can run
 
-Make the PDF with your usual tools instead, on US Letter, with these margins so the text clears the letterhead: 68pt left, 36pt right, 54pt top, 36pt bottom. Use Jost or Futura if you have it, otherwise a clean sans-serif. Leave out the name and contact details. Then put the letterhead under it:
+Make the PDF with your usual tools instead, on US Letter, with these margins so the text clears the letterhead: 68pt left, 36pt right, 54pt top, 36pt bottom. Keep text off the monogram too: at the top of every page, the first 141pt of text (down to 195pt from the top edge) must stop at 436pt from the left edge, a 176pt right margin; below that, use the full width. Use Jost or Futura if you have it, otherwise a clean sans-serif. Leave out the name and contact details. Then put the letterhead under it:
 
 ```bash
 python3 <this skill's folder>/scripts/make_pdf.py --stamp content.pdf "Skylar_Damiano_Resume_Acme.pdf"

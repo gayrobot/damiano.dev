@@ -58,11 +58,29 @@
 }
 .lh-footer span + span { margin-left: var(--lh-gap-entry); }
 
-/* Body text sits above the monogram, which reads as a watermark behind it. */
 .lh-frame { position: relative; width: 100%; border-collapse: collapse; }
 .lh-frame thead td { height: var(--lh-top); padding: 0; }
 .lh-frame tfoot td { height: var(--lh-bottom); padding: 0; }
 .lh-body { padding: 0 var(--lh-margin-right) 0 var(--lh-text-x); vertical-align: top; }
+
+/* Body text wraps around the monogram on every page instead of printing over it.
+   A right float at the top of the body, as wide as the monogram reaches into the text area.
+   On its own it is one band tall, so page 1 wraps. For more pages the printers (resume-pdf.mjs,
+   the skill's make_pdf.py) print once, count the pages, and print again with a style that
+   makes the float run to the end of the last page's band and gives it a polygon shape with
+   one band per page; the float breaks at each page edge with no gaps, so band n lines up with
+   page n. It's a polygon because Chromium drops image shapes (gradients) past a certain size
+   and wraps around the whole box instead. */
+.lh-doc {
+  --lh-clear-band: calc(var(--lh-mono-y) + var(--lh-mono-h) - var(--lh-top) + var(--lh-mono-gap));
+  --lh-body-h: calc(var(--lh-page-h) - var(--lh-top) - var(--lh-bottom));
+}
+.lh-body::before {
+  content: '';
+  float: right;
+  width: calc(var(--lh-page-w) - var(--lh-margin-right) - var(--lh-mono-x) + var(--lh-mono-gap));
+  height: var(--lh-clear-band);
+}
 
 .lh-head {
   margin: var(--lh-gap-section) 0 var(--lh-gap-entry);
