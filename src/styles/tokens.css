@@ -223,6 +223,7 @@
   --lh-mono-y: 21pt;
   --lh-mono-w: 130pt;
   --lh-mono-h: 164pt;
+  --lh-mono-gap: 10pt;        /* clear space kept between body text and the monogram */
 
   --lh-name-top: 19pt;        /* puts an 18pt name's baseline near y=35 */
   --lh-footer-bottom: 18pt;

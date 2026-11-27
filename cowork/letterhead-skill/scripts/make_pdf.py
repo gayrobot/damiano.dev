@@ -9,6 +9,10 @@
       Fallback when no browser can run: lays letterhead-blank.pdf under every page of a PDF
       you made some other way. Needs pypdf (pip install pypdf).
 
+Body text wraps around the monogram on every page. The template only wraps page 1 on its
+own; for more, the float needs the page count (see wrap_style), so the page is printed with
+a guess of 1, its pages counted, and printed again with the new count until it holds.
+
 Stdlib only for the main way. Looks for a browser in this order: $CHROME_PATH, Chrome or
 Chromium on PATH, the macOS app, then Playwright's Chromium if the playwright package is
 installed.
@@ -41,7 +45,28 @@ def find_browser():
     return MAC_CHROME if os.path.exists(MAC_CHROME) else None
 
 
-def fill(body_path, title):
+def wrap_style(pages):
+    """Extends the template's monogram float over `pages` pages: one band per page, as a
+    polygon. Kept in step with scripts/resume-pdf.mjs in the damiano.dev repo."""
+    if pages <= 1:
+        return ""
+    pts = []
+    for k in range(pages):
+        top = f"calc({k} * var(--lh-body-h))"
+        bottom = f"calc({k} * var(--lh-body-h) + var(--lh-clear-band))"
+        pts += [f"0 {top}", f"100% {top}", f"100% {bottom}", f"0 {bottom}"]
+    return (
+        "<style>.lh-body::before{"
+        f"height:calc({pages - 1} * var(--lh-body-h) + var(--lh-clear-band));"
+        f"shape-outside:polygon({', '.join(pts)})}}</style>"
+    )
+
+
+def count_pages(pdf):
+    return len(re.findall(rb"/Type\s*/Page(?![A-Za-z])", Path(pdf).read_bytes()))
+
+
+def fill(body_path, title, pages=1):
     template = TEMPLATE.read_text(encoding="utf-8")
     if SLOT not in template:
         sys.exit(f"{TEMPLATE} has no {SLOT} slot; rebuild the skill with `npm run letterhead:skill`")
@@ -51,7 +76,7 @@ def fill(body_path, title):
     page = template.replace(SLOT, body)
     if title:
         page = re.sub(r"<title>.*?</title>", f"<title>{html.escape(title)}</title>", page, count=1, flags=re.S)
-    return page
+    return page.replace("</head>", wrap_style(int(pages)) + "</head>", 1)
 
 
 def print_with_chrome(browser, page_file, out):
@@ -83,24 +108,38 @@ def print_with_playwright(page_file, out):
         browser.close()
 
 
+def print_until_stable(printer, body_path, title, page_file, out):
+    """Print, count the pages, and print again with that count until it holds.
+    More pages only ever means more wrapping, so the count can only grow."""
+    pages = 1
+    for _ in range(10):
+        page_file.write_text(fill(body_path, title, pages), encoding="utf-8")
+        printer(page_file, out)
+        printed = count_pages(out)
+        if printed <= pages:
+            break
+        pages = printed
+    return pages
+
+
 def make(body_path, out, title):
     out = Path(out).resolve()
     errors = []
     with tempfile.TemporaryDirectory() as tmp:
         page_file = Path(tmp) / "page.html"
-        page_file.write_text(fill(body_path, title), encoding="utf-8")
+        fill(body_path, title)  # fail early on a bad body
         browser = find_browser()
         if browser:
             try:
-                print_with_chrome(browser, page_file, out)
-                print(f"wrote {out} (printed with {browser})")
+                n = print_until_stable(lambda f, o: print_with_chrome(browser, f, o), body_path, title, page_file, out)
+                print(f"wrote {out} ({n} page{'s' if n != 1 else ''}, printed with {browser})")
                 return
             except (OSError, subprocess.CalledProcessError) as e:
                 stderr = getattr(e, "stderr", b"") or b""
                 errors.append(f"{browser}: {e}\n{stderr.decode(errors='replace').strip()[-800:]}")
         try:
-            print_with_playwright(page_file, out)
-            print(f"wrote {out} (printed with Playwright's Chromium)")
+            n = print_until_stable(print_with_playwright, body_path, title, page_file, out)
+            print(f"wrote {out} ({n} page{'s' if n != 1 else ''}, printed with Playwright's Chromium)")
             return
         except ImportError:
             errors.append("Playwright: not installed")
