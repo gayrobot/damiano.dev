@@ -85,21 +85,33 @@ def print_with_playwright(page_file, out):
 
 def make(body_path, out, title):
     out = Path(out).resolve()
+    errors = []
     with tempfile.TemporaryDirectory() as tmp:
         page_file = Path(tmp) / "page.html"
         page_file.write_text(fill(body_path, title), encoding="utf-8")
         browser = find_browser()
         if browser:
-            print_with_chrome(browser, page_file, out)
-        else:
             try:
-                print_with_playwright(page_file, out)
-            except ImportError:
-                sys.exit(
-                    "No Chrome or Chromium found. Try `pip install playwright && playwright install chromium`, "
-                    "then run this again. If that can't work here, use the --stamp fallback in SKILL.md."
-                )
-    print(f"wrote {out}")
+                print_with_chrome(browser, page_file, out)
+                print(f"wrote {out} (printed with {browser})")
+                return
+            except (OSError, subprocess.CalledProcessError) as e:
+                stderr = getattr(e, "stderr", b"") or b""
+                errors.append(f"{browser}: {e}\n{stderr.decode(errors='replace').strip()[-800:]}")
+        try:
+            print_with_playwright(page_file, out)
+            print(f"wrote {out} (printed with Playwright's Chromium)")
+            return
+        except ImportError:
+            errors.append("Playwright: not installed")
+        except Exception as e:  # e.g. Playwright installed but its browser isn't
+            errors.append(f"Playwright: {e}")
+    sys.exit(
+        "Couldn't print with a browser:\n  "
+        + "\n  ".join(errors)
+        + "\n\nTry `pip install playwright && playwright install chromium`, then run this again. "
+        "If that can't work here, use the --stamp fallback in SKILL.md."
+    )
 
 
 def stamp(content_path, out):

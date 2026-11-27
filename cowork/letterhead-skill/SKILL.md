@@ -1,6 +1,6 @@
 ---
 name: letterhead
-description: Print resumes, cover letters and other documents for Skylar Damiano as PDFs on Skylar's letterhead (the rail down the left edge, the SJ monogram watermark, the mono name at the top, the email and city footer). Use whenever you make a PDF or printable copy of a resume, cover letter, letter or other document for Skylar, or when Skylar asks for something "on the letterhead".
+description: Print resumes, cover letters and other documents for Skylar Damiano as PDFs on Skylar's letterhead. Use for any PDF or printable copy made for Skylar, or anything "on the letterhead".
 ---
 
 # Skylar's letterhead
@@ -17,6 +17,8 @@ This folder is the letterhead from damiano.dev, the same page that prints Skylar
 
 ## Making a PDF
 
+This skill's folder may be read-only, so write your files (the body, the PDF) in your working or outputs folder, and run the script by its full path.
+
 1. **Write the body** to a file, for example `body.html`: the page content only, with no `<html>`, `<head>` or `<body>`. Don't put Skylar's name, email or city in it; the letterhead already shows them on every page.
    - **Resume:** start from `examples/resume-body.html` and keep its classes (`lh-section`, `lh-head`, `lh-entry`, `lh-entry-head`, `lh-role`, `lh-org`, `lh-line`, `lh-bullets`, `lh-group`). Section headings end with a colon, as in the example.
    - **Cover letter or other letter:** follow `examples/letter-body.html`: `<p>` paragraphs inside `<div class="lh-letter">`.
@@ -24,9 +26,9 @@ This folder is the letterhead from damiano.dev, the same page that prints Skylar
    - Use `<strong>` for emphasis (it prints as Medium) and `<em>` for italics. Don't add `<style>` or inline styles.
 2. **Print it:**
    ```bash
-   python3 scripts/make_pdf.py body.html "Skylar_Damiano_Resume_Acme.pdf" --title "Skylar J Damiano: resume"
+   python3 <this skill's folder>/scripts/make_pdf.py body.html "Skylar_Damiano_Resume_Acme.pdf" --title "Skylar J Damiano: resume"
    ```
-   Run it from this folder, or use the script's full path. If it says there's no browser, run `pip install playwright && playwright install chromium` and try again.
+   It says which browser it used. If it can't find or start one, run `pip install playwright && playwright install chromium` and try again; if that fails too, use the fallback below.
 3. **Look at the result** before handing it over. Render each page to an image and check that nothing is cut off, that headings aren't stranded at the bottom of a page, and that the page count is right. A resume should fit on two pages unless Skylar asks otherwise. If it runs long, tighten the wording or drop the least relevant bullets. Don't shrink the type.
 
 ## If no browser can run
@@ -34,7 +36,7 @@ This folder is the letterhead from damiano.dev, the same page that prints Skylar
 Make the PDF with your usual tools instead, on US Letter, with these margins so the text clears the letterhead: 68pt left, 36pt right, 54pt top, 36pt bottom. Use Jost or Futura if you have it, otherwise a clean sans-serif. Leave out the name and contact details. Then put the letterhead under it:
 
 ```bash
-python3 scripts/make_pdf.py --stamp content.pdf "Skylar_Damiano_Resume_Acme.pdf"
+python3 <this skill's folder>/scripts/make_pdf.py --stamp content.pdf "Skylar_Damiano_Resume_Acme.pdf"
 ```
 
 Tell Skylar you used the fallback, since the type won't match the website's PDF exactly.

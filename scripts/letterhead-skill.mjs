@@ -66,6 +66,8 @@ if (start < 0 || end < 0) throw new Error('could not find <td class="lh-body"> i
 const resumeBody = html.slice(start + open.length, end);
 html = html.slice(0, start + open.length) + SLOT + html.slice(end);
 html = html.replace(/<meta name="description"[^>]*>/, '');
+// The page's title says "resume"; the template is for any document, so keep only the name.
+html = html.replace(/<title>([^<:]+):[^<]*<\/title>/, '<title>$1</title>');
 
 await rm(BUILD, { recursive: true, force: true });
 await mkdir(join(OUT, 'examples'), { recursive: true });

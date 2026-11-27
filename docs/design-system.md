@@ -64,7 +64,7 @@ The Home grid draws its lines with a 1px gap over `--color-rule`, and every row 
 
 ## Letterhead for Claude Cowork
 
-Cowork prints Skylar's tailored resumes and cover letters onto the same letterhead through a skill called `letterhead`. Run `npm run build` then `npm run letterhead:skill`. That takes the built letterhead page, inlines its styles and fonts into one `template.html` with an empty body slot, prints a blank letterhead page, and zips both with the skill's own files from `cowork/letterhead-skill/` into `cowork/build/letterhead.zip` (gitignored). Upload that zip as a skill in Claude's settings. After changing the letterhead styles or `resume.yaml`, rebuild it and upload the zip again, so Cowork's copy matches the site.
+Cowork prints Skylar's tailored resumes and cover letters onto the same letterhead through a skill called `letterhead`. Run `npm run build` then `npm run letterhead:skill`. That takes the built letterhead page, inlines its styles and fonts into one `template.html` with an empty body slot, prints a blank letterhead page, and zips both with the skill's own files from `cowork/letterhead-skill/` into `cowork/build/letterhead.zip` (gitignored). To install it, go to Customize > Skills on claude.ai and choose Upload a skill. Skills need "Code execution and file creation" switched on under Settings > Capabilities. After changing the letterhead styles or `resume.yaml`, rebuild it and upload the zip again, so Cowork's copy matches the site.
 
 The skill prints with headless Chrome or Chromium where it can. Where neither is available, it lays the blank letterhead under a PDF made another way. `.lh-letter` (paragraphs) in `letterhead.css` exists for letters; the resume page doesn't use it.
 
