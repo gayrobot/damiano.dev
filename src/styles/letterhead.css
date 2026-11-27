@@ -87,3 +87,10 @@
 .lh-bullets { list-style: none; margin: 0; padding: 0; }
 .lh-bullets li { margin: 0; }
 .lh-bullets li::before { content: '•'; }
+
+/* Letters and other free-form pages, written into the Cowork letterhead skill's template
+   (npm run letterhead:skill). Plain paragraphs at the body size, spaced like entries. */
+.lh-letter p { margin: 0 0 var(--lh-gap-entry); }
+.lh-letter p:last-child { margin-bottom: 0; }
+/* Only Book and Medium are loaded, so bold maps to Medium instead of a faked bold. */
+.lh-doc strong, .lh-doc b { font-weight: var(--weight-medium); }
